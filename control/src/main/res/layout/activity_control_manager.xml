@@ -5,11 +5,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ControlManagerActivity">
+
+    <!-- Device Statistics Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设备统计"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvDeviceCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设备数量: 0"
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvOnlineCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在线设备: 0"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Control Options -->
+    <Button
+        android:id="@+id/btnIndividualControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="单个设备控制"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/button_primary"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/btnGoMultiControl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="多控关联" />
+        android:text="多控关联"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/button_secondary"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnDeviceManagement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设备管理"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/button_secondary"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="刷新设备状态"
+        android:background="@drawable/button_outline"
+        android:textColor="@android:color/black" />
+
 </LinearLayout>

@@ -5,6 +5,8 @@
     <application>
         <activity android:name=".ControlDevListActivity" />
         <activity android:name=".ControlManagerActivity" />
+        <activity android:name=".IndividualDeviceControlActivity" />
+        <activity android:name=".DeviceManagementActivity" />
     </application>
 
 </manifest>

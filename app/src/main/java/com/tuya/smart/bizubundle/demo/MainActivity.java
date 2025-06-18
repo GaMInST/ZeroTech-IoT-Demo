@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO 此处只是演示代码，集成时请在登录成功后调用
-        //This method must be called after successful login
+        // TODO 此处只是演示代码，集成时请在登录成功后调用
+        // This method must be called after successful login
         BizBundleInitializer.onLogin();
 
         Log.i("SceneMainActivity", "onCreate");
@@ -113,13 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 ThingHomeSdk.getUserInstance().logout(new ILogoutCallback() {
                     @Override
                     public void onSuccess() {
-                        //演示代码
-                        //demo use only start
+                        // 演示代码
+                        // demo use only start
                         LoginHelper.reLogin(MainActivity.this, false);
-                        //demo use only end
+                        // demo use only end
 
-                        //退出成功后必须调用此方法
-                        //This method must be called on exit.
+                        // 退出成功后必须调用此方法
+                        // This method must be called on exit.
                         BizBundleInitializer.onLogout(MainActivity.this);
                     }
 
@@ -159,11 +159,13 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 业务包接入后必须实现家庭服务(商城业务包可以不接入)
-     * you should implementation AbsBizBundleFamilyService(mall bizbundle can not implementation)
+     * you should implementation AbsBizBundleFamilyService(mall bizbundle can not
+     * implementation)
      */
     public void setCurrentFamily(HomeBean homeBean) {
         mCurrentFamilyName.setText(homeBean.getName());
-        AbsBizBundleFamilyService familyService = MicroServiceManager.getInstance().findServiceByInterface(AbsBizBundleFamilyService.class.getName());
+        AbsBizBundleFamilyService familyService = MicroServiceManager.getInstance()
+                .findServiceByInterface(AbsBizBundleFamilyService.class.getName());
         familyService.shiftCurrentFamily(homeBean.getHomeId(), homeBean.getName());
     }
 
@@ -181,17 +183,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void showThemeSelectionDialog() {
         // 选项内容
-        final String[] options = {"深色模式", "浅色模式", "跟随系统"};
+        final String[] options = { "Dark Mode", "Light Mode", "Follow System" };
         // 当前选中的选项索引
-        final int[] selectedOptionIndex = {-1};
+        final int[] selectedOptionIndex = { -1 };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("选择主题模式");
+        builder.setTitle("Select Theme Mode");
         builder.setSingleChoiceItems(options, selectedOptionIndex[0], (dialog, which) -> {
             // 记录用户选择的选项索引
             selectedOptionIndex[0] = which;
         });
-        builder.setPositiveButton("确定", (dialog, which) -> {
+        builder.setPositiveButton("OK", (dialog, which) -> {
             // 根据用户选择的选项执行相应的操作
             switch (selectedOptionIndex[0]) {
                 case 0:
@@ -205,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         });
-        builder.setNegativeButton("取消", (dialog, which) -> {
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
             // 用户点击取消按钮后的处理逻辑
             dialog.dismiss();
         });
@@ -213,14 +215,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openUIBizBundle() {
-        AbsBizBundleFamilyService familyService = MicroServiceManager.getInstance().findServiceByInterface(AbsBizBundleFamilyService.class.getName());
+        AbsBizBundleFamilyService familyService = MicroServiceManager.getInstance()
+                .findServiceByInterface(AbsBizBundleFamilyService.class.getName());
         if (familyService.getCurrentHomeId() == 0) {
             ToastUtil.showToast(this, "homeId is must not 0");
             return;
         }
         TextView tv = findViewById(R.id.theme_switch);
         String text = tv.getText().toString();
-        tv.setText(text + "| appUiMode: " + ThingTheme.INSTANCE.getAppUiMode() + "| supportDarkMode: " + ThingTheme.INSTANCE.isSupportDarkMode());
+        tv.setText(text + "| appUiMode: " + ThingTheme.INSTANCE.getAppUiMode() + "| supportDarkMode: "
+                + ThingTheme.INSTANCE.isSupportDarkMode());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,7 +326,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                i.setClassName(MainActivity.this, "com.thingclips.smart.bizbundle.devicedetail.demo.DeviceDetailActivity");
+                i.setClassName(MainActivity.this,
+                        "com.thingclips.smart.bizbundle.devicedetail.demo.DeviceDetailActivity");
                 startActivity(i);
             }
         });
@@ -378,19 +383,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.speech).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                i.setClassName(MainActivity.this, "com.tuya.smart.bizbundle.demo.speech.SpeechDemoActivity");
-                startActivity(i);
-            }
-        });
         findViewById(R.id.third_service).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                i.setClassName(MainActivity.this, "com.thingclips.appsdk.sample.third.service.ThirdServiceManagerActivity");
+                i.setClassName(MainActivity.this,
+                        "com.thingclips.appsdk.sample.third.service.ThirdServiceManagerActivity");
                 startActivity(i);
             }
         });

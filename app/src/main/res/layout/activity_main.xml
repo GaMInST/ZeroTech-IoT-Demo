@@ -22,7 +22,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="family"
+            android:text="Home"
             android:textColor="@color/thing_theme_open_color_head_line_text"
             android:textSize="24dp" />
 
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="主题色切换(Switch Theme)"
+                android:text="Switch Theme"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -61,16 +61,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="设备控制业务包(Device Control)"
+                android:text="Device Control"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
-
 
             <TextView
                 android:id="@+id/mall"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="商城业务包(Mall)"
+                android:text="Device Store"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -78,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="场景业务包(Scene)"
+                android:text="Smart Scenes"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -86,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="ipc 业务包(IPC)"
+                android:text="Camera Control"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -94,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="云存储购买业务包(Cloud Stroage)"
+                android:text="Cloud Storage"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -102,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="配网业务包(Device Access Config)"
+                android:text="Device Pairing"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -110,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="消息中心(Message Center)"
+                android:text="Message Center"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -118,21 +117,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="常见问题与反馈(FAQ)"
+                android:text="Help &amp; Feedback"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
+
             <TextView
                 android:id="@+id/ota"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="OTA(Firmware Upgrade)"
+                android:text="Firmware Update"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
+
             <TextView
                 android:id="@+id/family"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="家庭管理(House Management)"
+                android:text="Home Management"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -140,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="Device Detail 业务包(Device Detail)"
+                android:text="Device Details"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -148,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="多控关联业务包(Multi Control)"
+                android:text="Multi Control"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -156,14 +157,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="地图定位(Location)"
+                android:text="Location Services"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
+
             <TextView
                 android:id="@+id/groupmanager"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="群组(Group)"
+                android:text="Device Groups"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -171,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="alexa &amp; google bind"
+                android:text="Voice Assistant"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -179,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="灯光场景(Light Scene)"
+                android:text="Light Scenes"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -187,16 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="分享(Share)"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
-
-            <TextView
-                android:id="@+id/speech"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="speech sdk"
-                android:visibility="gone"
+                android:text="Share Devices"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -204,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="小程序SDK(MiniApp SDK)"
+                android:text="Mini Apps"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -212,7 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="高级功能(Advanced Features)"
+                android:text="Advanced Features"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
             <TextView
@@ -221,7 +214,7 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="50dp"
                 android:gravity="center"
-                android:text="营销推送(Marketing Push)"
+                android:text="Marketing"
                 android:textColor="@color/thing_theme_open_color_head_line_text" />
 
         </LinearLayout>
