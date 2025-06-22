@@ -1,6 +1,5 @@
 package com.tuya.smart.bizubundle.demo;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -59,7 +58,7 @@ public class RouterPresenter {
             }
             return null;
         }
-        //主页action（如门铃推送）
+        // 主页action（如门铃推送）
         if (PINNED_MAIN_ALIAS.equals(intent.getComponent().getClassName())) {
             String url = null;
             try {
