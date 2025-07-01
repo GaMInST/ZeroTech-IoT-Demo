@@ -1,6 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ZeroTech IoT</string>
+    <string name="app_name">ZeroTech Smart Home</string>
+    
+    <!-- Status Messages -->
+    <string name="status_online">Online</string>
+    <string name="status_offline">Offline</string>
+    <string name="status_error">Error</string>
+    <string name="status_warning">Warning</string>
+    
+    <!-- Device Related -->
+    <string name="device_icon">Device Icon</string>
+    <string name="device_name_placeholder">Device Name</string>
+    <string name="quick_action">Quick Action</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_rooms">Rooms</string>
+    <string name="nav_scenes">Scenes</string>
+    <string name="nav_automation">Automation</string>
+    <string name="nav_profile">Profile</string>
+    
+    <!-- Home Screen -->
+    <string name="home_welcome">Welcome to ZeroTech IoT</string>
+    <string name="home_active_devices">Active Devices</string>
+    <string name="home_quick_actions">Quick Actions</string>
+  <string name="home_add_device">Add Device</string>
+    <string name="home_no_devices">No devices found</string>
+    <string name="home_no_devices_subtitle">Add your first smart device to get started</string>
+    <string name="home_empty_state_icon">Empty State Icon</string>
+    <string name="home_empty_state_title">No Devices Found</string>
+    <string name="home_empty_state_subtitle">Add your first smart device to get started</string>
+    
+    <!-- Device Control -->
+    <string name="device_control">Device Control</string>
+    <string name="device_on">On</string>
+    <string name="device_off">Off</string>
+    <string name="device_brightness">Brightness</string>
+    <string name="device_color">Color</string>
+    <string name="device_temperature">Temperature</string>
+    <string name="device_more">More</string>
+    
+    <!-- Pairing -->
+    <string name="pairing_title">Add Device</string>
+    <string name="pairing_scanning">Scanning for devices...</string>
+    <string name="pairing_found">Device found!</string>
+    <string name="pairing_connecting">Connecting...</string>
+    <string name="pairing_success">Device added successfully!</string>
+    <string name="pairing_failed">Failed to add device</string>
+    <string name="pairing_retry">Retry</string>
+    <string name="pairing_cancel">Cancel</string>
+    
+    <!-- Actions -->
+    <string name="action_add">Add</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_undo">Undo</string>
+    
+    <!-- Messages -->
+    <string name="message_device_added">Device added successfully</string>
+    <string name="message_device_removed">Device removed</string>
+    <string name="message_device_updated">Device updated</string>
+    <string name="message_connection_lost">Connection lost</string>
+    <string name="message_retry_connection">Retry connection</string>
+    
+    <!-- Errors -->
+    <string name="error_network">Network error</string>
+    <string name="error_device_not_found">Device not found</string>
+    <string name="error_permission_denied">Permission denied</string>
+    <string name="error_unknown">Unknown error occurred</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_device_card">Device card</string>
+    <string name="accessibility_status_indicator">Status indicator</string>
+    <string name="accessibility_quick_action">Quick action button</string>
+    <string name="accessibility_bottom_navigation">Bottom navigation</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_about">About</string>
+    
+    <!-- Theme Options -->
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_auto">Auto</string>
+    
+    <!-- Empty States -->
+    <string name="empty_devices_title">No devices yet</string>
+    <string name="empty_devices_message">Add your first smart device to get started with your smart home</string>
+    <string name="empty_rooms_title">No rooms set up</string>
+    <string name="empty_rooms_message">Create rooms to organize your devices</string>
+    <string name="empty_scenes_title">No scenes created</string>
+    <string name="empty_scenes_message">Create scenes to control multiple devices at once</string>
+    
+    <!-- Splash/Logo -->
     <string name="splash_title">ZeroTech IoT</string>
     <string name="logo_description">ZeroTech Logo</string>
+    
+    <!-- Missing strings that the build is looking for -->
+    <string name="test_biz_scene_name">Test Scene</string>
+    <string name="tuyaconfig_add_history">Add History</string>
+    <string name="ty_activator_add_device_text">Add Device</string>
+    <string name="ty_activator_add_device_timeout">Add Device Timeout</string>
+    <string name="ty_activator_alert_ble_desc">Bluetooth Description</string>
+    <string name="ty_activator_alert_ble_open_text">Open Bluetooth</string>
+    <string name="ty_activator_alert_found_device_confirm">Device Found Confirm</string>
+    <string name="ty_activator_alert_found_device_title">Device Found</string>
+    <string name="ty_activator_allow_nearby_devices_permission">Allow Nearby Devices</string>
+    <string name="ty_activator_ap_failure1">AP Failure 1</string>
+    <string name="ty_activator_ap_failure2">AP Failure 2</string>
+    <string name="ty_activator_auto_search_highlight_text">Auto Search Highlight</string>
+    <string name="ty_activator_auto_search_text">Auto Search</string>
+    <string name="ty_activator_bleLimit_open">BLE Limit Open</string>
+    <string name="ty_activator_changeType">Change Type</string>
+    <string name="ty_activator_check_device_nearby">Check Device Nearby</string>
+    <string name="ty_activator_check_device_powered_on">Check Device Powered On</string>
+    <string name="ty_activator_choose_gateway_title">Choose Gateway</string>
+    <string name="ty_activator_config_cable_gateway">Config Cable Gateway</string>
+    <string name="ty_activator_config_failure">Config Failure</string>
+    <string name="ty_activator_config_wifi_gateway">Config WiFi Gateway</string>
+    <string name="ty_activator_config_wifi_text">Config WiFi</string>
+    <string name="ty_activator_connect_bluetooth">Connect Bluetooth</string>
+    <string name="ty_activator_connect_bluetooth_text">Connect Bluetooth Text</string>
+    <string name="ty_activator_dialog_add_dev">Add Device Dialog</string>
+    <string name="ty_activator_dialog_cancel">Cancel</string>
+    <string name="ty_activator_dialog_confirm">Confirm</string>
+    <string name="ty_activator_esim_name">ESIM Name</string>
+    <string name="ty_activator_ezAp_failure">EZ AP Failure</string>
+    <string name="ty_activator_ezSearch_devices">EZ Search Devices</string>
+    <string name="ty_activator_ezSearch_modifyWifi">EZ Search Modify WiFi</string>
+    <string name="ty_activator_ezSearch_tips">EZ Search Tips</string>
+    <string name="ty_activator_ezSearch_wifi">EZ Search WiFi</string>
+    <string name="ty_activator_ez_failure1">EZ Failure 1</string>
+    <string name="ty_activator_ez_failure2">EZ Failure 2</string>
+    <string name="ty_activator_failure_switch_tips">Failure Switch Tips</string>
+    <string name="ty_activator_failure_tips">Failure Tips</string>
+    <string name="ty_activator_feedback_close">Feedback Close</string>
+    <string name="ty_activator_feedback_commitSuccess">Feedback Success</string>
+    <string name="ty_activator_feedback_item1">Feedback Item 1</string>
+    <string name="ty_activator_feedback_item2">Feedback Item 2</string>
+    <string name="ty_activator_feedback_item3">Feedback Item 3</string>
+    <string name="ty_activator_feedback_item4">Feedback Item 4</string>
+    <string name="ty_activator_feedback_placehold">Feedback Placeholder</string>
+    <string name="ty_activator_feedback_unSelectedTips">Feedback Unselected Tips</string>
+    <string name="ty_activator_find_device">Find Device</string>
+    <string name="ty_activator_footer_hint_complete">Complete</string>
+    <string name="ty_activator_footer_hint_fail">Fail</string>
+    <string name="ty_activator_found_device_text">Found Device</string>
+    <string name="ty_activator_gateway_failure">Gateway Failure</string>
+    <string name="ty_activator_go_open">Go Open</string>
+    <string name="ty_activator_gprsNB_failure">GPRS NB Failure</string>
+    <string name="ty_activator_keep_device_connect_router">Keep Device Connected</string>
+    <string name="ty_activator_lightning_device_timeout_content">Lightning Device Timeout</string>
+    <string name="ty_activator_more_question">More Questions</string>
+    <string name="ty_activator_noSearch">No Search</string>
+    <string name="ty_activator_no_wifi_content">No WiFi Content</string>
+    <string name="ty_activator_not_found_device_text">Device Not Found</string>
+    <string name="ty_activator_not_found_tip_highlight_text">Not Found Highlight</string>
+    <string name="ty_activator_not_found_tip_text">Not Found Tip</string>
+    <string name="ty_activator_not_only_zigbeesub_dialog_tip">Zigbee Dialog Tip</string>
+    <string name="ty_activator_openLimit_ble">Open Limit BLE</string>
+    <string name="ty_activator_openLimit_tips">Open Limit Tips</string>
+    <string name="ty_activator_openLimit_wifi">Open Limit WiFi</string>
+    <string name="ty_activator_open_bluetooth_text">Open Bluetooth</string>
+    <string name="ty_activator_open_permission_tips_content1">Permission Tips 1</string>
+    <string name="ty_activator_open_permission_tips_content2">Permission Tips 2</string>
+    <string name="ty_activator_open_permission_wifi_button">Permission WiFi Button</string>
+    <string name="ty_activator_open_wifi_text">Open WiFi</string>
+    <string name="ty_activator_opened">Opened</string>
+    <string name="ty_activator_over_loading">Over Loading</string>
+    <string name="ty_activator_qr_btnText">QR Button Text</string>
+    <string name="ty_activator_qr_content">QR Content</string>
+    <string name="ty_activator_qr_inputTips">QR Input Tips</string>
+    <string name="ty_activator_qr_manualText">QR Manual Text</string>
+    <string name="ty_activator_qr_title">QR Title</string>
+    <string name="ty_activator_qrcodeSub_failure">QR Code Sub Failure</string>
+    <string name="ty_activator_qrcode_failure2">QR Code Failure 2</string>
+    <string name="ty_activator_qrcode_failure3">QR Code Failure 3</string>
+    <string name="ty_activator_qrcode_failure4">QR Code Failure 4</string>
+    <string name="ty_activator_reset_device">Reset Device</string>
+    <string name="ty_activator_reset_device_help">Reset Device Help</string>
+    <string name="ty_activator_reset_guide_text1">Reset Guide Text 1</string>
+    <string name="ty_activator_reset_guide_text1_link">Reset Guide Link 1</string>
+    <string name="ty_activator_reset_guide_text2">Reset Guide Text 2</string>
+    <string name="ty_activator_reset_guide_text3">Reset Guide Text 3</string>
+    <string name="ty_activator_reset_guide_title1">Reset Guide Title 1</string>
+    <string name="ty_activator_reset_guide_title2">Reset Guide Title 2</string>
+    <string name="ty_activator_reset_guide_title3">Reset Guide Title 3</string>
+    <string name="ty_activator_scan_device_timeout_content">Scan Device Timeout</string>
+    <string name="ty_activator_scan_device_tip_title">Scan Device Tip Title</string>
+    <string name="ty_activator_scaned_devices">Scanned Devices</string>
+    <string name="ty_activator_search">Search</string>
+    <string name="ty_activator_search_bleDevice">Search BLE Device</string>
+    <string name="ty_activator_search_overtime_content1">Search Overtime 1</string>
+    <string name="ty_activator_search_overtime_content2">Search Overtime 2</string>
+    <string name="ty_activator_search_overtime_details">Search Overtime Details</string>
+    <string name="ty_activator_search_overtime_tryAgain">Search Overtime Try Again</string>
+    <string name="ty_activator_select_gateway">Select Gateway</string>
+    <string name="ty_activator_selected">Selected</string>
+    <string name="ty_activator_sim_name">SIM Name</string>
+    <string name="ty_activator_sub_failure1">Sub Failure 1</string>
+    <string name="ty_activator_sub_failure2">Sub Failure 2</string>
+    <string name="ty_activator_tryAgain">Try Again</string>
+    <string name="ty_activator_zigbee_over_limit_confirm">Zigbee Over Limit Confirm</string>
+    <string name="ty_activator_zigbee_over_limit_message">Zigbee Over Limit Message</string>
+    <string name="ty_activator_zigbee_over_limit_title">Zigbee Over Limit Title</string>
+    <string name="ty_add_blue_device_permission_title">Add Blue Device Permission</string>
+    <string name="ty_add_device_bluetooth_permission">Add Device Bluetooth Permission</string>
+    <string name="ty_add_device_config_bluetooth">Add Device Config Bluetooth</string>
+    <string name="ty_add_device_config_wifi_location">Add Device Config WiFi Location</string>
+    <string name="ty_add_device_qc_btn_info_next">Add Device QC Button Info Next</string>
+    <string name="ty_add_device_wifi_location_permission">Add Device WiFi Location Permission</string>
+    <string name="ty_bleLimit_tipsDetail">BLE Limit Tips Detail</string>
+    <string name="ty_bleLimit_tipsTitle">BLE Limit Tips Title</string>
+    <string name="ty_bluetooth_device">Bluetooth Device</string>
+    <string name="ty_bluetooth_mesh_device">Bluetooth Mesh Device</string>
+    <string name="ty_config">Config</string>
+    <string name="ty_config_bluetooth_dev">Config Bluetooth Device</string>
+    <string name="ty_config_complete_info">Config Complete Info</string>
+    <string name="ty_config_dev_fialed_count">Config Device Failed Count</string>
+    <string name="ty_config_dev_pwd_length_max">Config Device Password Length Max</string>
+    <string name="ty_config_dev_pwd_length_over_access">Config Device Password Length Over Access</string>
+    <string name="ty_config_dev_pwd_length_over_tip">Config Device Password Length Over Tip</string>
+    <string name="ty_config_dev_pwd_length_too_long">Config Device Password Length Too Long</string>
+    <string name="ty_config_dev_switch_to_ap_mode">Config Device Switch to AP Mode</string>
+    <string name="ty_config_gateway_dev">Config Gateway Device</string>
+    <string name="ty_config_gateway_sub_dev">Config Gateway Sub Device</string>
+    <string name="ty_config_id_not_found">Config ID Not Found</string>
+    <string name="ty_config_reconnect_tips">Config Reconnect Tips</string>
+    <string name="ty_config_share_gw_not_support">Config Share Gateway Not Support</string>
+    <string name="ty_config_wifi_dev">Config WiFi Device</string>
+    <string name="ty_device_already_add">Device Already Added</string>
+    <string name="ty_device_to_add">Device To Add</string>
+    <string name="ty_device_to_add_retry">Device To Add Retry</string>
+    <string name="ty_devices_disvocer_success">Devices Discover Success</string>
+    <string name="ty_ez_status_failed_know">EZ Status Failed Know</string>
+    <string name="ty_gateway">Gateway</string>
+    <string name="ty_gateway_choose_title">Gateway Choose Title</string>
+    <string name="ty_geofence_privacy_set">Geofence Privacy Set</string>
+    <string name="ty_ipc_qr_tip_txt">IPC QR Tip Text</string>
+    <string name="ty_mesh_ble_add_complete">Mesh BLE Add Complete</string>
+    <string name="ty_permission_intro">Permission Intro</string>
+    <string name="ty_permission_title">Permission Title</string>
+    <string name="ty_report_pairing_issue">Report Pairing Issue</string>
+    <string name="ty_search_retry">Search Retry</string>
+    <string name="ty_search_timeout_no_device">Search Timeout No Device</string>
+    <string name="ty_share_beshared">Share Be Shared</string>
+    <string name="ty_share_delete">Share Delete</string>
+    <string name="ty_splash_skip_ad">Splash Skip Ad</string>
+    <string name="ty_to_add_blue_device">To Add Blue Device</string>
+    <string name="ty_zigbee_gateway_connecting">Zigbee Gateway Connecting</string>
+    <string name="ty_zigbee_gateway_not_found">Zigbee Gateway Not Found</string>
+    
+    <!-- AP Mode strings -->
+    <string name="ap_mode_ssid">ZeroTech_AP</string>
+    <string name="ty_ap_connect_description">Connect to the device\'s WiFi network</string>
 </resources> 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GlassmorphicCardView Attributes -->
+    <declare-styleable name="GlassmorphicCardView">
+        <attr name="glowRadius" format="dimension" />
+        <attr name="glowColor" format="color" />
+        <attr name="borderColor" format="color" />
+        <attr name="showGlow" format="boolean" />
+    </declare-styleable>
+    
+    <!-- DeviceCardView Attributes -->
+    <declare-styleable name="DeviceCardView">
+        <attr name="deviceStatus" format="enum">
+            <enum name="online" value="0" />
+            <enum name="offline" value="1" />
+            <enum name="error" value="2" />
+            <enum name="warning" value="3" />
+        </attr>
+        <attr name="deviceType" format="string" />
+        <attr name="showStatusIndicator" format="boolean" />
+    </declare-styleable>
+    
+    <!-- ModernBottomNavigation Attributes -->
+    <declare-styleable name="ModernBottomNavigation">
+        <attr name="showNavGlow" format="boolean" />
+        <attr name="navGlowColor" format="color" />
+        <attr name="backgroundBlur" format="boolean" />
+    </declare-styleable>
+</resources> 
+ 
+ 
+ 

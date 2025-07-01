@@ -1,223 +1,451 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/thing_theme_open_color_background"
+    android:background="@drawable/bg_gradient"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/toolbar_main"
+    <!-- App Bar with Glassmorphism Effect -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent">
+            android:background="@drawable/glassmorphic_card_bg"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title=""
+            app:titleTextColor="@color/text_primary">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/padding_medium"
+                android:paddingEnd="@dimen/padding_medium">
 
         <TextView
             android:id="@+id/current_family_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
-            android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Home"
-            android:textColor="@color/thing_theme_open_color_head_line_text"
-            android:textSize="24dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Smart Home"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_title_small" />
 
-        <TextView
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/theme_switch"
+                    style="@style/Widget.App.Button.Icon"
+                    android:layout_width="@dimen/touch_target_medium"
+                    android:layout_height="@dimen/touch_target_medium"
+                    android:layout_marginEnd="@dimen/spacing_8"
+                    android:text="🌙"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
             android:id="@+id/logout"
+                    style="@style/Widget.App.Button.Secondary"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:paddingRight="16dp"
+                    android:layout_height="@dimen/button_height"
             android:text="Logout"
-            android:textColor="@color/thing_theme_open_color_head_line_text"
-            android:textSize="16sp" />
-    </FrameLayout>
+                    android:textSize="@dimen/text_body_small" />
 
-    <ScrollView
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_medium">
 
-            <TextView
-                android:id="@+id/theme_switch"
+            <!-- Hero Section -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/hero_section"
+                style="@style/Widget.App.Card.Glassmorphic"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Switch Theme"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                android:layout_height="@dimen/hero_section_height"
+                android:layout_marginBottom="@dimen/spacing_24">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/hero_content_padding">
 
             <TextView
-                android:id="@+id/panel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="Welcome Home"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_headline" />
+
+            <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_8"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="12 devices online • 3 rooms active"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_body" />
+
+                    <!-- Quick Actions -->
+                    <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Device Control"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_24"
+                        android:orientation="horizontal">
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/quick_all_on"
+                            style="@style/Widget.App.Button.Primary"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/button_height"
+                            android:layout_marginEnd="@dimen/spacing_8"
+                            android:layout_weight="1"
+                            android:text="All On"
+                            android:textSize="@dimen/text_body_small" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/quick_all_off"
+                            style="@style/Widget.App.Button.Secondary"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/button_height"
+                            android:layout_marginStart="@dimen/spacing_8"
+                            android:layout_weight="1"
+                            android:text="All Off"
+                            android:textSize="@dimen/text_body_small" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Rooms Section -->
             <TextView
-                android:id="@+id/mall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_16"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Rooms"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rooms_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Device Store"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_32"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_room_card" />
 
+            <!-- Recent Devices Section -->
             <TextView
-                android:id="@+id/scene"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_16"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Recent Devices"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/devices_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Smart Scenes"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_32"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_device_card" />
 
-            <TextView
-                android:id="@+id/ipc"
+            <!-- Quick Access Buttons -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Camera Control"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_32"
+                android:orientation="vertical">
 
             <TextView
-                android:id="@+id/cloud_storage"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Cloud Storage"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_16"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Quick Access"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_title" />
 
-            <TextView
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="3">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/panel"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/card_height_medium"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="@dimen/spacing_4"
+                        android:text="Device Control"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/scene"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/card_height_medium"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="@dimen/spacing_4"
+                        android:text="Smart Scenes"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <com.google.android.material.button.MaterialButton
                 android:id="@+id/activator"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/card_height_medium"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="@dimen/spacing_4"
+                        android:text="Add Device"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/control"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/card_height_medium"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="@dimen/spacing_4"
+                        android:text="Multi Control"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ipc"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/card_height_medium"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="@dimen/spacing_4"
+                        android:text="Cameras"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/mall"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/card_height_medium"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="@dimen/spacing_4"
+                        android:text="Device Store"
+                        android:textSize="@dimen/text_body_small" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+            <!-- Additional Features -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Device Pairing"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_32"
+                android:orientation="vertical">
 
             <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_16"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="More Features"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_title" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cloud_storage"
+                    style="@style/Widget.App.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
+                    android:text="Cloud Storage"
+                    android:textSize="@dimen/text_body_small" />
+
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/message"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Message Center"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/feedback"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Help &amp; Feedback"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/ota"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Firmware Update"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/family"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Home Management"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/device_detail"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Device Details"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
-                android:id="@+id/control"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Multi Control"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
-
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/location"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Location Services"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/groupmanager"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Device Groups"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/alexa_google_bind"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Voice Assistant"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/light_scene"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Light Scenes"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/share"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Share Devices"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/miniapp"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Mini Apps"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
+                <com.google.android.material.button.MaterialButton
                 android:id="@+id/third_service"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="Advanced Features"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
+                    android:text="Third Party Services"
+                    android:textSize="@dimen/text_body_small" />
 
-            <TextView
-                android:id="@+id/market_push"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/marketing"
+                    style="@style/Widget.App.Button.Secondary"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="50dp"
-                android:gravity="center"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
                 android:text="Marketing"
-                android:textColor="@color/thing_theme_open_color_head_line_text" />
+                    android:textSize="@dimen/text_body_small" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/speech"
+                    style="@style/Widget.App.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginBottom="@dimen/spacing_8"
+                    android:text="Speech Recognition"
+                    android:textSize="@dimen/text_body_small" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        style="@style/Widget.App.BottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_nav_height"
+        android:layout_gravity="bottom"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:menu="@menu/bottom_nav_menu" />
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_device"
+        style="@style/Widget.App.FloatingActionButton"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/bottom_nav_height"
+        android:contentDescription="Add Device"
+        android:src="@drawable/ic_quick_action" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -156,7 +156,7 @@ thingOpenTheme {
             navigationBarColor "#1A1A1A"
         }
         colorAlpha{
-            // 弹窗蒙层透明度
+            // 弹窗蒙层透明度ZA
             alertMaskAlpha 0.8
         }
     }
