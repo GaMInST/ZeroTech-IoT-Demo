@@ -12,7 +12,7 @@
         android:text="miniapp initial"
         />
 
-    <!-- 打开小程序 -->
+    <!-- Open Mini App -->
     <Button
         android:id="@+id/btn_open_miniapp"
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:onClick="openMiniAPP"
         />
 
-    <!-- 清除缓存 -->
+    <!-- Clear Cache -->
     <Button
         android:id="@+id/btn_clea_miniapp_cache"
         android:layout_width="wrap_content"

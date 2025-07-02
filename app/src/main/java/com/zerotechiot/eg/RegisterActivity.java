@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import android.content.Intent;
 import android.os.Bundle;

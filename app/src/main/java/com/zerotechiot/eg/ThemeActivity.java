@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import android.os.Bundle;
 import android.widget.TextView;

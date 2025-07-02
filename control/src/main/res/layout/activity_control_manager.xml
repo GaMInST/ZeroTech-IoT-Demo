@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备统计"
+                android:text="Device Statistics"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
@@ -34,7 +34,7 @@
                 android:id="@+id/tvDeviceCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设备数量: 0"
+                android:text="Device Count: 0"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -42,7 +42,7 @@
                 android:id="@+id/tvOnlineCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="在线设备: 0"
+                android:text="Online Devices: 0"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -53,7 +53,7 @@
         android:id="@+id/btnIndividualControl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="单个设备控制"
+        android:text="Individual Device Control"
         android:layout_marginBottom="12dp"
         android:background="@drawable/button_primary"
         android:textColor="@android:color/white" />
@@ -62,7 +62,7 @@
         android:id="@+id/btnGoMultiControl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="多控关联"
+        android:text="Multi-Control Linkage"
         android:layout_marginBottom="12dp"
         android:background="@drawable/button_secondary"
         android:textColor="@android:color/white" />
@@ -71,7 +71,7 @@
         android:id="@+id/btnDeviceManagement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="设备管理"
+        android:text="Device Management"
         android:layout_marginBottom="12dp"
         android:background="@drawable/button_secondary"
         android:textColor="@android:color/white" />
@@ -80,7 +80,7 @@
         android:id="@+id/btnRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="刷新设备状态"
+        android:text="Refresh Device Status"
         android:background="@drawable/button_outline"
         android:textColor="@android:color/black" />
 

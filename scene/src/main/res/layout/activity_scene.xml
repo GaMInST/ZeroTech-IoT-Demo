@@ -21,7 +21,7 @@
         android:layout_height="@dimen/thing_dp_50"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="设置经纬度"
+        android:text="Set Latitude and Longitude"
         android:textColor="@color/white" />
 
     <Button
@@ -30,7 +30,7 @@
         android:layout_height="@dimen/thing_dp_50"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="添加智能"
+        android:text="Add Smart Scene"
         android:textColor="@color/white" />
 
     <Button
@@ -39,13 +39,13 @@
         android:layout_height="@dimen/thing_dp_50"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="编辑智能"
+        android:text="Edit Smart Scene"
         android:textColor="@color/white" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="场景国外账号需要接入地图配置, 使用下面的方法设置地图activity和保存地图数据， 如果不设置默认走获取国内城市接口"
+        android:text="For overseas accounts, you need to configure the map. Use the methods below to set the map activity and save map data. If not set, the default will get the domestic city interface."
         android:textColor="@color/thing_theme_color_b1_n1" />
 
     <Button
@@ -54,7 +54,7 @@
         android:layout_height="@dimen/thing_dp_50"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="场景条件跳入地图设置"
+        android:text="Scene Condition: Jump to Map Settings"
         android:textColor="@color/white" />
 
     <Button
@@ -63,7 +63,7 @@
         android:layout_height="@dimen/thing_dp_50"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:text="保存地图地理位置相关信息"
+        android:text="Save Map Location Information"
         android:textColor="@color/white" />
 
 </LinearLayout>

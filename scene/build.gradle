@@ -25,11 +25,11 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api enforcedPlatform("com.thingclips.smart:thingsmart-BizBundlesBom:${biz_bom_version}")
     api ("com.thingclips.smart:thingsmart-bizbundle-scene")
-    // 国际包使用
+    // International package usage
 //    api "com.thingclips.smart:thingsmart-bizbundle-map_google"
 //    api "com.thingclips.smart:thingsmart-bizbundle-location_google"
 
-    // 国内包使用
+    // Domestic package usage
     api "com.thingclips.smart:thingsmart-bizbundle-map_amap"
     api "com.thingclips.smart:thingsmart-bizbundle-location_amap"
 

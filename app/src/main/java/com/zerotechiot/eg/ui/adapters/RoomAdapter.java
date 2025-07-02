@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo.ui.adapters;
+package com.zerotechiot.eg.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tuya.smart.bizubundle.demo.R;
-import com.tuya.smart.bizubundle.demo.ui.models.RoomModel;
+import com.zerotechiot.eg.R;
+import com.zerotechiot.eg.ui.models.RoomModel;
 
 import java.util.ArrayList;
 import java.util.List;

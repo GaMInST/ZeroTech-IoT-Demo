@@ -30,7 +30,7 @@
                 android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="智能灯泡" />
+                tools:text="Smart Bulb" />
 
             <ImageView
                 android:layout_width="20dp"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
-                tools:text="在线 | 智能灯泡" />
+                tools:text="Online | Smart Bulb" />
 
             <TextView
                 android:id="@+id/tvMultiControl"
@@ -61,7 +61,7 @@
                 android:textSize="12sp"
                 android:padding="4dp"
                 android:background="@drawable/badge_background"
-                tools:text="支持多控" />
+                tools:text="Multi Control" />
 
         </LinearLayout>
 

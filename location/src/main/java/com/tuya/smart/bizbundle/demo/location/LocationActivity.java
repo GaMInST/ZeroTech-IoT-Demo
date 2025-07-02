@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.thingclips.smart.api.router.UrlRouter;
 import com.thingclips.smart.api.service.MicroServiceManager;
 import com.thingclips.stencil.bean.location.LocationBean;
@@ -41,9 +40,10 @@ public class LocationActivity extends AppCompatActivity {
         findViewById(R.id.start_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //唤起定位
-                LocationService locationService = MicroServiceManager.getInstance().findServiceByInterface(LocationService.class.getName());
-                if (locationService!=null) {
+                // Trigger location
+                LocationService locationService = MicroServiceManager.getInstance()
+                        .findServiceByInterface(LocationService.class.getName());
+                if (locationService != null) {
                     locationService.updateLocation();
                 }
             }
@@ -52,9 +52,10 @@ public class LocationActivity extends AppCompatActivity {
         findViewById(R.id.get_location).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //获取定位信息
-                LocationService locationService = MicroServiceManager.getInstance().findServiceByInterface(LocationService.class.getName());
-                if (locationService!=null) {
+                // Get location information
+                LocationService locationService = MicroServiceManager.getInstance()
+                        .findServiceByInterface(LocationService.class.getName());
+                if (locationService != null) {
                     LocationBean location = locationService.getLocation();
                     if (location != null) {
                         Log.d(TAG, "lon:" + location.getLon() + " lat:" + location.getLat());
@@ -68,7 +69,8 @@ public class LocationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("is_family_location", true);
-                UrlRouter.execute(UrlRouter.makeBuilder(LocationActivity.this, "map_location_setting", bundle, MAP_RESULT_OK));
+                UrlRouter.execute(
+                        UrlRouter.makeBuilder(LocationActivity.this, "map_location_setting", bundle, MAP_RESULT_OK));
             }
         });
 
@@ -79,7 +81,8 @@ public class LocationActivity extends AppCompatActivity {
                 bundle.putDouble("lat", 0.0);
                 bundle.putDouble("lng", 0.0);
                 bundle.putInt("radius", 100);
-                UrlRouter.execute(UrlRouter.makeBuilder(LocationActivity.this, "map_geofence", bundle, GEOSELECT_REQUEST_CORE));
+                UrlRouter.execute(
+                        UrlRouter.makeBuilder(LocationActivity.this, "map_geofence", bundle, GEOSELECT_REQUEST_CORE));
             }
         });
 
@@ -87,7 +90,8 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!checkGeoLocationPermission(LocationActivity.this)) {
-                    UrlRouter.execute(UrlRouter.makeBuilder(LocationActivity.this, "request_permission_activity", null, REQUEST_PERMISSION));
+                    UrlRouter.execute(UrlRouter.makeBuilder(LocationActivity.this, "request_permission_activity", null,
+                            REQUEST_PERMISSION));
                 }
             }
         });
@@ -115,20 +119,21 @@ public class LocationActivity extends AppCompatActivity {
                             " address:" + mAddress);
                 }
             }
-            break;
+                break;
 
             case GEOSELECT_REQUEST_CORE: {
                 double lat = data.getDoubleExtra("lat", 0);
                 double lng = data.getDoubleExtra("lng", 0);
                 int mRadius = data.getIntExtra("radius", 0);
-                String mAddress = TextUtils.isEmpty(data.getStringExtra("address")) ? "" : data.getStringExtra("address");
+                String mAddress = TextUtils.isEmpty(data.getStringExtra("address")) ? ""
+                        : data.getStringExtra("address");
                 TextView geofence = findViewById(R.id.map_geofence);
                 geofence.setText("lat:" + lat +
                         " lng:" + lng +
                         " radius:" + mRadius +
                         " address:" + mAddress);
             }
-            break;
+                break;
             case REQUEST_PERMISSION:
                 boolean locationPermissionGranted = data.getBooleanExtra("location_permission_granted", false);
                 TextView result = findViewById(R.id.request_permission_result);
@@ -152,17 +157,21 @@ public class LocationActivity extends AppCompatActivity {
         final LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         boolean gpsProvider = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean hasLocation = gpsProvider &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             return hasLocation;
         } else { // android Q 以上需要判断后台定位权限
             return hasLocation &&
-                    ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                    ActivityCompat.checkSelfPermission(context,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
         }
     }
 
-    public static String sHA1(Context context){
+    public static String sHA1(Context context) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), PackageManager.GET_SIGNATURES);
@@ -179,7 +188,7 @@ public class LocationActivity extends AppCompatActivity {
                 hexString.append(":");
             }
             String result = hexString.toString();
-            return result.substring(0, result.length()-1);
+            return result.substring(0, result.length() - 1);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {

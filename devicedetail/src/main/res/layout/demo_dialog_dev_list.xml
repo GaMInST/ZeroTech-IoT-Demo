@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:gravity="center"
-        android:text="xx家庭的所有设备"
+        android:text="All devices in xx family"
         android:layout_margin="10dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/demo_bottom_dialog_rv_dev"

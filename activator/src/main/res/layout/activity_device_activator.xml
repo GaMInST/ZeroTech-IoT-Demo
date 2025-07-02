@@ -7,7 +7,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="打开扫一扫"
+        android:text="Open Scanner"
         android:layout_marginTop="30dp"
         android:onClick="actionScan"/>
 

@@ -1,6 +1,5 @@
 package com.tuya.smart.bizbundle.scene.demo;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,7 +52,8 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
         mSaveMapData.setOnClickListener(this);
         // Get scene business service
         iThingSceneBusinessService = MicroContext.findServiceByInterface(IThingSceneBusinessService.class.getName());
-        mServiceByInterface = MicroContext.getServiceManager().findServiceByInterface(AbsBizBundleFamilyService.class.getName());
+        mServiceByInterface = MicroContext.getServiceManager()
+                .findServiceByInterface(AbsBizBundleFamilyService.class.getName());
     }
 
     @Override
@@ -73,8 +73,9 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * 编辑场景，如果要创建天气相关条件自动化需要接入地图地位业务包
-     * 国内包：
+     * Edit scene, if you want to create weather-related conditional automation, you
+     * need to integrate the map location business package
+     * Domestic package:
      * api 'com.tuya.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
      * api 'com.tuya.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
      * 国际包：
@@ -90,38 +91,40 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
         ThingHomeSdk.getSceneServiceInstance().baseService().getSimpleSceneAll(mServiceByInterface.getCurrentHomeId(),
                 new IResultCallback<List<NormalScene>>() {
 
-            @Override
-            public void onSuccess(List<NormalScene> normalScenes) {
-                if (!normalScenes.isEmpty()) {
-                    NormalScene sceneBean = normalScenes.get(0);
-                    if (null != iThingSceneBusinessService) {
-                        iThingSceneBusinessService.editSceneBean(SceneActivity.this, mServiceByInterface.getCurrentHomeId(), sceneBean, EDIT_SCENE_REQUEST_CODE);
+                    @Override
+                    public void onSuccess(List<NormalScene> normalScenes) {
+                        if (!normalScenes.isEmpty()) {
+                            NormalScene sceneBean = normalScenes.get(0);
+                            if (null != iThingSceneBusinessService) {
+                                iThingSceneBusinessService.editSceneBean(SceneActivity.this,
+                                        mServiceByInterface.getCurrentHomeId(), sceneBean, EDIT_SCENE_REQUEST_CODE);
+                            }
+                        }
                     }
-                }
-            }
 
-            @Override
-            public void onError(String errorCode, String errorMessage) {
+                    @Override
+                    public void onError(String errorCode, String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     /**
-     * 创建场景，如果要创建天气相关条件自动化需要接入地图地位业务包
-     * 国内包：
+     * Create scene, if you want to create weather-related conditional automation,
+     * you need to integrate the map location business package
+     * Domestic package:
      * api 'com.tuya.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
      * api 'com.tuya.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
-     * 国际包：
+     * International package:
      * api 'com.tuya.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
      * api 'com.tuya.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
      */
     private void addScene() {
         if (null != iThingSceneBusinessService && mServiceByInterface.getCurrentHomeId() != 0) {
-            iThingSceneBusinessService.addSceneBean(this, mServiceByInterface.getCurrentHomeId(), ADD_SCENE_REQUEST_CODE);
+            iThingSceneBusinessService.addSceneBean(this, mServiceByInterface.getCurrentHomeId(),
+                    ADD_SCENE_REQUEST_CODE);
         }
     }
-
 
     /**
      * set lng and lat use your map sdk in app
@@ -134,24 +137,25 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     /**
      * Scene condition's location page
-     * Note: Chinese city list default. Use it when your account is not a Chinese account.
+     * Note: Chinese city list default. Use it when your account is not a Chinese
+     * account.
      */
     private void setMapClass() {
         if (null != iThingSceneBusinessService) {
-            //TODO business map Activity
+            // TODO business map Activity
             iThingSceneBusinessService.setMapActivity(GeneralMapActivity.class);
         }
     }
 
     /**
-     * You can use the method to set location information after use custom map class impl
+     * You can use the method to set location information after use custom map class
+     * impl
      */
     private void saveMapData() {
         if (null != iThingSceneBusinessService) {
-            //TODO save map data
+            // TODO save map data
             double lng = 120.06420814321443;
             double lat = 30.302782241301667;
             String city = "hangzhou";
@@ -190,7 +194,6 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
             ToastUtil.shortToast(this, "Scene：" + sceneBean.getName() + "edit success!");
         }
     }
-
 
     /**
      * add scene success

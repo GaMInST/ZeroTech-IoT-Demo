@@ -42,7 +42,7 @@ dependencies {
 
     api "com.thingclips.smart:thingsmart-bizbundle-speech:${biz_bom_version}"
 
-    //依赖设备 控制UI业务包
+    //Dependency device control UI business package
     api project(':panel')
 
 

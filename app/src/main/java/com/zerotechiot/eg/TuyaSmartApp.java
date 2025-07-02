@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import android.app.Application;
 import android.content.Context;
@@ -30,7 +30,7 @@ public class TuyaSmartApp extends Application {
 
         try {
             // // Please don't change the order.
-            // // 请不要修改初始化顺序
+            // // Please do not change the initialization order
             // FrescoManager.initFresco(this);
             // ThingHomeSdk.init(this);
             // ThingWrapper.init(this, new RouteEventListener() {
@@ -38,7 +38,9 @@ public class TuyaSmartApp extends Application {
             // public void onFaild(int errorCode, UrlBuilder urlBuilder) {
             // // urlBuilder.target is a router address, urlBuilder.params is a router
             // params
-            // //点击无反应表示路由未现实，需要在此实现， urlBuilder.target 目标路由， urlBuilder.params 路由参数
+            // //No response when clicked indicates route is not implemented, need to
+            // implement here, urlBuilder.target target route, urlBuilder.params route
+            // parameters
             // Log.e("router not implement", urlBuilder.target + " : " +
             // urlBuilder.params.toString());
             // }
@@ -55,13 +57,15 @@ public class TuyaSmartApp extends Application {
             PackConfig.addValueDelegate(AppConfig.class);
 
             // todo replace the above code with the following code
-            // todo 用下面的代码替换上面的初始化代码
+            // todo replace the above code with the following code
             Log.d(TAG, "Initializing BizBundleInitializer");
             BizBundleInitializer.init(this, new RouteEventListener() {
                 @Override
                 public void onFaild(int errorCode, UrlBuilder urlBuilder) {
                     // urlBuilder.target is a router address, urlBuilder.params is a router params
-                    // 点击无反应表示路由未现实，需要在此实现， urlBuilder.target 目标路由， urlBuilder.params 路由参数
+                    // No response when clicked indicates route is not implemented, need to
+                    // implement here, urlBuilder.target target route, urlBuilder.params route
+                    // parameters
                     Log.e(TAG, "Route failed: " + urlBuilder.target + " error: " + errorCode);
                 }
             }, new ServiceEventListener() {
@@ -73,17 +77,21 @@ public class TuyaSmartApp extends Application {
 
             Log.d(TAG, "BizBundleInitializer initialized successfully");
 
-            // 如果你的应用没有提供应用内切换主题模式的功能，那么就在启动时强制设置一个模式，就可以启用下面这段代码
+            // If your application does not provide in-app theme mode switching
+            // functionality, then force set a mode at startup, you can enable the following
+            // code
             // NightModeUtil.INSTANCE.setAppNightMode(AppUiMode.MODE_FOLLOW_SYSTEM);
 
             // register family service，mall bizbundle don't have to implement it.
-            // 注册家庭服务，商城业务包可以不注册此服务
+            // Register family service, mall business package does not need to register this
+            // service
             Log.d(TAG, "Registering family service");
             BizBundleInitializer.registerService(AbsBizBundleFamilyService.class, new BizBundleFamilyServiceImpl());
 
             // Intercept existing routes and jump to custom implementation pages with
             // parameters
-            // 拦截已存在的路由，通过参数跳转至自定义实现页面
+            // Intercept existing routes and jump to custom implementation pages with
+            // parameters
             Log.d(TAG, "Setting up URL interceptor");
             RedirectService service = MicroContext.getServiceManager()
                     .findServiceByInterface(RedirectService.class.getName());
@@ -94,7 +102,8 @@ public class TuyaSmartApp extends Application {
                     // Such as:
                     // Intercept the event of clicking the panel right menu and jump to the custom
                     // page with the parameters of urlBuilder
-                    // 例如：拦截点击面板右上角按钮事件，通过 urlBuilder 的参数跳转至自定义页面
+                    // For example: intercept the event of clicking the panel top right button, jump
+                    // to custom page with urlBuilder parameters
                     // if (urlBuilder.target.equals("panelAction") &&
                     // urlBuilder.params.getString("action").equals("gotoPanelMore")) {
                     // interceptorCallback.interceptor("interceptor");

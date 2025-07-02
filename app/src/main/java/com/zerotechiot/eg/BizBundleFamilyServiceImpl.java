@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import com.thingclips.smart.commonbiz.bizbundle.family.api.AbsBizBundleFamilyService;
 

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    namespace 'com.tuya.smart.bizubundle.demo'
+    namespace 'com.zerotechiot.eg'
     compileSdk 34
 
     defaultConfig {

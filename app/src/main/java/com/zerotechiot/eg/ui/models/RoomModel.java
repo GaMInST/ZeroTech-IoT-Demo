@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo.ui.models;
+package com.zerotechiot.eg.ui.models;
 
 import java.util.ArrayList;
 import java.util.List;

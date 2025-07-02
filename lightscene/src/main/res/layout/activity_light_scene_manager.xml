@@ -11,11 +11,11 @@
         android:id="@+id/btnCreateLightScene"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="创建灯光场景" />
+        android:text="Create Light Scene" />
 
     <Button
         android:id="@+id/btnLightSceneList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="灯光场景列表" />
+        android:text="Light Scene List" />
 </LinearLayout>

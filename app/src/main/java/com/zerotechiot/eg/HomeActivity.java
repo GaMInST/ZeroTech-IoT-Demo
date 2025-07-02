@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -159,14 +159,25 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupClickListeners() {
         fabAddDevice.setOnClickListener(v -> {
-            Intent intent = new Intent(this, DevicePairingActivity.class);
-            startActivityForResult(intent, REQUEST_PAIR_DEVICE);
+            try {
+                Intent intent = new Intent(this, DevicePairingActivity.class);
+                startActivityForResult(intent, REQUEST_PAIR_DEVICE);
+            } catch (android.content.ActivityNotFoundException e) {
+                Toast.makeText(this, "Device Pairing feature is not available in this build.", Toast.LENGTH_LONG)
+                        .show();
+                e.printStackTrace();
+            }
         });
     }
 
     private void startDevicePairing() {
-        Intent intent = new Intent(this, DevicePairingActivity.class);
-        startActivity(intent);
+        try {
+            Intent intent = new Intent(this, DevicePairingActivity.class);
+            startActivity(intent);
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this, "Device Pairing feature is not available in this build.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 
     private void showComingSoon(String feature) {

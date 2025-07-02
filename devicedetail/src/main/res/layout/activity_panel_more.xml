@@ -19,7 +19,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/base_ota_btn_selector"
-        android:text="设备列表"
+        android:text="Device List"
         android:textColor="@color/black"/>
 
     <Button
@@ -30,7 +30,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/base_ota_btn_selector"
-        android:text="跳转设备详情"
+        android:text="Go to Device Details"
         android:textColor="@color/black"/>
 
 </LinearLayout>

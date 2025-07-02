@@ -1,87 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient">
+    android:orientation="vertical"
+    android:background="@color/background_gradient_start">
 
-    <com.tuya.smart.bizubundle.demo.ui.components.GlassmorphicCardView
-        android:id="@+id/pairing_card"
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="32dp"
-        app:cardElevation="12dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_deep_blue"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <!-- Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:gravity="center">
 
+            <!-- Icon -->
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_device_default"
+                android:background="@drawable/glassmorphic_card_bg"
+                android:padding="24dp"
+                android:layout_marginBottom="32dp"
+                android:contentDescription="Device Pairing Icon" />
+
+            <!-- Title -->
             <TextView
-                android:id="@+id/pairing_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add New Device"
-                android:textAppearance="@style/TextAppearance.App.Headline"
-                android:fontFamily="@font/inter_bold"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 android:textColor="@color/text_primary"
-                android:layout_gravity="center_horizontal" />
+                android:layout_marginBottom="16dp" />
 
+            <!-- Status Text -->
             <TextView
-                android:id="@+id/pairing_instructions"
-                android:layout_width="wrap_content"
+                android:id="@+id/status_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter your WiFi details to start pairing."
-                android:textAppearance="@style/TextAppearance.App.BodySmall"
+                android:text="Preparing device pairing..."
+                android:textSize="16sp"
                 android:textColor="@color/text_secondary"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal" />
+                android:gravity="center"
+                android:layout_marginBottom="32dp"
+                android:lineSpacingExtra="4dp" />
 
-            <EditText
-                android:id="@+id/input_ssid"
+            <!-- Instructions Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="WiFi SSID"
-                android:inputType="text"
-                android:importantForAccessibility="yes"
-                android:layout_marginTop="24dp" />
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/background_card">
 
-            <EditText
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="WiFi Password"
-                android:inputType="textPassword"
-                android:importantForAccessibility="yes"
-                android:layout_marginTop="12dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="How to add a device:"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1. Make sure your device is in pairing mode\n2. Ensure your phone is connected to WiFi\n3. Follow the on-screen instructions\n4. Wait for the device to connect"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp">
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_start_pairing"
-                    android:layout_width="0dp"
+                    android:id="@+id/retry_button"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Start Pairing"
-                    style="@style/Widget.App.Button.Primary" />
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/button_primary"
+                    android:textColor="@color/text_inverse"
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="0dp"
+                    android:id="@+id/manual_button"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    style="@style/Widget.App.Button.Secondary"
-                    android:layout_marginStart="12dp" />
+                    android:text="Manual Setup"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/button_secondary"
+                    android:textColor="@color/text_inverse"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/back_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Back to Home"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/button_primary"
+                    app:strokeColor="@color/button_primary" />
+
             </LinearLayout>
 
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout> 
             <ProgressBar
                 android:id="@+id/pairing_progress"
                 android:layout_width="wrap_content"
@@ -103,4 +167,45 @@
         </LinearLayout>
     </com.tuya.smart.bizubundle.demo.ui.components.GlassmorphicCardView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout> 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/retry_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Start Pairing"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/button_primary"
+                    android:textColor="@color/text_inverse"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/manual_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Manual Setup"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/button_secondary"
+                    android:textColor="@color/text_inverse"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/back_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Back to Home"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/button_primary"
+                    app:strokeColor="@color/button_primary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout> 

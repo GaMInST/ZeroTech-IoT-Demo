@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo.ui.components;
+package com.zerotechiot.eg.ui.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.tuya.smart.bizubundle.demo.R;
+import com.zerotechiot.eg.R;
 
 /**
  * Custom device card view for displaying smart home devices

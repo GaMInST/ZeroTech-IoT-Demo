@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="启动定位"
+        android:text="Start Location"
         android:textColor="@color/black" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="获取定位信息"
+        android:text="Get Location Info"
         android:textColor="@color/black" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="高德地图"
+        android:text="AMap"
         android:textColor="@color/black" />
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="Google地理围栏"
+        android:text="Google Geofence"
         android:textColor="@color/black" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="无权限时申请"
+        android:text="Request Permission"
         android:textColor="@color/black" />
 
     <TextView

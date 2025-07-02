@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.tuya.smart.bizubundle.demo.ui.models.DeviceModel;
+import com.zerotechiot.eg.ui.models.DeviceModel;
 
 public class DeviceControlActivity extends AppCompatActivity {
 
@@ -34,6 +34,14 @@ public class DeviceControlActivity extends AppCompatActivity {
         String deviceId = getIntent().getStringExtra("device_id");
         String deviceNameStr = getIntent().getStringExtra("device_name");
         String deviceType = getIntent().getStringExtra("device_type");
+
+        // Provide default values if extras are null
+        if (deviceId == null)
+            deviceId = "demo_device";
+        if (deviceNameStr == null)
+            deviceNameStr = "Demo Device";
+        if (deviceType == null)
+            deviceType = "light"; // Default to light type
 
         // Create sample device for demo
         device = new DeviceModel(deviceId, deviceNameStr, deviceType, "Living Room", "1");

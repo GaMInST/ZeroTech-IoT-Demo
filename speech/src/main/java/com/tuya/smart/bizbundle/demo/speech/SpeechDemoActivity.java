@@ -15,7 +15,7 @@ import com.thingclips.smart.speech.api.AbsThingAssisantGuideService;
  * Dscription:
  *
  * @Autour: sunlulu
- * @Date 2022/1/6 2:15 下午
+ * @Date 2022/1/6 2:15 PM
  */
 public class SpeechDemoActivity extends AppCompatActivity {
     @Override
@@ -24,14 +24,14 @@ public class SpeechDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_speech_demo);
         TextView tvIsSportSpeech = findViewById(R.id.tv_is_sport_speech);
 
-        //是否支持语音
+        //Whether to support voice
         AbsThingAssisantGuideService assistantGuideService = MicroServiceManager.getInstance().findServiceByInterface(AbsThingAssisantGuideService.class.getName());
         if (assistantGuideService != null) {
             boolean isSupportSpeech = assistantGuideService.isSupportAssisantSpeech();
             tvIsSportSpeech.setText("is sport speech: " + isSupportSpeech);
         }
 
-        //跳转语音
+        //Navigate to voice
         findViewById(R.id.bt_speech_demo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +46,7 @@ public class SpeechDemoActivity extends AppCompatActivity {
 
         AbsThingAssisantGuideService assistantGuideService = MicroServiceManager.getInstance().findServiceByInterface(AbsThingAssisantGuideService.class.getName());
         if (assistantGuideService != null) {
-            //弹出添加桌面小组件 弹窗
+            //Show add desktop widget dialog
             assistantGuideService.checkAssisantGuideDialog(this);
         }
     }

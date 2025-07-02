@@ -12,9 +12,9 @@
     <bool name="use_device_detail_mini_program">false</bool>>
 
 
-    <!-- google授权绑定 -->
+    <!-- Google authorization binding -->
     <string name="google_flip_client_id"></string>
-    <!-- Alexa授权绑定 -->
+    <!-- Alexa authorization binding -->
     <bool name="is_alexa_flip_support">false</bool>
     <bool name="is_show_alexa_oem_account">false</bool>
     <bool name="is_alexa_to_thingpp_support">true</bool>

@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo.ui.models;
+package com.zerotechiot.eg.ui.models;
 
 public class DeviceModel {
     private String id;
@@ -123,6 +123,10 @@ public class DeviceModel {
         }
         if (!isOn) {
             return "Off";
+        }
+
+        if (type == null) {
+            return "On";
         }
 
         switch (type.toLowerCase()) {

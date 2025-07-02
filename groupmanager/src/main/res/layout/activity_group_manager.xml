@@ -9,12 +9,12 @@
 
     <Button
         android:id="@+id/btnCreateGroup"
-        android:text="创建群组"
+        android:text="Create Group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btnEditGroup"
-        android:text="编辑群组"
+        android:text="Edit Group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

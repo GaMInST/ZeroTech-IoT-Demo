@@ -76,7 +76,7 @@ class ShareActivity : AppCompatActivity(), View.OnClickListener{
         return mShareManager.checkEmailApkExist(null)
     }
 
-    //emailUrl:邮箱地址
+            //emailUrl: email address
     private fun shareEmail() {
         mShareManager.doShareByEmail(this, "title", "share content", "")
     }
@@ -94,7 +94,7 @@ class ShareActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     private fun sharePic() {
-        //传入图片imagePath
+        //Pass in image imagePath
         mShareManager.doShareByImage(this, "")
     }
 
@@ -103,8 +103,8 @@ class ShareActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     /**
-     * 通用入口
-     * 可根据类型 换起相应类型
+     * General entry
+     * Can be called according to type
      */
     private fun launchSharePlatform() {
         mShareManager.launchSharePlatform(this, ShareType.TYPE_MORE, "share content")

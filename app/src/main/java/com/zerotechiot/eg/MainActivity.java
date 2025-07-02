@@ -1,4 +1,4 @@
-package com.tuya.smart.bizubundle.demo;
+package com.zerotechiot.eg;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,10 +34,10 @@ import com.thingclips.smart.sdk.bean.GroupBean;
 import com.thingclips.smart.theme.ThingTheme;
 import com.thingclips.smart.utils.ProgressUtil;
 import com.thingclips.smart.utils.ToastUtil;
-import com.tuya.smart.bizubundle.demo.ui.adapters.DeviceAdapter;
-import com.tuya.smart.bizubundle.demo.ui.adapters.RoomAdapter;
-import com.tuya.smart.bizubundle.demo.ui.models.DeviceModel;
-import com.tuya.smart.bizubundle.demo.ui.models.RoomModel;
+import com.zerotechiot.eg.ui.adapters.DeviceAdapter;
+import com.zerotechiot.eg.ui.adapters.RoomAdapter;
+import com.zerotechiot.eg.ui.models.DeviceModel;
+import com.zerotechiot.eg.ui.models.RoomModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,8 +150,14 @@ public class MainActivity extends AppCompatActivity
         // Setup floating action button
         FloatingActionButton fabAddDevice = findViewById(R.id.fab_add_device);
         fabAddDevice.setOnClickListener(v -> {
-            // Handle add device action
-            Toast.makeText(this, "Add Device", Toast.LENGTH_SHORT).show();
+            try {
+                Intent intent = new Intent(this, DevicePairingActivity.class);
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException e) {
+                Toast.makeText(this, "Device Pairing feature is not available in this build.", Toast.LENGTH_LONG)
+                        .show();
+                e.printStackTrace();
+            }
         });
     }
 
@@ -228,9 +234,14 @@ public class MainActivity extends AppCompatActivity
         // Device Pairing
         MaterialButton activator = findViewById(R.id.activator);
         activator.setOnClickListener(v -> {
-            // Navigate to device pairing
-            Intent intent = new Intent(this, DevicePairingActivity.class);
-            startActivity(intent);
+            try {
+                Intent intent = new Intent(this, DevicePairingActivity.class);
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException e) {
+                Toast.makeText(this, "Device Pairing feature is not available in this build.", Toast.LENGTH_LONG)
+                        .show();
+                e.printStackTrace();
+            }
         });
 
         // Multi Control
