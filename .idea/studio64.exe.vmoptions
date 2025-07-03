@@ -1,0 +1,26 @@
+# Android Studio VM Options for better performance and stability
+-Xms4096m
+-Xmx8192m
+-XX:ReservedCodeCacheSize=512m
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=200
+-XX:SoftRefLRUPolicyMSPerMB=50
+-XX:CICompilerCount=4
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:-OmitStackTraceInFastThrow
+-ea
+-Dsun.io.useCanonCaches=false
+-Djava.net.preferIPv4Stack=true
+-Djdk.attach.allowAttachSelf=true
+-Dkotlinx.coroutines.debug=off
+-Djdk.module.illegal.access.silent=true
+-XX:+UseStringDeduplication
+-XX:+OptimizeStringConcat
+-XX:+UseCompressedOops
+-XX:+UseCompressedClassPointers
+-XX:+UnlockExperimentalVMOptions
+-XX:+UseZGC
+-XX:+ZUncommit
+-XX:ZUncommitDelay=300
+-XX:+DisableExplicitGC
+-XX:+AlwaysPreTouch 

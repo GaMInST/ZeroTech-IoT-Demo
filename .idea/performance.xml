@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <component name="PerformancePluginGlobalOptions">
+    <option name="isShowAdvancedOnTheWelcomeScreen" value="false" />
+    <option name="isShowOnTheWelcomeScreen" value="false" />
+  </component>
+  <component name="PerformancePluginProjectOptions">
+    <option name="isShowOnEventLog" value="false" />
+    <option name="isShowOnTheWelcomeScreen" value="false" />
+  </component>
+</application> 

@@ -42,8 +42,13 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
         }
     }
 
@@ -51,11 +56,26 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+    
     packagingOptions {
         exclude 'AndroidManifest.xml'
     }
+    
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
+    }
+
+    // Memory optimization settings
+    dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries = false
+        threadCount = 8
+    }
+
+    // Reduce memory usage during build
+    aaptOptions {
+        cruncherEnabled = false
     }
 }
 
