@@ -18,6 +18,7 @@ import com.thingclips.smart.home.sdk.ThingHomeSdk;
 import com.thingclips.smart.home.sdk.bean.HomeBean;
 import com.thingclips.smart.sdk.bean.DeviceBean;
 import com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback;
+import com.zerotechiot.eg.ui.adapters.DeviceAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
  * Modern Home Activity with enhanced UX features
  * Integrates Tuya SDK for device management and control
  */
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnDeviceClickListener {
 
     private RecyclerView devicesRecyclerView;
     private TextView welcomeText;
@@ -66,16 +67,20 @@ public class HomeActivity extends AppCompatActivity {
             if (itemId == R.id.nav_home) {
                 return true;
             } else if (itemId == R.id.nav_rooms) {
-                showComingSoon("Rooms");
+                Intent roomsIntent = new Intent(this, RoomsActivity.class);
+                startActivity(roomsIntent);
                 return true;
             } else if (itemId == R.id.nav_scenes) {
-                showComingSoon("Scenes");
+                Intent scenesIntent = new Intent(this, ScenesActivity.class);
+                startActivity(scenesIntent);
                 return true;
             } else if (itemId == R.id.nav_automation) {
-                showComingSoon("Automation");
+                Intent automationIntent = new Intent(this, AutomationActivity.class);
+                startActivity(automationIntent);
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                showComingSoon("Profile");
+                Intent profileIntent = new Intent(this, ProfileActivity.class);
+                startActivity(profileIntent);
                 return true;
             }
             return false;
@@ -123,12 +128,14 @@ public class HomeActivity extends AppCompatActivity {
 
     private void updateDeviceList() {
         runOnUiThread(() -> {
-            // TODO: Update adapter when implemented
+            // Create and set up device adapter
+            DeviceAdapter deviceAdapter = new DeviceAdapter(deviceList, this);
+            devicesRecyclerView.setAdapter(deviceAdapter);
+
             if (deviceList.isEmpty()) {
                 showEmptyState();
             } else {
                 hideEmptyState();
-                // For now, just show a success message
                 showSnackbar("Loaded " + deviceList.size() + " devices");
             }
         });
@@ -207,5 +214,24 @@ public class HomeActivity extends AppCompatActivity {
             // Device was paired, reload device list
             loadDevices();
         }
+    }
+
+    @Override
+    public void onDeviceClick(Object device) {
+        if (device instanceof DeviceBean) {
+            DeviceBean deviceBean = (DeviceBean) device;
+            // Launch device control activity
+            Intent intent = new Intent(this, DeviceControlActivity.class);
+            intent.putExtra("device_id", deviceBean.getDevId());
+            intent.putExtra("device_name", deviceBean.getName());
+            intent.putExtra("device_type", deviceBean.getProductId());
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onDeviceToggle(Object device, boolean isOn) {
+        // Handle device toggle if needed
+        Toast.makeText(this, "Device toggle: " + (isOn ? "On" : "Off"), Toast.LENGTH_SHORT).show();
     }
 }

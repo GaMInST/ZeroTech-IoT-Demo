@@ -1,10 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidAssetStudio">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidCPUProfiler">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidColorPalette">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidCrashLog">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidDesigner">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidDeviceMonitor">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidEnergyProfiler">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidEventLog">
+    <option name="enable" value="false" />
+  </component>
   <component name="AndroidGradlePluginConfiguration">
     <option name="delegateBuild" value="false" />
   </component>
+  <component name="AndroidImageAssetStudio">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidKernelLog">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidLayoutEditor">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidLayoutInspector">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidLint">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidLogcat">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidMainLog">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidMemoryProfiler">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidNetworkProfiler">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidProfiler">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidRadioLog">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidResourceManager">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidSystemLog">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidThemeEditor">
+    <option name="enable" value="false" />
+  </component>
+  <component name="AndroidVectorAssetStudio">
+    <option name="enable" value="false" />
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="temurin-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

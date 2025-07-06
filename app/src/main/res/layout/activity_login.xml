@@ -14,7 +14,9 @@
         android:layout_below="@id/iv_logo"
         android:layout_marginTop="50dp"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColorHint="#A9A9A9"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/et_password"
@@ -23,7 +25,9 @@
         android:layout_below="@id/et_email"
         android:layout_marginTop="16dp"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColorHint="#A9A9A9"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btn_login"
@@ -31,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/et_password"
         android:layout_marginTop="24dp"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="#000000" />  <!-- You might want to adjust button text color if the default doesn't look good -->
 
     <TextView
         android:id="@+id/tv_register"
@@ -40,6 +45,7 @@
         android:layout_below="@id/btn_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Don't have an account? Register" />
+        android:text="Don't have an account? Register"
+        android:textColor="#FFFFFF" />
 
-</RelativeLayout> 
+</RelativeLayout>

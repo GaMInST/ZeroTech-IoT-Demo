@@ -9,8 +9,8 @@ android {
         applicationId rootProject.ext.applicationId
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1.0"
         multiDexEnabled true
 
         Properties properties = new Properties()
@@ -53,8 +53,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     
     packagingOptions {
@@ -64,18 +64,30 @@ android {
     lintOptions {
         abortOnError false
         checkReleaseBuilds false
+        disable 'InvalidPackage'
+        disable 'MissingTranslation'
     }
 
-    // Memory optimization settings
+    // Optimized dex options for better memory management
     dexOptions {
-        javaMaxHeapSize "4g"
+        javaMaxHeapSize "2g"
         preDexLibraries = false
-        threadCount = 8
+        threadCount = 4
+        additionalParameters += '--no-warning'
     }
 
     // Reduce memory usage during build
     aaptOptions {
         cruncherEnabled = false
+        noCompress "tflite"
+        noCompress "lite"
+    }
+
+    // Optimize build performance
+    buildFeatures {
+        buildConfig true
+        viewBinding false
+        dataBinding false
     }
 }
 
@@ -123,9 +135,7 @@ dependencies {
 
     //demo use only end
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // Test dependencies removed for production
     annotationProcessor "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
 }

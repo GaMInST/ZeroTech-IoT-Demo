@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Grid System (8px base) -->
+    <dimen name="spacing_2">2dp</dimen>
     <dimen name="spacing_4">4dp</dimen>
     <dimen name="spacing_8">8dp</dimen>
     <dimen name="spacing_12">12dp</dimen>
@@ -12,15 +13,17 @@
     <dimen name="spacing_48">48dp</dimen>
     <dimen name="spacing_56">56dp</dimen>
     <dimen name="spacing_64">64dp</dimen>
+    <dimen name="spacing_80">80dp</dimen>
+    <dimen name="spacing_6">6dp</dimen>
     
-    <!-- Touch Targets (Minimum 44px) -->
-    <dimen name="touch_target_min">44dp</dimen>
-    <dimen name="touch_target_medium">48dp</dimen>
-    <dimen name="touch_target_large">56dp</dimen>
+    <!-- Touch Targets (Minimum 48px for better accessibility) -->
+    <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="touch_target_medium">56dp</dimen>
+    <dimen name="touch_target_large">64dp</dimen>
     
     <!-- Component Heights -->
-    <dimen name="button_height">48dp</dimen>
-    <dimen name="input_height">56dp</dimen>
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="input_height">64dp</dimen>
     <dimen name="card_height_small">80dp</dimen>
     <dimen name="card_height_medium">120dp</dimen>
     <dimen name="card_height_large">160dp</dimen>
@@ -36,6 +39,7 @@
     <dimen name="elevation_medium">8dp</dimen>
     <dimen name="elevation_large">16dp</dimen>
     <dimen name="elevation_xlarge">24dp</dimen>
+    <dimen name="elevation_high">12dp</dimen>
     
     <!-- Icon Sizes -->
     <dimen name="icon_small">16dp</dimen>

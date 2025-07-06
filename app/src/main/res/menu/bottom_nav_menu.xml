@@ -2,27 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/ic_device_default"
+        android:icon="@drawable/ic_home"
         android:title="@string/nav_home" />
     
     <item
         android:id="@+id/nav_rooms"
-        android:icon="@drawable/ic_device_default"
+        android:icon="@drawable/ic_rooms"
         android:title="@string/nav_rooms" />
     
     <item
         android:id="@+id/nav_scenes"
-        android:icon="@drawable/ic_device_default"
+        android:icon="@drawable/ic_scenes"
         android:title="@string/nav_scenes" />
     
     <item
         android:id="@+id/nav_automation"
-        android:icon="@drawable/ic_device_default"
+        android:icon="@drawable/ic_automation"
         android:title="@string/nav_automation" />
     
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/ic_device_default"
+        android:icon="@drawable/ic_profile"
         android:title="@string/nav_profile" />
 </menu> 
  

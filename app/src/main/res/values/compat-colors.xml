@@ -21,6 +21,20 @@
 
     <string name="wxAppKey"></string>
 
+    <!-- Missing Tuya theme colors - adding to prevent crashes -->
+    <color name="thing_theme_color_b1">#FFFFFF</color>
+    <color name="thing_theme_color_b1_n1">#FFFFFF</color>
+    <color name="thing_theme_color_b2">#F5F5F5</color>
+    <color name="thing_theme_color_b2_n5">#666666</color>
+    <color name="thing_theme_color_b6">#F8F8F8</color>
+    <color name="thing_theme_color_b6_n1">#333333</color>
+    <color name="thing_theme_color_b6_n2">#666666</color>
+    <color name="thing_theme_color_b6_n7">#E5E5E5</color>
+    <color name="thing_theme_color_b6_2_n1">#999999</color>
+    <color name="thing_theme_color_m1">#00D4FF</color>
+    <color name="thing_theme_color_m1_n1">#FFFFFF</color>
+    <color name="thing_theme_color_m1_2">#00B8E6</color>
+
     <color name="status_bg_color">@color/thing_theme_color_b2</color>
     <color name="list_primary_color">@color/thing_theme_color_b6_n1</color>
     <color name="list_sub_color">@color/thing_theme_color_b6_n2</color>

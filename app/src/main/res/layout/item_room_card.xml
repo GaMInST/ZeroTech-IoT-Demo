@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/room_icon"
-            android:layout_width="@dimen/icon_large"
-            android:layout_height="@dimen/icon_large"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginBottom="@dimen/spacing_8"
             android:contentDescription="Room Icon"
             android:src="@drawable/ic_device_default"
@@ -37,7 +37,9 @@
             android:gravity="center"
             android:text="Living Room"
             android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_body_small"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="Living Room" />
 
         <TextView
@@ -49,7 +51,9 @@
             android:gravity="center"
             android:text="4 devices"
             android:textColor="@color/text_secondary"
-            android:textSize="@dimen/text_caption"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="4 devices" />
 
     </LinearLayout>

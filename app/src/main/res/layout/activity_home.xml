@@ -19,12 +19,16 @@
             android:paddingBottom="@dimen/bottom_nav_height">
 
             <!-- Hero Section -->
-            <com.tuya.smart.bizubundle.demo.ui.components.GlassmorphicCardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/hero_section"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/hero_section_height"
                 android:layout_margin="@dimen/margin_large"
                 android:padding="@dimen/hero_content_padding"
+                app:cardCornerRadius="@dimen/radius_large"
+                app:cardElevation="@dimen/elevation_medium"
+                app:strokeColor="@color/glass_border"
+                app:strokeWidth="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -58,7 +62,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </com.tuya.smart.bizubundle.demo.ui.components.GlassmorphicCardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Active Devices Section -->
             <TextView

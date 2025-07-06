@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/device_card"
     style="@style/Widget.App.Card.Device"
     android:layout_width="match_parent"
     android:layout_height="@dimen/device_card_height"
@@ -29,9 +30,9 @@
             <View
                 android:id="@+id/status_indicator"
                 style="@style/Widget.App.StatusIndicator.Online"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_marginEnd="@dimen/spacing_8" />
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginEnd="@dimen/spacing_4" />
 
             <TextView
                 android:id="@+id/device_name"
@@ -40,17 +41,17 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/inter_semibold"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:text="Smart Light"
                 android:textColor="@color/text_primary"
-                android:textSize="@dimen/text_body_small"
+                android:textSize="11sp"
                 tools:text="Smart Light" />
 
             <ImageView
                 android:id="@+id/device_icon"
-                android:layout_width="@dimen/icon_medium"
-                android:layout_height="@dimen/icon_medium"
-                android:layout_marginStart="@dimen/spacing_8"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/spacing_4"
                 android:contentDescription="Device Icon"
                 android:src="@drawable/ic_device_default"
                 android:tint="@color/button_primary" />
@@ -62,11 +63,13 @@
             android:id="@+id/device_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginTop="@dimen/spacing_4"
             android:fontFamily="@font/inter_regular"
             android:text="On • 80% brightness"
             android:textColor="@color/text_secondary"
-            android:textSize="@dimen/text_caption"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="On • 80% brightness" />
 
         <!-- Quick Control Toggle -->
@@ -75,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/spacing_12"
+            android:layout_marginTop="@dimen/spacing_8"
             android:checked="true"
             app:thumbTint="@color/button_primary"
             app:trackTint="@color/glass_secondary" />
@@ -86,11 +89,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginTop="@dimen/spacing_4"
             android:fontFamily="@font/inter_regular"
             android:text="Living Room"
             android:textColor="@color/text_disabled"
-            android:textSize="@dimen/text_caption"
+            android:textSize="9sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             tools:text="Living Room" />
 
     </LinearLayout>

@@ -69,6 +69,26 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
 
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ScenesActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".AutomationActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
         <activity-alias
             android:name="com.tuya.smart.hometab.activity.shortcut"
             android:exported="true"

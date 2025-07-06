@@ -228,4 +228,9 @@
         <item name="android:textSize">@dimen/text_body</item>
         <item name="android:fontFamily">@font/inter_variablefont_opsz_wght</item>
     </style>
+
+    <style name="ShapeAppearance.App.Circle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

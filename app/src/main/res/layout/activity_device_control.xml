@@ -63,9 +63,9 @@
                         <View
                             android:id="@+id/device_status_indicator"
                             style="@style/Widget.App.StatusIndicator.Online"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_marginEnd="@dimen/spacing_12" />
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="@dimen/spacing_16" />
 
                         <TextView
                             android:id="@+id/device_name"
@@ -79,8 +79,8 @@
 
                         <ImageView
                             android:id="@+id/device_icon"
-                            android:layout_width="@dimen/icon_xlarge"
-                            android:layout_height="@dimen/icon_xlarge"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
                             android:contentDescription="Device Icon"
                             android:src="@drawable/ic_light_bulb"
                             android:tint="@color/button_primary" />
@@ -91,7 +91,7 @@
                         android:id="@+id/device_status_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_8"
+                        android:layout_marginTop="@dimen/spacing_12"
                         android:fontFamily="@font/inter_regular"
                         android:text="On • 80% brightness • Living Room"
                         android:textColor="@color/text_secondary"
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_16"
+                        android:layout_marginBottom="@dimen/spacing_20"
                         android:fontFamily="@font/inter_semibold"
                         android:text="Power"
                         android:textColor="@color/text_primary"
@@ -130,6 +130,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:checked="true"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
                         app:thumbTint="@color/button_primary"
                         app:trackTint="@color/glass_secondary" />
 
@@ -155,7 +157,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/spacing_16">
 
                         <TextView
                             android:layout_width="0dp"
@@ -181,11 +184,12 @@
                         android:id="@+id/brightness_slider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_16"
+                        android:layout_marginTop="@dimen/spacing_8"
                         android:value="80"
                         android:valueFrom="0"
                         android:valueTo="100"
                         android:stepSize="1"
+                        android:minHeight="48dp"
                         app:thumbColor="@color/button_primary"
                         app:trackColorActive="@color/button_primary"
                         app:trackColorInactive="@color/glass_secondary" />
@@ -212,7 +216,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/spacing_16">
 
                         <TextView
                             android:layout_width="0dp"
@@ -238,11 +243,12 @@
                         android:id="@+id/color_temp_slider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_16"
+                        android:layout_marginTop="@dimen/spacing_8"
                         android:value="2700"
                         android:valueFrom="2200"
                         android:valueTo="6500"
                         android:stepSize="100"
+                        android:minHeight="48dp"
                         app:thumbColor="@color/button_primary"
                         app:trackColorActive="@color/button_primary"
                         app:trackColorInactive="@color/glass_secondary" />
@@ -250,8 +256,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_8"
-                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/spacing_12"
                         android:orientation="horizontal">
 
                         <TextView
@@ -293,7 +298,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_16"
+                        android:layout_marginBottom="@dimen/spacing_20"
                         android:fontFamily="@font/inter_semibold"
                         android:text="Quick Actions"
                         android:textColor="@color/text_primary"
@@ -309,41 +314,41 @@
                             android:id="@+id/action_reading"
                             style="@style/Widget.App.Button.Secondary"
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/button_height"
+                            android:layout_height="56dp"
                             android:layout_columnWeight="1"
-                            android:layout_margin="@dimen/spacing_4"
+                            android:layout_margin="@dimen/spacing_8"
                             android:text="Reading"
-                            android:textSize="@dimen/text_body_small" />
+                            android:textSize="@dimen/text_body" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/action_relax"
                             style="@style/Widget.App.Button.Secondary"
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/button_height"
+                            android:layout_height="56dp"
                             android:layout_columnWeight="1"
-                            android:layout_margin="@dimen/spacing_4"
+                            android:layout_margin="@dimen/spacing_8"
                             android:text="Relax"
-                            android:textSize="@dimen/text_body_small" />
+                            android:textSize="@dimen/text_body" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/action_focus"
                             style="@style/Widget.App.Button.Secondary"
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/button_height"
+                            android:layout_height="56dp"
                             android:layout_columnWeight="1"
-                            android:layout_margin="@dimen/spacing_4"
+                            android:layout_margin="@dimen/spacing_8"
                             android:text="Focus"
-                            android:textSize="@dimen/text_body_small" />
+                            android:textSize="@dimen/text_body" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/action_night"
                             style="@style/Widget.App.Button.Secondary"
                             android:layout_width="0dp"
-                            android:layout_height="@dimen/button_height"
+                            android:layout_height="56dp"
                             android:layout_columnWeight="1"
-                            android:layout_margin="@dimen/spacing_4"
+                            android:layout_margin="@dimen/spacing_8"
                             android:text="Night"
-                            android:textSize="@dimen/text_body_small" />
+                            android:textSize="@dimen/text_body" />
 
                     </GridLayout>
 
@@ -368,7 +373,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/spacing_16"
+                        android:layout_marginBottom="@dimen/spacing_20"
                         android:fontFamily="@font/inter_semibold"
                         android:text="Schedule"
                         android:textColor="@color/text_primary"
@@ -378,9 +383,9 @@
                         android:id="@+id/add_schedule_button"
                         style="@style/Widget.App.Button.Primary"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/button_height"
+                        android:layout_height="56dp"
                         android:text="Add Schedule"
-                        android:textSize="@dimen/text_body_small" />
+                        android:textSize="@dimen/text_body" />
 
                 </LinearLayout>
 
