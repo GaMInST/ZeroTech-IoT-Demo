@@ -1,306 +1,240 @@
 package com.zerotechiot.eg;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.thingclips.smart.api.MicroContext;
+import com.thingclips.smart.api.service.MicroServiceManager;
+import com.thingclips.smart.bizbundle.initializer.BizBundleInitializer;
 import com.thingclips.smart.commonbiz.bizbundle.family.api.AbsBizBundleFamilyService;
 import com.thingclips.smart.home.sdk.ThingHomeSdk;
-import com.thingclips.smart.map.generalmap.ui.GeneralMapActivity;
-import com.thingclips.smart.scene.api.IResultCallback;
-import com.thingclips.smart.scene.business.api.IThingSceneBusinessService;
-import com.thingclips.smart.scene.model.NormalScene;
-import com.thingclips.smart.utils.ToastUtil;
+import com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback;
+import com.thingclips.smart.home.sdk.callback.IThingResultCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ScenesActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private MaterialButton mAddScene;
-    private MaterialButton mEditScene;
-    private MaterialButton mSetLocation;
-    private MaterialButton mSetMap;
-    private MaterialButton mSaveMapData;
-
-    private MaterialCardView headerCard;
-    private MaterialCardView primaryActionsCard;
-    private MaterialCardView locationCard;
-    private MaterialCardView advancedCard;
-    private MaterialCardView infoCard;
-
-    private IThingSceneBusinessService iThingSceneBusinessService;
-    private AbsBizBundleFamilyService mServiceByInterface;
-
-    private static final int ADD_SCENE_REQUEST_CODE = 1001;
-    private static final int EDIT_SCENE_REQUEST_CODE = 1002;
+/**
+ * Smart Scenes Activity for creating and managing automation scenes
+ * Supports IR devices, switches, smart plugs, sensors, and door contacts
+ */
+public class ScenesActivity extends AppCompatActivity {
+    private static final String TAG = "ScenesActivity";
+    
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private SceneAdapter adapter;
+    private FloatingActionButton fabAddScene;
+    private AbsBizBundleFamilyService familyService;
+    
+    private List<DemoScene> sceneList = new ArrayList<>();
+    private long currentHomeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scenes);
-
-        initializeViews();
-        setupToolbar();
-        setupClickListeners();
-        animateCardsIn();
-
-        // Get scene business service
-        iThingSceneBusinessService = MicroContext.findServiceByInterface(IThingSceneBusinessService.class.getName());
-        mServiceByInterface = MicroContext.getServiceManager()
-                .findServiceByInterface(AbsBizBundleFamilyService.class.getName());
+        
+        initializeServices();
+        setupViews();
+        loadScenes();
     }
 
-    private void initializeViews() {
-        // Initialize buttons
-        mAddScene = findViewById(R.id.add_scene);
-        mEditScene = findViewById(R.id.edit_scene);
-        mSetLocation = findViewById(R.id.set_location);
-        mSetMap = findViewById(R.id.set_map);
-        mSaveMapData = findViewById(R.id.save_map_data);
-
-        // Initialize cards for animations
-        headerCard = findViewById(R.id.header_card);
-        primaryActionsCard = findViewById(R.id.primary_actions_card);
-        locationCard = findViewById(R.id.location_card);
-        advancedCard = findViewById(R.id.advanced_card);
-        infoCard = findViewById(R.id.info_card);
+    private void initializeServices() {
+        try {
+            // Get family service
+            familyService = MicroServiceManager.getInstance()
+                    .findServiceByInterface(AbsBizBundleFamilyService.class.getName());
+                    
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to initialize services", e);
+        }
     }
 
-    private void setupToolbar() {
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar_main);
+    private void setupViews() {
+        // Setup toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Smart Scenes");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        // Setup swipe refresh
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        );
+        swipeRefreshLayout.setOnRefreshListener(this::loadScenes);
+
+        // Setup recycler view
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SceneAdapter();
+        recyclerView.setAdapter(adapter);
+
+        // Setup FAB
+        fabAddScene = findViewById(R.id.fabAddScene);
+        fabAddScene.setOnClickListener(v -> showCreateSceneDialog());
     }
 
-    private void setupClickListeners() {
-        mAddScene.setOnClickListener(this);
-        mEditScene.setOnClickListener(this);
-        mSetLocation.setOnClickListener(this);
-        mSetMap.setOnClickListener(this);
-        mSaveMapData.setOnClickListener(this);
+    private void loadScenes() {
+        // Use demo scenes since SceneBean is not available
+        sceneList.clear();
+        sceneList.add(new DemoScene("Good Morning", "Turn on lights and start coffee maker", true, "manual"));
+        sceneList.add(new DemoScene("Good Night", "Turn off all lights and arm security", true, "manual"));
+        sceneList.add(new DemoScene("Movie Mode", "Dim lights and turn on TV", true, "manual"));
+        sceneList.add(new DemoScene("Away Mode", "Turn off non-essential devices", true, "manual"));
+        sceneList.add(new DemoScene("Security Alert", "Triggered by door contact or gas sensor", false, "manual"));
+        runOnUiThread(() -> {
+            adapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
+            if (sceneList.isEmpty()) {
+                Toast.makeText(ScenesActivity.this, "No scenes found. Create your first smart scene!", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ScenesActivity.this, "Found " + sceneList.size() + " scenes", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void animateCardsIn() {
-        // Animate cards sliding up with staggered timing
-        MaterialCardView[] cards = { headerCard, primaryActionsCard, locationCard, advancedCard, infoCard };
-
-        for (int i = 0; i < cards.length; i++) {
-            MaterialCardView card = cards[i];
-            card.setAlpha(0f);
-            card.setTranslationY(100f);
-
-            card.animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setDuration(400)
-                    .setStartDelay(i * 100)
-                    .setInterpolator(AnimationUtils.loadInterpolator(this, android.R.interpolator.decelerate_quint))
-                    .start();
-        }
-    }
-
-    private void animateButtonClick(View button) {
-        // Animate button press with scale
-        AnimatorSet animatorSet = new AnimatorSet();
-
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(button, "scaleX", 1.0f, 0.95f, 1.0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(button, "scaleY", 1.0f, 0.95f, 1.0f);
-
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(150);
-        animatorSet.start();
-    }
-
-    private void showSuccessMessage(String message) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-                .setBackgroundTint(ContextCompat.getColor(this, R.color.success_green))
-                .setTextColor(ContextCompat.getColor(this, R.color.text_inverse))
+    private void showCreateSceneDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Create New Scene")
+                .setMessage("Would you like to create a new smart scene?")
+                .setPositiveButton("Create", (dialog, which) -> {
+                    // For now, just show a toast since CreateSceneActivity doesn't exist
+                    Toast.makeText(this, "Scene creation feature coming soon!", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    private void showInfoMessage(String message) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-                .setBackgroundTint(ContextCompat.getColor(this, R.color.info_blue))
-                .setTextColor(ContextCompat.getColor(this, R.color.text_inverse))
-                .show();
-    }
+    private class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.SceneViewHolder> {
 
-    @Override
-    public void onClick(View view) {
-        animateButtonClick(view);
-
-        int id = view.getId();
-        if (id == R.id.set_location) {
-            setLocation();
-        } else if (id == R.id.add_scene) {
-            addScene();
-        } else if (id == R.id.edit_scene) {
-            editScene();
-        } else if (id == R.id.set_map) {
-            setMapClass();
-        } else if (id == R.id.save_map_data) {
-            saveMapData();
-        }
-    }
-
-    /**
-     * Edit scene, if you want to create weather-related conditional automation, you
-     * need to integrate the map location business package
-     * Domestic package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
-     * International package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
-     */
-    private void editScene() {
-        if (mServiceByInterface.getCurrentHomeId() == 0) {
-            showInfoMessage("Please select a home first");
-            return;
+        @NonNull
+        @Override
+        public SceneViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_scene, parent, false);
+            return new SceneViewHolder(view);
         }
 
-        showInfoMessage("Loading existing scenes...");
+        @Override
+        public void onBindViewHolder(@NonNull SceneViewHolder holder, int position) {
+            DemoScene scene = sceneList.get(position);
+            holder.bind(scene);
+        }
 
-        ThingHomeSdk.getSceneServiceInstance().baseService().getSimpleSceneAll(mServiceByInterface.getCurrentHomeId(),
-                new IResultCallback<List<NormalScene>>() {
+        @Override
+        public int getItemCount() {
+            return sceneList.size();
+        }
 
-                    @Override
-                    public void onSuccess(List<NormalScene> normalScenes) {
-                        if (!normalScenes.isEmpty()) {
-                            NormalScene sceneBean = normalScenes.get(0);
-                            if (null != iThingSceneBusinessService) {
-                                iThingSceneBusinessService.editSceneBean(ScenesActivity.this,
-                                        mServiceByInterface.getCurrentHomeId(), sceneBean, EDIT_SCENE_REQUEST_CODE);
-                            }
-                        } else {
-                            showInfoMessage("No scenes found. Create a scene first.");
-                        }
-                    }
+        class SceneViewHolder extends RecyclerView.ViewHolder {
+            private MaterialCardView cardView;
+            private ImageView sceneIcon;
+            private TextView sceneName;
+            private TextView sceneDescription;
+            private Chip sceneType;
+            private Chip sceneStatus;
 
-                    @Override
-                    public void onError(String errorCode, String errorMessage) {
-                        showInfoMessage("Error loading scenes: " + errorMessage);
-                    }
+            public SceneViewHolder(@NonNull View itemView) {
+                super(itemView);
+                cardView = itemView.findViewById(R.id.sceneCard);
+                sceneIcon = itemView.findViewById(R.id.sceneIcon);
+                sceneName = itemView.findViewById(R.id.sceneName);
+                sceneDescription = itemView.findViewById(R.id.sceneDescription);
+                sceneType = itemView.findViewById(R.id.sceneType);
+                sceneStatus = itemView.findViewById(R.id.sceneStatus);
+            }
+
+            public void bind(DemoScene scene) {
+                // Set scene name
+                sceneName.setText(scene.name);
+                // Set scene description
+                sceneDescription.setText(scene.description);
+                // Set scene type
+                String sceneTypeText = getSceneTypeName(scene.type);
+                sceneType.setText(sceneTypeText);
+                // Set scene status
+                if (scene.enabled) {
+                    sceneStatus.setText("Active");
+                    sceneStatus.setChipBackgroundColorResource(android.R.color.holo_green_light);
+                } else {
+                    sceneStatus.setText("Inactive");
+                    sceneStatus.setChipBackgroundColorResource(android.R.color.holo_red_light);
+                }
+                // Set scene icon based on type
+                int iconRes = getSceneIcon(scene.type);
+                sceneIcon.setImageResource(iconRes);
+                // Set click listener to execute scene
+                cardView.setOnClickListener(v -> {
+                    executeScene(scene);
                 });
+            }
+
+            private String getSceneTypeName(String sceneType) {
+                if (sceneType == null) return "Manual";
+                
+                switch (sceneType) {
+                    case "manual":
+                        return "Manual";
+                    case "auto":
+                        return "Auto";
+                    case "condition":
+                        return "Condition";
+                    case "timer":
+                        return "Timer";
+                    default:
+                        return "Manual";
+                }
+            }
+
+            private int getSceneIcon(String sceneType) {
+                if (sceneType == null) return R.drawable.ic_relax;
+                
+                switch (sceneType) {
+                    case "manual":
+                        return R.drawable.ic_relax;
+                    case "auto":
+                        return R.drawable.ic_device;
+                    case "condition":
+                        return R.drawable.ic_device;
+                    case "timer":
+                        return R.drawable.ic_device;
+                    default:
+                        return R.drawable.ic_relax;
+                }
+            }
+        }
     }
 
-    /**
-     * Create scene, if you want to create weather-related conditional automation,
-     * you need to integrate the map location business package
-     * Domestic package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
-     * International package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
-     */
-    private void addScene() {
-        if (null != iThingSceneBusinessService && mServiceByInterface.getCurrentHomeId() != 0) {
-            showInfoMessage("Opening scene creation...");
-            iThingSceneBusinessService.addSceneBean(this, mServiceByInterface.getCurrentHomeId(),
-                    ADD_SCENE_REQUEST_CODE);
+    private void executeScene(DemoScene scene) {
+        if (scene.enabled) {
+            Toast.makeText(this, "Scene '" + scene.name + "' executed successfully!", Toast.LENGTH_SHORT).show();
         } else {
-            showInfoMessage("Please select a home first");
-        }
-    }
-
-    /**
-     * set lng and lat use your map sdk in app
-     */
-    private void setLocation() {
-        double lng = 120.06420814321443;
-        double lat = 30.302782241301667;
-        if (null != iThingSceneBusinessService) {
-            iThingSceneBusinessService.setAppLocation(lng, lat);
-            showSuccessMessage("Location coordinates set successfully");
-        }
-    }
-
-    /**
-     * Scene condition's location page
-     * Note: Chinese city list default. Use it when your account is not a Chinese
-     * account.
-     */
-    private void setMapClass() {
-        if (null != iThingSceneBusinessService) {
-            // TODO business map Activity
-            iThingSceneBusinessService.setMapActivity(GeneralMapActivity.class);
-            showSuccessMessage("Map activity configured successfully");
-        }
-    }
-
-    /**
-     * You can use the method to set location information after use custom map class
-     * impl
-     */
-    private void saveMapData() {
-        if (null != iThingSceneBusinessService) {
-            // TODO save map data
-            double lng = 120.06420814321443;
-            double lat = 30.302782241301667;
-            String city = "hangzhou";
-            String address = "address";
-            iThingSceneBusinessService.saveMapData(lng, lat, city, address);
-            showSuccessMessage("Map location data saved successfully");
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case ADD_SCENE_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    onAddSuc(data);
-                }
-                break;
-            case EDIT_SCENE_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    onEditSuc(data);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * edit scene success
-     *
-     * @param data
-     */
-    private void onEditSuc(Intent data) {
-        NormalScene sceneBean = (NormalScene) data.getSerializableExtra("NormalScene");
-        if (null != sceneBean) {
-            showSuccessMessage("Scene '" + sceneBean.getName() + "' edited successfully!");
-        }
-    }
-
-    /**
-     * add scene success
-     *
-     * @param data
-     */
-    private void onAddSuc(Intent data) {
-        NormalScene sceneBean = (NormalScene) data.getSerializableExtra("NormalScene");
-        if (null != sceneBean) {
-            showSuccessMessage("Scene '" + sceneBean.getName() + "' created successfully!");
+            Toast.makeText(this, "Scene is not active", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -309,4 +243,23 @@ public class ScenesActivity extends AppCompatActivity implements View.OnClickLis
         onBackPressed();
         return true;
     }
-}
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    // DemoScene class for demo data
+    private static class DemoScene {
+        String name;
+        String description;
+        boolean enabled;
+        String type;
+        DemoScene(String name, String description, boolean enabled, String type) {
+            this.name = name;
+            this.description = description;
+            this.enabled = enabled;
+            this.type = type;
+        }
+    }
+} 

@@ -82,7 +82,7 @@
             <!-- Hero Section -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/hero_section"
-                style="@style/Widget.App.Card.Glassmorphic"
+                style="@style/Widget.App.Card.Hero"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hero_section_height"
                 android:layout_marginBottom="@dimen/spacing_24">
@@ -102,6 +102,7 @@
                         android:textSize="@dimen/text_headline" />
 
             <TextView
+                        android:id="@+id/welcome_stats_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_8"
@@ -173,6 +174,7 @@
                 android:textColor="@color/text_primary"
                 android:textSize="@dimen/text_title" />
 
+            <!-- Quick Access Buttons -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/devices_recycler_view"
                 android:layout_width="match_parent"
@@ -183,7 +185,6 @@
                 tools:itemCount="4"
                 tools:listitem="@layout/item_device_card" />
 
-            <!-- Quick Access Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

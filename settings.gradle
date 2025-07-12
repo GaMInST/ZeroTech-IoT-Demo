@@ -23,3 +23,12 @@ include ':control'
 include ':third_service'
 include ':miniapp'
 include ':marketing'
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        // Add Tuya's Maven repository for SDK dependencies
+        maven { url 'https://maven-other.tuya.com/repository/maven-commercial-releases/' }
+    }
+}

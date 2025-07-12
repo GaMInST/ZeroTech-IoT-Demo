@@ -2,6 +2,7 @@ package com.zerotechiot.eg;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +19,9 @@ import com.thingclips.smart.home.sdk.ThingHomeSdk;
 import com.thingclips.smart.home.sdk.bean.HomeBean;
 import com.thingclips.smart.sdk.bean.DeviceBean;
 import com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback;
+import com.zerotechiot.eg.services.DeviceControlService;
 import com.zerotechiot.eg.ui.adapters.DeviceAdapter;
+import com.zerotechiot.eg.ui.models.DeviceModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,8 @@ import java.util.List;
  */
 public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnDeviceClickListener {
 
+    private static final String TAG = "HomeActivity";
+    
     private RecyclerView devicesRecyclerView;
     private TextView welcomeText;
     private TextView statusOverview;
@@ -36,14 +41,18 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
     private BottomNavigationView bottomNavigation;
     private FloatingActionButton fabAddDevice;
 
-    private List<DeviceBean> deviceList = new ArrayList<>();
+    private List<DeviceModel> deviceList = new ArrayList<>();
     private long currentHomeId = -1;
     private static final int REQUEST_PAIR_DEVICE = 1001;
+    private DeviceControlService deviceControlService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Initialize device control service
+        deviceControlService = new DeviceControlService(this);
 
         initViews();
         setupNavigation();
@@ -65,22 +74,25 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
         bottomNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_home) {
+                // Already on home
                 return true;
             } else if (itemId == R.id.nav_rooms) {
-                Intent roomsIntent = new Intent(this, RoomsActivity.class);
-                startActivity(roomsIntent);
+                // Navigate to device management
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_scenes) {
-                Intent scenesIntent = new Intent(this, ScenesActivity.class);
-                startActivity(scenesIntent);
+                // Navigate to scenes
+                Intent intent = new Intent(this, ScenesActivity.class);
+                startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_automation) {
-                Intent automationIntent = new Intent(this, AutomationActivity.class);
-                startActivity(automationIntent);
+                // Navigate to automation
+                Toast.makeText(this, "Automation coming soon", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                Intent profileIntent = new Intent(this, ProfileActivity.class);
-                startActivity(profileIntent);
+                // Navigate to profile
+                Toast.makeText(this, "Profile coming soon", Toast.LENGTH_SHORT).show();
                 return true;
             }
             return false;
@@ -88,40 +100,42 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
     }
 
     private void setupRecyclerView() {
-        // For now, we'll just set up the layout manager
-        // The adapter will be implemented in the next step
-        devicesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        devicesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DeviceAdapter adapter = new DeviceAdapter(deviceList, this);
+        devicesRecyclerView.setAdapter(adapter);
     }
 
     private void loadHomeData() {
-        currentHomeId = 10000; // Default home ID
-
-        if (currentHomeId > 0) {
-            loadDevices();
-        } else {
-            showEmptyState();
-        }
-    }
-
-    private void loadDevices() {
-        ThingHomeSdk.newHomeInstance(currentHomeId).getHomeDetail(new IThingHomeResultCallback() {
+        Log.d(TAG, "Loading real devices from Tuya SDK...");
+        
+        // Load real devices from Tuya SDK
+        deviceControlService.loadRealDevices(new DeviceControlService.DeviceLoadCallback() {
             @Override
-            public void onSuccess(@NonNull HomeBean homeBean) {
-                List<DeviceBean> devices = homeBean.getDeviceList();
-                if (devices != null && !devices.isEmpty()) {
+            public void onSuccess(List<DeviceModel> realDevices) {
+                runOnUiThread(() -> {
+                    Log.d(TAG, "Successfully loaded " + realDevices.size() + " real devices");
                     deviceList.clear();
-                    deviceList.addAll(devices);
+                    deviceList.addAll(realDevices);
                     updateDeviceList();
-                    updateStatusOverview(devices.size());
-                } else {
-                    showEmptyState();
-                }
+                    updateStatusOverview(realDevices.size());
+                    
+                    if (realDevices.isEmpty()) {
+                        showEmptyState();
+                        showSnackbar("No devices found. Add some devices to get started!");
+                    } else {
+                        hideEmptyState();
+                        showSnackbar("Loaded " + realDevices.size() + " real devices");
+                    }
+                });
             }
 
             @Override
-            public void onError(String errorCode, String errorMsg) {
-                showError("Failed to load devices: " + errorMsg);
-                showEmptyState();
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Log.e(TAG, "Failed to load real devices: " + error);
+                    showError("Failed to load devices: " + error);
+                    showEmptyState();
+                });
             }
         });
     }
@@ -136,7 +150,6 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
                 showEmptyState();
             } else {
                 hideEmptyState();
-                showSnackbar("Loaded " + deviceList.size() + " devices");
             }
         });
     }
@@ -144,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
     private void updateStatusOverview(int deviceCount) {
         runOnUiThread(() -> {
             int onlineCount = (int) deviceList.stream()
-                    .filter(device -> device.getIsOnline())
+                    .filter(device -> device.isOnline())
                     .count();
             statusOverview.setText(String.format("%d devices online • %d total devices", onlineCount, deviceCount));
         });
@@ -180,15 +193,16 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
     private void startDevicePairing() {
         try {
             Intent intent = new Intent(this, DevicePairingActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_PAIR_DEVICE);
         } catch (android.content.ActivityNotFoundException e) {
-            Toast.makeText(this, "Device Pairing feature is not available in this build.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Device Pairing feature is not available in this build.", Toast.LENGTH_LONG)
+                    .show();
             e.printStackTrace();
         }
     }
 
     private void showComingSoon(String feature) {
-        showSnackbar(feature + " coming soon!");
+        Snackbar.make(findViewById(android.R.id.content), feature + " coming soon!", Snackbar.LENGTH_SHORT).show();
     }
 
     private void showSnackbar(String message) {
@@ -196,42 +210,79 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
     }
 
     private void showError(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (currentHomeId > 0) {
-            loadDevices();
-        }
+        // Refresh device list when returning to the activity
+        loadHomeData();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PAIR_DEVICE && resultCode == RESULT_OK) {
-            // Device was paired, reload device list
-            loadDevices();
+        if (requestCode == REQUEST_PAIR_DEVICE) {
+            if (resultCode == RESULT_OK) {
+                showSnackbar("Device paired successfully!");
+                loadHomeData(); // Refresh the device list
+            } else {
+                showSnackbar("Device pairing cancelled or failed");
+            }
         }
     }
 
     @Override
     public void onDeviceClick(Object device) {
-        if (device instanceof DeviceBean) {
-            DeviceBean deviceBean = (DeviceBean) device;
-            // Launch device control activity
+        if (device instanceof DeviceModel) {
+            DeviceModel deviceModel = (DeviceModel) device;
+            Log.d(TAG, "Device clicked: " + deviceModel.getName() + " (ID: " + deviceModel.getId() + ")");
+            
+            // Launch device control activity with real device data
             Intent intent = new Intent(this, DeviceControlActivity.class);
-            intent.putExtra("device_id", deviceBean.getDevId());
-            intent.putExtra("device_name", deviceBean.getName());
-            intent.putExtra("device_type", deviceBean.getProductId());
+            intent.putExtra("device_id", deviceModel.getId());
+            intent.putExtra("device_name", deviceModel.getName());
+            intent.putExtra("device_type", deviceModel.getType());
             startActivity(intent);
         }
     }
 
     @Override
     public void onDeviceToggle(Object device, boolean isOn) {
-        // Handle device toggle if needed
-        Toast.makeText(this, "Device toggle: " + (isOn ? "On" : "Off"), Toast.LENGTH_SHORT).show();
+        if (device instanceof DeviceModel) {
+            DeviceModel deviceModel = (DeviceModel) device;
+            Log.d(TAG, "Toggling device " + deviceModel.getName() + " to " + (isOn ? "ON" : "OFF"));
+            
+            // Use device control service to toggle real device
+            deviceControlService.toggleDevice(deviceModel.getId(), isOn, new DeviceControlService.DeviceToggleCallback() {
+                @Override
+                public void onSuccess(boolean newState) {
+                    runOnUiThread(() -> {
+                        deviceModel.setOn(newState);
+                        showSnackbar(deviceModel.getName() + " turned " + (newState ? "ON" : "OFF"));
+                        // Update the adapter to reflect the change
+                        updateDeviceList();
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        Log.e(TAG, "Failed to toggle device: " + error);
+                        showError("Failed to toggle " + deviceModel.getName() + ": " + error);
+                        // Revert the toggle in the UI
+                        deviceModel.setOn(!isOn);
+                        updateDeviceList();
+                    });
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Device control service cleanup is handled automatically
     }
 }

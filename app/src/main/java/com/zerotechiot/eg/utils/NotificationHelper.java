@@ -52,6 +52,10 @@ public class NotificationHelper {
         showSmartNotification(context, modeName + " mode activated", false);
     }
 
+    public static void showError(Context context, String errorMessage) {
+        showSmartNotification(context, errorMessage, true);
+    }
+
     private static View getRootView(Context context) {
         if (context instanceof android.app.Activity) {
             return ((android.app.Activity) context).findViewById(android.R.id.content);
@@ -59,3 +63,6 @@ public class NotificationHelper {
         return null;
     }
 }
+
+
+

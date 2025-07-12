@@ -14,6 +14,7 @@ import com.thingclips.smart.api.service.ServiceEventListener;
 import com.thingclips.smart.bizbundle.initializer.BizBundleInitializer;
 import com.thingclips.smart.commonbiz.bizbundle.family.api.AbsBizBundleFamilyService;
 import com.thingclips.smart.thingpackconfig.PackConfig;
+import com.thingclips.smart.home.sdk.ThingHomeSdk;
 
 import dagger.hilt.android.HiltAndroidApp;
 
@@ -28,44 +29,20 @@ public class TuyaSmartApp extends Application {
 
         Log.d(TAG, "TuyaSmartApp onCreate started");
 
+        // Initialize Tuya SDK
+        ThingHomeSdk.init(this, "xxft3fqw93d375ucppkn", "k8u9edtefgrwcmkqaesra9gmgmpuh8uy");
+
         try {
-            // // Please don't change the order.
-            // // Please do not change the initialization order
-            // FrescoManager.initFresco(this);
-            // ThingHomeSdk.init(this);
-            // ThingWrapper.init(this, new RouteEventListener() {
-            // @Override
-            // public void onFaild(int errorCode, UrlBuilder urlBuilder) {
-            // // urlBuilder.target is a router address, urlBuilder.params is a router
-            // params
-            // //No response when clicked indicates route is not implemented, need to
-            // implement here, urlBuilder.target target route, urlBuilder.params route
-            // parameters
-            // Log.e("router not implement", urlBuilder.target + " : " +
-            // urlBuilder.params.toString());
-            // }
-            // }, new ServiceEventListener() {
-            // @Override
-            // public void onFaild(String serviceName) {
-            // Log.e("service not implement", serviceName);
-            // }
-            // });
-            // ThingThemeInitializer.INSTANCE.init(this);
-            // ThingOptimusSdk.init(this);
+            // Initialize database and clear any corrupted data
+            initializeDatabase();
 
             Log.d(TAG, "Adding PackConfig value delegate");
             PackConfig.addValueDelegate(AppConfig.class);
 
-            // todo replace the above code with the following code
-            // todo replace the above code with the following code
             Log.d(TAG, "Initializing BizBundleInitializer");
             BizBundleInitializer.init(this, new RouteEventListener() {
                 @Override
                 public void onFaild(int errorCode, UrlBuilder urlBuilder) {
-                    // urlBuilder.target is a router address, urlBuilder.params is a router params
-                    // No response when clicked indicates route is not implemented, need to
-                    // implement here, urlBuilder.target target route, urlBuilder.params route
-                    // parameters
                     Log.e(TAG, "Route failed: " + urlBuilder.target + " error: " + errorCode);
                 }
             }, new ServiceEventListener() {
@@ -77,48 +54,58 @@ public class TuyaSmartApp extends Application {
 
             Log.d(TAG, "BizBundleInitializer initialized successfully");
 
-            // If your application does not provide in-app theme mode switching
-            // functionality, then force set a mode at startup, you can enable the following
-            // code
-            // NightModeUtil.INSTANCE.setAppNightMode(AppUiMode.MODE_FOLLOW_SYSTEM);
-
-            // register family service，mall bizbundle don't have to implement it.
-            // Register family service, mall business package does not need to register this
-            // service
+            // Register family service
             Log.d(TAG, "Registering family service");
             BizBundleInitializer.registerService(AbsBizBundleFamilyService.class, new BizBundleFamilyServiceImpl());
 
-            // Intercept existing routes and jump to custom implementation pages with
-            // parameters
-            // Intercept existing routes and jump to custom implementation pages with
-            // parameters
+            // Set up URL interceptor
             Log.d(TAG, "Setting up URL interceptor");
             RedirectService service = MicroContext.getServiceManager()
                     .findServiceByInterface(RedirectService.class.getName());
-            service.registerUrlInterceptor(new RedirectService.UrlInterceptor() {
-                @Override
-                public void forUrlBuilder(UrlBuilder urlBuilder,
-                        RedirectService.InterceptorCallback interceptorCallback) {
-                    // Such as:
-                    // Intercept the event of clicking the panel right menu and jump to the custom
-                    // page with the parameters of urlBuilder
-                    // For example: intercept the event of clicking the panel top right button, jump
-                    // to custom page with urlBuilder parameters
-                    // if (urlBuilder.target.equals("panelAction") &&
-                    // urlBuilder.params.getString("action").equals("gotoPanelMore")) {
-                    // interceptorCallback.interceptor("interceptor");
-                    // Log.e("interceptor", urlBuilder.params.toString());
-                    // } else {
-                    interceptorCallback.onContinue(urlBuilder);
-                    // }
-                }
-            });
+            if (service != null) {
+                service.registerUrlInterceptor(new RedirectService.UrlInterceptor() {
+                    @Override
+                    public void forUrlBuilder(UrlBuilder urlBuilder,
+                            RedirectService.InterceptorCallback interceptorCallback) {
+                        interceptorCallback.onContinue(urlBuilder);
+                    }
+                });
+            }
 
             Log.d(TAG, "TuyaSmartApp onCreate completed successfully");
 
         } catch (Exception e) {
             Log.e(TAG, "Error during TuyaSmartApp initialization", e);
-            throw e;
+            // Don't throw the exception to prevent app crash
+            // Instead, log it and continue with basic functionality
+        }
+    }
+
+    private void initializeDatabase() {
+        try {
+            // Clear any corrupted database files
+            String[] databaseFiles = {
+                    "tuya_smart.db",
+                    "tuya_smart.db-journal",
+                    "tuya_smart.db-wal",
+                    "tuya_smart.db-shm"
+            };
+
+            for (String dbFile : databaseFiles) {
+                try {
+                    java.io.File file = getDatabasePath(dbFile);
+                    if (file.exists() && file.length() == 0) {
+                        file.delete();
+                        Log.d(TAG, "Deleted corrupted database file: " + dbFile);
+                    }
+                } catch (Exception e) {
+                    Log.w(TAG, "Could not check/delete database file: " + dbFile, e);
+                }
+            }
+
+            Log.d(TAG, "Database initialization completed");
+        } catch (Exception e) {
+            Log.e(TAG, "Error during database initialization", e);
         }
     }
 

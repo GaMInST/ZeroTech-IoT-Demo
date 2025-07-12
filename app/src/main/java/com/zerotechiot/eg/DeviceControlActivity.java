@@ -1,302 +1,302 @@
 package com.zerotechiot.eg;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.slider.Slider;
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.zerotechiot.eg.ui.models.DeviceModel;
-import com.zerotechiot.eg.utils.NotificationHelper;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.Chip;
+import com.thingclips.smart.api.MicroContext;
+import com.thingclips.smart.api.service.MicroServiceManager;
+import com.thingclips.smart.bizbundle.initializer.BizBundleInitializer;
+import com.thingclips.smart.commonbiz.bizbundle.family.api.AbsBizBundleFamilyService;
+import com.thingclips.smart.control.PluginControlService;
+import com.thingclips.smart.control.plug.api.IPluginControlService;
+import com.thingclips.smart.home.sdk.ThingHomeSdk;
+import com.thingclips.smart.home.sdk.bean.HomeBean;
+import com.thingclips.smart.sdk.bean.DeviceBean;
+import com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback;
+import com.thingclips.smart.panelcaller.api.AbsPanelCallerService;
+import com.zerotechiot.eg.services.DeviceControlService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceControlActivity extends AppCompatActivity {
-
-    private DeviceModel device;
-    private TextView deviceName;
-    private TextView deviceStatusText;
-    private TextView brightnessValue;
-    private TextView colorTempValue;
-    private SwitchMaterial powerSwitch;
-    private Slider brightnessSlider;
-    private Slider colorTempSlider;
-    private MaterialButton actionReading;
-    private MaterialButton actionRelax;
-    private MaterialButton actionFocus;
-    private MaterialButton actionNight;
-    private View deviceStatusCard;
-    private View primaryControlCard;
-    private View brightnessControlCard;
-    private View colorTempControlCard;
-    private View quickActionsCard;
-
-    // Animation flags
-    private boolean isSliderDragging = false;
-    private boolean isPowerChanging = false;
+    private static final String TAG = "DeviceControlActivity";
+    
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private DeviceAdapter adapter;
+    private DeviceControlService deviceControlService;
+    private AbsPanelCallerService panelCallerService;
+    private AbsBizBundleFamilyService familyService;
+    
+    private List<DeviceBean> deviceList = new ArrayList<>();
+    private long currentHomeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_control);
-
-        // Get device data from intent
-        String deviceId = getIntent().getStringExtra("device_id");
-        String deviceNameStr = getIntent().getStringExtra("device_name");
-        String deviceType = getIntent().getStringExtra("device_type");
-
-        // Provide default values if extras are null
-        if (deviceId == null)
-            deviceId = "demo_device";
-        if (deviceNameStr == null)
-            deviceNameStr = "Demo Device";
-        if (deviceType == null)
-            deviceType = "light"; // Default to light type
-
-        // Create sample device for demo
-        device = new DeviceModel(deviceId, deviceNameStr, deviceType, "Living Room", "1");
-        device.setOnline(true);
-        device.setOn(true);
-        device.setBrightness(80);
-        device.setTemperature(2700);
-
-        initializeViews();
-        setupClickListeners();
-        updateUI();
-        animateCardsIn();
+        
+        initializeServices();
+        setupViews();
+        loadDevices();
     }
 
-    private void initializeViews() {
+    private void initializeServices() {
+        try {
+            // Initialize device control service
+            deviceControlService = new DeviceControlService(this);
+            
+            // Initialize panel caller service
+            BizBundleInitializer.registerService(IPluginControlService.class, new PluginControlService());
+            panelCallerService = MicroContext.getServiceManager()
+                    .findServiceByInterface(AbsPanelCallerService.class.getName());
+            
+            // Get family service
+            familyService = MicroServiceManager.getInstance()
+                    .findServiceByInterface(AbsBizBundleFamilyService.class.getName());
+                    
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to initialize services", e);
+        }
+    }
+
+    private void setupViews() {
         // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Device Control");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Initialize views
-        deviceName = findViewById(R.id.device_name);
-        deviceStatusText = findViewById(R.id.device_status_text);
-        brightnessValue = findViewById(R.id.brightness_value);
-        colorTempValue = findViewById(R.id.color_temp_value);
-        powerSwitch = findViewById(R.id.power_switch);
-        brightnessSlider = findViewById(R.id.brightness_slider);
-        colorTempSlider = findViewById(R.id.color_temp_slider);
-        actionReading = findViewById(R.id.action_reading);
-        actionRelax = findViewById(R.id.action_relax);
-        actionFocus = findViewById(R.id.action_focus);
-        actionNight = findViewById(R.id.action_night);
+        // Setup swipe refresh
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        );
+        swipeRefreshLayout.setOnRefreshListener(this::loadDevices);
 
-        // Get card views for animations
-        deviceStatusCard = findViewById(R.id.device_status_card);
-        primaryControlCard = findViewById(R.id.primary_control_card);
-        brightnessControlCard = findViewById(R.id.brightness_control_card);
-        colorTempControlCard = findViewById(R.id.color_temp_control_card);
-        quickActionsCard = findViewById(R.id.quick_actions_card);
+        // Setup recycler view
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DeviceAdapter();
+        recyclerView.setAdapter(adapter);
     }
 
-    private void setupClickListeners() {
-        // Power switch with animation
-        powerSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isPowerChanging) {
-                isPowerChanging = true;
-                animatePowerSwitch(isChecked);
-                device.setOn(isChecked);
-                updateUI();
+    private void loadDevices() {
+        if (familyService == null) {
+            Toast.makeText(this, "Family service not available", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            return;
+        }
 
-                // Show notification only when action is completed
-                NotificationHelper.showDeviceStateChanged(this, device.getName(), isChecked);
+        currentHomeId = familyService.getCurrentHomeId();
+        if (currentHomeId == 0) {
+            Toast.makeText(this, "No home selected", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            return;
+        }
 
-                // Reset flag after animation
-                powerSwitch.postDelayed(() -> isPowerChanging = false, 300);
-            }
-        });
-
-        // Brightness slider with smart notifications
-        brightnessSlider.addOnChangeListener((slider, value, fromUser) -> {
-            if (fromUser) {
-                device.setBrightness((int) value);
-                updateUI();
-
-                // Only show notification when user stops dragging
-                if (!isSliderDragging) {
-                    NotificationHelper.showSliderValueChanged(this, "Brightness", (int) value);
+        // Get home details and devices
+        ThingHomeSdk.newHomeInstance(currentHomeId).getHomeDetail(new IThingHomeResultCallback() {
+            @Override
+            public void onSuccess(HomeBean homeBean) {
+                if (homeBean != null && homeBean.getDeviceList() != null) {
+                    deviceList.clear();
+                    deviceList.addAll(homeBean.getDeviceList());
+                    
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                        
+                        if (deviceList.isEmpty()) {
+                            Toast.makeText(DeviceControlActivity.this, 
+                                "No devices found. Add devices to your home first.", 
+                                Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(DeviceControlActivity.this, 
+                                "Found " + deviceList.size() + " devices", 
+                                Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(DeviceControlActivity.this, 
+                            "No devices found in this home", Toast.LENGTH_SHORT).show();
+                    });
                 }
             }
-        });
-
-        brightnessSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(Slider slider) {
-                isSliderDragging = true;
-            }
 
             @Override
-            public void onStopTrackingTouch(Slider slider) {
-                isSliderDragging = false;
-                // Show notification when user stops dragging
-                NotificationHelper.showSliderValueChanged(DeviceControlActivity.this, "Brightness",
-                        (int) slider.getValue());
+            public void onError(String code, String error) {
+                Log.e(TAG, "Failed to load devices: " + code + " - " + error);
+                runOnUiThread(() -> {
+                    swipeRefreshLayout.setRefreshing(false);
+                    Toast.makeText(DeviceControlActivity.this, 
+                        "Failed to load devices: " + error, Toast.LENGTH_SHORT).show();
+                });
             }
         });
+    }
 
-        // Color temperature slider with smart notifications
-        colorTempSlider.addOnChangeListener((slider, value, fromUser) -> {
-            if (fromUser) {
-                device.setTemperature((int) value);
-                updateUI();
+    private class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder> {
 
-                // Only show notification when user stops dragging
-                if (!isSliderDragging) {
-                    NotificationHelper.showSliderValueChanged(this, "Color temperature", (int) value);
+        @NonNull
+        @Override
+        public DeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_device_control, parent, false);
+            return new DeviceViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
+            DeviceBean device = deviceList.get(position);
+            holder.bind(device);
+        }
+
+        @Override
+        public int getItemCount() {
+            return deviceList.size();
+        }
+
+        class DeviceViewHolder extends RecyclerView.ViewHolder {
+            private MaterialCardView cardView;
+            private ImageView deviceIcon;
+            private TextView deviceName;
+            private TextView deviceStatus;
+            private Chip deviceType;
+            private Chip onlineStatus;
+
+            public DeviceViewHolder(@NonNull View itemView) {
+                super(itemView);
+                cardView = itemView.findViewById(R.id.deviceCard);
+                deviceIcon = itemView.findViewById(R.id.deviceIcon);
+                deviceName = itemView.findViewById(R.id.deviceName);
+                deviceStatus = itemView.findViewById(R.id.deviceStatus);
+                deviceType = itemView.findViewById(R.id.deviceType);
+                onlineStatus = itemView.findViewById(R.id.onlineStatus);
+            }
+
+            public void bind(DeviceBean device) {
+                // Set device name
+                deviceName.setText(device.getName());
+                
+                // Set device status
+                if (device.getIsOnline()) {
+                    deviceStatus.setText("Online");
+                    deviceStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                    onlineStatus.setText("Online");
+                    onlineStatus.setChipBackgroundColorResource(android.R.color.holo_green_light);
+                } else {
+                    deviceStatus.setText("Offline");
+                    deviceStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                    onlineStatus.setText("Offline");
+                    onlineStatus.setChipBackgroundColorResource(android.R.color.holo_red_light);
                 }
+
+                // Set device type
+                String deviceTypeText = getDeviceTypeName(device.getProductId());
+                deviceType.setText(deviceTypeText);
+
+                // Set device icon based on type
+                int iconRes = getDeviceIcon(device.getProductId());
+                deviceIcon.setImageResource(iconRes);
+
+                // Set click listener to launch device control panel
+                cardView.setOnClickListener(v -> {
+                    if (device.getIsOnline()) {
+                        launchDeviceControl(device.getDevId());
+                    } else {
+                        Toast.makeText(DeviceControlActivity.this, 
+                            "Device is offline", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        });
 
-        colorTempSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
-            @Override
-            public void onStartTrackingTouch(Slider slider) {
-                isSliderDragging = true;
+            private String getDeviceTypeName(String productId) {
+                if (productId == null) return "Unknown";
+                
+                String lowerProductId = productId.toLowerCase();
+                if (lowerProductId.contains("light") || lowerProductId.contains("bulb")) {
+                    return "Light";
+                } else if (lowerProductId.contains("switch") || lowerProductId.contains("outlet")) {
+                    return "Switch";
+                } else if (lowerProductId.contains("lock")) {
+                    return "Lock";
+                } else if (lowerProductId.contains("camera") || lowerProductId.contains("ipc")) {
+                    return "Camera";
+                } else if (lowerProductId.contains("sensor")) {
+                    return "Sensor";
+                } else if (lowerProductId.contains("thermostat")) {
+                    return "Thermostat";
+                } else if (lowerProductId.contains("curtain")) {
+                    return "Curtain";
+                } else if (lowerProductId.contains("fan")) {
+                    return "Fan";
+                } else if (lowerProductId.contains("vacuum") || lowerProductId.contains("sweeper")) {
+                    return "Vacuum";
+                }
+                
+                return "Device";
             }
 
-            @Override
-            public void onStopTrackingTouch(Slider slider) {
-                isSliderDragging = false;
-                // Show notification when user stops dragging
-                NotificationHelper.showSliderValueChanged(DeviceControlActivity.this, "Color temperature",
-                        (int) slider.getValue());
+            private int getDeviceIcon(String productId) {
+                if (productId == null) return R.drawable.ic_device;
+                
+                String lowerProductId = productId.toLowerCase();
+                if (lowerProductId.contains("light") || lowerProductId.contains("bulb")) {
+                    return R.drawable.ic_light;
+                } else if (lowerProductId.contains("switch") || lowerProductId.contains("outlet")) {
+                    return R.drawable.ic_device;
+                } else if (lowerProductId.contains("lock")) {
+                    return R.drawable.ic_security;
+                } else if (lowerProductId.contains("camera") || lowerProductId.contains("ipc")) {
+                    return R.drawable.ic_device;
+                } else if (lowerProductId.contains("sensor")) {
+                    return R.drawable.ic_device;
+                } else if (lowerProductId.contains("thermostat")) {
+                    return R.drawable.ic_device;
+                } else if (lowerProductId.contains("curtain")) {
+                    return R.drawable.ic_device;
+                } else if (lowerProductId.contains("fan")) {
+                    return R.drawable.ic_device;
+                } else if (lowerProductId.contains("vacuum") || lowerProductId.contains("sweeper")) {
+                    return R.drawable.ic_device;
+                }
+                
+                return R.drawable.ic_device;
             }
-        });
-
-        // Quick action buttons with animations
-        actionReading.setOnClickListener(v -> {
-            animateButtonClick(v);
-            device.setBrightness(100);
-            device.setTemperature(4000);
-            updateUI();
-            NotificationHelper.showModeActivated(this, "Reading");
-        });
-
-        actionRelax.setOnClickListener(v -> {
-            animateButtonClick(v);
-            device.setBrightness(60);
-            device.setTemperature(2700);
-            updateUI();
-            NotificationHelper.showModeActivated(this, "Relax");
-        });
-
-        actionFocus.setOnClickListener(v -> {
-            animateButtonClick(v);
-            device.setBrightness(90);
-            device.setTemperature(5000);
-            updateUI();
-            NotificationHelper.showModeActivated(this, "Focus");
-        });
-
-        actionNight.setOnClickListener(v -> {
-            animateButtonClick(v);
-            device.setBrightness(20);
-            device.setTemperature(2200);
-            updateUI();
-            NotificationHelper.showModeActivated(this, "Night");
-        });
-    }
-
-    private void updateUI() {
-        // Update device name
-        deviceName.setText(device.getName());
-
-        // Update status text
-        deviceStatusText.setText(device.getStatusText() + " • " + device.getRoomName());
-
-        // Update power switch
-        powerSwitch.setChecked(device.isOn());
-
-        // Update brightness slider and value
-        brightnessSlider.setValue(device.getBrightness());
-        brightnessValue.setText(device.getBrightness() + "%");
-
-        // Update color temperature slider and value
-        colorTempSlider.setValue(device.getTemperature());
-        colorTempValue.setText(device.getTemperature() + "K");
-
-        // Enable/disable controls based on power state
-        boolean isOn = device.isOn();
-        brightnessSlider.setEnabled(isOn);
-        colorTempSlider.setEnabled(isOn);
-        actionReading.setEnabled(isOn);
-        actionRelax.setEnabled(isOn);
-        actionFocus.setEnabled(isOn);
-        actionNight.setEnabled(isOn);
-
-        // Animate state changes
-        animateControlStates(isOn);
-    }
-
-    private void animateCardsIn() {
-        // Animate cards sliding up with staggered timing
-        View[] cards = { deviceStatusCard, primaryControlCard, brightnessControlCard, colorTempControlCard,
-                quickActionsCard };
-
-        for (int i = 0; i < cards.length; i++) {
-            View card = cards[i];
-            card.setAlpha(0f);
-            card.setTranslationY(100f);
-
-            card.animate()
-                    .alpha(1f)
-                    .translationY(0f)
-                    .setDuration(400)
-                    .setStartDelay(i * 100)
-                    .setInterpolator(AnimationUtils.loadInterpolator(this, android.R.interpolator.decelerate_quint))
-                    .start();
         }
     }
 
-    private void animatePowerSwitch(boolean isOn) {
-        // Animate the power switch with scale and color changes
-        AnimatorSet animatorSet = new AnimatorSet();
-
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(powerSwitch, "scaleX", 1.0f, 1.2f, 1.0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(powerSwitch, "scaleY", 1.0f, 1.2f, 1.0f);
-
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(300);
-        animatorSet.start();
-    }
-
-    private void animateButtonClick(View button) {
-        // Animate button press with scale
-        AnimatorSet animatorSet = new AnimatorSet();
-
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(button, "scaleX", 1.0f, 0.95f, 1.0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(button, "scaleY", 1.0f, 0.95f, 1.0f);
-
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(150);
-        animatorSet.start();
-    }
-
-    private void animateControlStates(boolean isOn) {
-        // Animate control states with alpha and scale
-        View[] controls = { brightnessSlider, colorTempSlider, actionReading, actionRelax, actionFocus, actionNight };
-
-        for (View control : controls) {
-            float targetAlpha = isOn ? 1.0f : 0.5f;
-            float targetScale = isOn ? 1.0f : 0.95f;
-
-            control.animate()
-                    .alpha(targetAlpha)
-                    .scaleX(targetScale)
-                    .scaleY(targetScale)
-                    .setDuration(200)
-                    .start();
+    private void launchDeviceControl(String deviceId) {
+        if (panelCallerService != null) {
+            Log.d(TAG, "Launching device control panel for device: " + deviceId);
+            panelCallerService.goPanelWithCheckAndTip(this, deviceId);
+        } else {
+            Toast.makeText(this, "Device control panel not available", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -304,5 +304,11 @@ public class DeviceControlActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Device control service cleanup is handled automatically
     }
 }

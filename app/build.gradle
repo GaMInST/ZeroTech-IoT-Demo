@@ -30,14 +30,22 @@ android {
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     packagingOptions {
-        pickFirst 'lib/*/liblog.so'
-        pickFirst 'lib/*/libc++_shared.so'
-        pickFirst 'lib/*/libyuv.so'
-        pickFirst 'lib/*/libopenh264.so'
-        pickFirst 'lib/*/libv8wrapper.so'
-        pickFirst 'lib/*/libv8android.so'
+        jniLibs {
+            pickFirsts += ['lib/*/liblog.so', 'lib/*/libc++_shared.so', 'lib/*/libyuv.so', 'lib/*/libopenh264.so', 'lib/*/libv8wrapper.so', 'lib/*/libv8android.so']
+        }
+        resources {
+            excludes += ['AndroidManifest.xml']
+        }
+    }
+
+    signingConfigs {
+        custom {
+            storeFile file("C:/ZeroTech Github demo/tuya-ui-bizbundle-android-demo/sha 256.jks")
+            storePassword "abdo_Iot808"
+            keyAlias "key0"
+            keyPassword "abdo_Iot808"
+        }
     }
 
     buildTypes {
@@ -45,10 +53,12 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.custom
         }
         debug {
             minifyEnabled false
             debuggable true
+            signingConfig signingConfigs.custom
         }
     }
 
@@ -56,17 +66,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    
-    packagingOptions {
-        exclude 'AndroidManifest.xml'
-    }
-    
-    lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
-        disable 'InvalidPackage'
-        disable 'MissingTranslation'
-    }
+
 
     // Optimized dex options for better memory management
     dexOptions {
@@ -77,11 +77,6 @@ android {
     }
 
     // Reduce memory usage during build
-    aaptOptions {
-        cruncherEnabled = false
-        noCompress "tflite"
-        noCompress "lite"
-    }
 
     // Optimize build performance
     buildFeatures {
@@ -89,8 +84,22 @@ android {
         viewBinding false
         dataBinding false
     }
+    androidResources {
+        noCompress 'lite'
+    }
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+        disable 'InvalidPackage', 'MissingTranslation'
+    }
 }
 
+repositories {
+    google()
+    mavenCentral()
+    // Add Tuya's Maven repository for SDK dependencies
+    maven { url 'https://maven-other.tuya.com/repository/maven-commercial-releases/' }
+}
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar","*.aar"])
@@ -138,9 +147,22 @@ dependencies {
     // Test dependencies removed for production
     annotationProcessor "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
+
+    // Tuya Smart Life SDK core
+    // implementation 'com.tuya.smart:thingsmart:4.5.0'
+    // Device control (IThingDevice, ThingDeviceSdk, etc.)
+    // implementation 'com.tuya.smart:thingpanel:4.5.0'
+    // Scene management (SceneBean, etc.)
+    // implementation 'com.tuya.smart:thingscene:4.5.0'
+    // Only keep valid Tuya dependencies:
+    implementation "com.thingclips.smart:thingsmart-theme-open:2.0.6"
+    implementation "com.thingclips.smart:thingsmart-commonbiz-relation-api:4.5.0-rc.1"
+    api "com.thingclips.smart:thingsmart:${sdk_version}"
+    implementation 'com.thingclips.smart:thingsmart-demo-login:4.5.2'
 }
 
 apply plugin: 'com.thingclips.open.theme'
+
 thingOpenTheme {
     // 浅色模式配置
     lightTheme {
@@ -190,8 +212,4 @@ thingOpenTheme {
             alertMaskAlpha 0.8
         }
     }
-}
-
-ext {
-    applicationId = "com.zerotechiot.eg"
 }

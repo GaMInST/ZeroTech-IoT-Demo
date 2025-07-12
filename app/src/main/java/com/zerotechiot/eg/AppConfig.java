@@ -36,3 +36,5 @@ public class AppConfig {
     public static final boolean is_scan_support = true;
 
 }
+
+

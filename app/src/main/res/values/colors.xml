@@ -1,53 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
+    <!-- Primary Colors - Enhanced for better visibility -->
     <color name="primary_deep_blue">#0A1929</color>
     <color name="primary_cyan">#00D4FF</color>
     <color name="primary_slate">#1E293B</color>
+    <color name="primary_blue_bright">#0088FF</color>
     
-    <!-- Accent Colors -->
+    <!-- Accent Colors - More vibrant and theme-appropriate -->
     <color name="accent_neon_green">#39FF14</color>
     <color name="accent_soft_white">#F8FAFC</color>
+    <color name="accent_orange">#FF6B35</color>
+    <color name="accent_purple">#8B5CF6</color>
+    <color name="accent_pink">#EC4899</color>
+    <color name="accent_teal">#00D4FF</color>
+    <color name="accent_indigo">#6366F1</color>
     
-    <!-- Background Colors -->
+    <!-- Background Colors - Enhanced contrast -->
     <color name="background_gradient_start">#0A1929</color>
     <color name="background_gradient_end">#1E293B</color>
-    <color name="background_card">#1A1A1A</color>
+    <color name="background_card">#FFFFFF</color>
     <color name="background_overlay">#80000000</color>
+    <color name="background_card_enhanced">#F8FAFC</color>
     
-    <!-- Status Colors -->
-    <color name="success_green">#39FF14</color>
+    <!-- Status Colors - More vibrant and clear -->
+    <color name="success_green">#00FF88</color>
     <color name="error_red">#FF4444</color>
     <color name="warning_orange">#FF8C00</color>
     <color name="info_blue">#00D4FF</color>
+    <color name="success_green_dark">#00CC66</color>
+    <color name="error_red_dark">#CC3333</color>
     
-    <!-- Text Colors -->
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B3FFFFFF</color>
-    <color name="text_tertiary">#80FFFFFF</color>
-    <color name="text_disabled">#64748B</color>
-    <color name="text_inverse">#1A1A1A</color>
+    <!-- Text Colors - Enhanced contrast and readability -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_tertiary">#999999</color>
+    <color name="text_disabled">#CCCCCC</color>
+    <color name="text_inverse">#FFFFFF</color>
+    <color name="text_highlight">#00D4FF</color>
+    <color name="text_success">#00FF88</color>
+    <color name="text_warning">#FF8C00</color>
+    <color name="text_error">#FF4444</color>
     
-    <!-- Glassmorphism Colors -->
-    <color name="glass_primary">#80FFFFFF</color>
-    <color name="glass_secondary">#40FFFFFF</color>
+    <!-- Glassmorphism Colors - Enhanced transparency -->
+    <color name="glass_primary">#90FFFFFF</color>
+    <color name="glass_secondary">#60FFFFFF</color>
     <color name="glass_border">#00D4FF</color>
+    <color name="glass_card">#40FFFFFF</color>
+    <color name="glass_overlay">#20FFFFFF</color>
     
-    <!-- Device Status Colors -->
-    <color name="device_online">#39FF14</color>
-    <color name="device_offline">#64748B</color>
+    <!-- Device Status Colors - More vibrant and clear -->
+    <color name="device_online">#00FF88</color>
+    <color name="device_offline">#808080</color>
     <color name="device_error">#FF4444</color>
     <color name="device_warning">#FF8C00</color>
+    <color name="device_active">#00D4FF</color>
+    <color name="device_inactive">#666666</color>
     
-    <!-- Interactive Colors -->
+    <!-- Interactive Colors - Enhanced for better UX -->
     <color name="button_primary">#00D4FF</color>
-    <color name="button_secondary">#1E293B</color>
-    <color name="button_disabled">#64748B</color>
-    <color name="ripple_color">#40FFFFFF</color>
+    <color name="button_primary_pressed">#00B8E6</color>
+    <color name="button_secondary">#F8FAFC</color>
+    <color name="button_secondary_pressed">#E2E8F0</color>
+    <color name="button_disabled">#CCCCCC</color>
+    <color name="ripple_color">#40000000</color>
+    <color name="ripple_primary">#4000D4FF</color>
+    
+    <!-- Card Colors - Enhanced for better visibility -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="card_border">#E2E8F0</color>
+    <color name="card_shadow">#20000000</color>
+    <color name="card_highlight">#4000D4FF</color>
+    
+    <!-- Chip Colors - Enhanced for better visibility -->
+    <color name="chip_background_selected">#00D4FF</color>
+    <color name="chip_background_unselected">#F1F5F9</color>
+    <color name="chip_text_selected">#FFFFFF</color>
+    <color name="chip_text_unselected">#1A1A1A</color>
+    
+    <!-- Navigation Colors - Enhanced for better UX -->
+    <color name="nav_selected">#00D4FF</color>
+    <color name="nav_unselected">#808080</color>
+    <color name="nav_background">#FFFFFF</color>
+    
+    <!-- Progress Colors - Enhanced for better visibility -->
+    <color name="progress_background">#E2E8F0</color>
+    <color name="progress_primary">#00D4FF</color>
+    <color name="progress_success">#00FF88</color>
+    <color name="progress_warning">#FF8C00</color>
+    <color name="progress_error">#FF4444</color>
+    
+    <!-- Notification Colors - Enhanced for better UX -->
+    <color name="notification_success">#00D4FF</color>
+    <color name="notification_error">#FF4444</color>
+    <color name="notification_warning">#FF8C00</color>
+    <color name="notification_info">#0088FF</color>
+    <color name="notification_text">#FFFFFF</color>
+    <color name="notification_background">#1A1A1A</color>
     
     <!-- Legacy Colors (for compatibility) -->
     <color name="colorPrimary">@color/primary_deep_blue</color>
     <color name="colorPrimaryDark">@color/primary_deep_blue</color>
     <color name="colorAccent">@color/accent_neon_green</color>
-    <color name="textColorPrimary">@color/thing_theme_color_b1_n1</color>
+    <color name="textColorPrimary">@color/text_primary</color>
+    
+    <!-- Additional Colors for Better Visibility -->
+    <color name="status_bg_color_75">#75FFFFFF</color>
+    <color name="status_bg_color_90">#90FFFFFF</color>
+    
+    <!-- Header Colors - White text for better contrast -->
+    <color name="header_text_primary">#FFFFFF</color>
+    <color name="header_text_secondary">#E2E8F0</color>
+    
+    <!-- Modern IoT Theme Colors -->
+    <color name="iot_primary">#00D4FF</color>
+    <color name="iot_secondary">#8B5CF6</color>
+    <color name="iot_accent">#39FF14</color>
+    <color name="iot_background">#0A1929</color>
+    <color name="iot_surface">#1E293B</color>
+    <color name="iot_text">#FFFFFF</color>
+    <color name="iot_text_secondary">#94A3B8</color>
 </resources>

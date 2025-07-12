@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Night Mode Primary Colors - Enhanced for better visibility -->
+    <color name="primary_deep_blue">#0A1929</color>
+    <color name="primary_cyan">#00D4FF</color>
+    <color name="primary_slate">#1E293B</color>
+    <color name="primary_blue_bright">#0088FF</color>
+    
+    <!-- Night Mode Accent Colors - More vibrant for dark backgrounds -->
+    <color name="accent_neon_green">#39FF14</color>
+    <color name="accent_soft_white">#F8FAFC</color>
+    <color name="accent_orange">#FF6B35</color>
+    <color name="accent_purple">#8B5CF6</color>
+    <color name="accent_pink">#EC4899</color>
+    
+    <!-- Night Mode Background Colors - Enhanced contrast -->
+    <color name="background_gradient_start">#0A1929</color>
+    <color name="background_gradient_end">#1E293B</color>
+    <color name="background_card">#1A1A1A</color>
+    <color name="background_overlay">#80000000</color>
+    <color name="background_card_enhanced">#2A2A2A</color>
+    
+    <!-- Night Mode Status Colors - More vibrant and clear -->
+    <color name="success_green">#00FF88</color>
+    <color name="error_red">#FF4444</color>
+    <color name="warning_orange">#FF8C00</color>
+    <color name="info_blue">#00D4FF</color>
+    <color name="success_green_dark">#00CC66</color>
+    <color name="error_red_dark">#CC3333</color>
+    
+    <!-- Night Mode Text Colors - Enhanced contrast and readability -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#E0E0E0</color>
+    <color name="text_tertiary">#B0B0B0</color>
+    <color name="text_disabled">#808080</color>
+    <color name="text_inverse">#1A1A1A</color>
+    <color name="text_highlight">#00D4FF</color>
+    <color name="text_success">#00FF88</color>
+    <color name="text_warning">#FF8C00</color>
+    <color name="text_error">#FF4444</color>
+    
+    <!-- Night Mode Glassmorphism Colors - Enhanced transparency -->
+    <color name="glass_primary">#90FFFFFF</color>
+    <color name="glass_secondary">#60FFFFFF</color>
+    <color name="glass_border">#00D4FF</color>
+    <color name="glass_card">#40FFFFFF</color>
+    <color name="glass_overlay">#20FFFFFF</color>
+    
+    <!-- Night Mode Device Status Colors - More vibrant and clear -->
+    <color name="device_online">#00FF88</color>
+    <color name="device_offline">#808080</color>
+    <color name="device_error">#FF4444</color>
+    <color name="device_warning">#FF8C00</color>
+    <color name="device_active">#00D4FF</color>
+    <color name="device_inactive">#666666</color>
+    
+    <!-- Night Mode Interactive Colors - Enhanced for better UX -->
+    <color name="button_primary">#00D4FF</color>
+    <color name="button_primary_pressed">#00B8E6</color>
+    <color name="button_secondary">#2A2A2A</color>
+    <color name="button_secondary_pressed">#404040</color>
+    <color name="button_disabled">#666666</color>
+    <color name="ripple_color">#40FFFFFF</color>
+    <color name="ripple_primary">#4000D4FF</color>
+    
+    <!-- Night Mode Card Colors - Enhanced for better visibility -->
+    <color name="card_background">#2A2A2A</color>
+    <color name="card_border">#404040</color>
+    <color name="card_shadow">#20000000</color>
+    <color name="card_highlight">#40FFFFFF</color>
+    
+    <!-- Night Mode Chip Colors - Enhanced for better visibility -->
+    <color name="chip_background_selected">#00D4FF</color>
+    <color name="chip_background_unselected">#60FFFFFF</color>
+    <color name="chip_text_selected">#1A1A1A</color>
+    <color name="chip_text_unselected">#FFFFFF</color>
+    
+    <!-- Night Mode Navigation Colors - Enhanced for better UX -->
+    <color name="nav_selected">#00D4FF</color>
+    <color name="nav_unselected">#808080</color>
+    <color name="nav_background">#1A1A1A</color>
+    
+    <!-- Night Mode Progress Colors - Enhanced for better visibility -->
+    <color name="progress_background">#404040</color>
+    <color name="progress_primary">#00D4FF</color>
+    <color name="progress_success">#00FF88</color>
+    <color name="progress_warning">#FF8C00</color>
+    <color name="progress_error">#FF4444</color>
+    
+    <!-- Night Mode Notification Colors - Enhanced for better UX -->
+    <color name="notification_success">#00D4FF</color>
+    <color name="notification_error">#FF4444</color>
+    <color name="notification_warning">#FF8C00</color>
+    <color name="notification_info">#0088FF</color>
+    <color name="notification_text">#FFFFFF</color>
+    <color name="notification_background">#2A2A2A</color>
+    
+    <!-- Night Mode Legacy Colors (for compatibility) -->
+    <color name="colorPrimary">@color/primary_deep_blue</color>
+    <color name="colorPrimaryDark">@color/primary_deep_blue</color>
+    <color name="colorAccent">@color/accent_neon_green</color>
+    <color name="textColorPrimary">@color/text_primary</color>
+    
+    <!-- Night Mode Tuya Theme Colors - Enhanced for dark mode -->
+    <color name="thing_theme_color_b1">#0A1929</color>
+    <color name="thing_theme_color_b1_n1">#FFFFFF</color>
+    <color name="thing_theme_color_b2">#1E293B</color>
+    <color name="thing_theme_color_b2_n5">#E0E0E0</color>
+    <color name="thing_theme_color_b6">#2A2A2A</color>
+    <color name="thing_theme_color_b6_n1">#FFFFFF</color>
+    <color name="thing_theme_color_b6_n2">#E0E0E0</color>
+    <color name="thing_theme_color_b6_n7">#404040</color>
+    <color name="thing_theme_color_b6_2_n1">#B0B0B0</color>
+    <color name="thing_theme_color_m1">#00D4FF</color>
+    <color name="thing_theme_color_m1_n1">#FFFFFF</color>
+    <color name="thing_theme_color_m1_2">#00B8E6</color>
+
+    <!-- Night Mode Status Colors -->
+    <color name="status_bg_color">@color/thing_theme_color_b2</color>
+    <color name="list_primary_color">@color/thing_theme_color_b6_n1</color>
+    <color name="list_sub_color">@color/thing_theme_color_b6_n2</color>
+    <color name="primary_button_select_color">@color/thing_theme_color_m1_2</color>
+    <color name="list_bg_color">@color/thing_theme_color_b6</color>
+    <color name="list_line_color">@color/thing_theme_color_b6_n7</color>
+    <color name="navbar_font_color">@color/thing_theme_color_b2_n5</color>
+    <color name="primary_button_font_color">@color/thing_theme_color_m1_n1</color>
+    <color name="list_secondary_color">@color/thing_theme_color_b6_2_n1</color>
+    <color name="app_bg_color">@color/thing_theme_color_b1</color>
+    <color name="primary_button_bg_color">@color/thing_theme_color_m1</color>
+    <color name="secondary_button_font_color">@color/thing_theme_color_m1</color>
+    <color name="status_font_color">@color/thing_theme_color_b2_n5</color>
+    <color name="notice_bg_color">#2A2A2A</color>
+    <color name="secondary_button_bg_color">#404040</color>
+    <color name="navbar_bg_color">#1A1A1A</color>
+    <color name="notice_font_color">#FF6B35</color>
+    <color name="secondary_button_select_color">#4000D4FF</color>
+    <color name="home_index_bg_start_color">#00D4FF</color>
+    
+    <!-- Night Mode Additional Colors for Better Visibility -->
+    <color name="status_bg_color_75">#75FFFFFF</color>
+    <color name="status_bg_color_90">#90FFFFFF</color>
+</resources> 
+ 
+ 
+ 

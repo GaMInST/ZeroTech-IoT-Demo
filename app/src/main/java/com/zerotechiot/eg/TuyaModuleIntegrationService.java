@@ -58,7 +58,7 @@ public class TuyaModuleIntegrationService {
      */
     public void launchDeviceManagement() {
         try {
-            Intent intent = new Intent(context, HomeActivity.class);
+            Intent intent = new Intent(context, MultiControlActivity.class);
             context.startActivity(intent);
         } catch (Exception e) {
             NotificationHelper.showSmartNotification(context, "Device management feature not available");

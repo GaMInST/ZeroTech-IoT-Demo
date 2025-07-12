@@ -89,6 +89,8 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
 
+
+
         <activity-alias
             android:name="com.tuya.smart.hometab.activity.shortcut"
             android:exported="true"

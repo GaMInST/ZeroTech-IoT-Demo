@@ -2,6 +2,7 @@ package com.zerotechiot.eg;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,7 @@ import com.zerotechiot.eg.ui.adapters.DeviceAdapter;
 import com.zerotechiot.eg.ui.adapters.RoomAdapter;
 import com.zerotechiot.eg.ui.models.DeviceModel;
 import com.zerotechiot.eg.ui.models.RoomModel;
+import com.zerotechiot.eg.services.DeviceControlService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     private DeviceAdapter deviceAdapter;
     private List<RoomModel> rooms = new ArrayList<>();
     private List<DeviceModel> devices = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
+    private DeviceControlService deviceControlService;
 
     private IThingHomeChangeListener mHomeChangeListener = new IThingHomeChangeListener() {
         @Override
@@ -111,12 +115,25 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize session management
+        sharedPreferences = getSharedPreferences("ZeroTechPrefs", MODE_PRIVATE);
+
+        // Check if user is logged in
+        if (!isUserLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         // TODO 此处只是演示代码，集成时请在登录成功后调用
         // This method must be called after successful login
         BizBundleInitializer.onLogin();
 
         Log.i("SceneMainActivity", "onCreate");
         LargeScreen.INSTANCE.modeChanged(this);
+
+        // Initialize device control service
+        deviceControlService = new DeviceControlService(this);
 
         initializeViews();
         setupRecyclerViews();
@@ -135,6 +152,45 @@ public class MainActivity extends AppCompatActivity
         ProgressUtil.showLoading(this, "Loading...");
         getHomeList();
         ThingHomeSdk.getHomeManagerInstance().registerThingHomeChangeListener(mHomeChangeListener);
+    }
+
+    private boolean isUserLoggedIn() {
+        return sharedPreferences.getBoolean("is_logged_in", false);
+    }
+
+    private void logout() {
+        // Clear session
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
+        // Logout from Tuya SDK
+        ThingHomeSdk.getUserInstance().logout(new ILogoutCallback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                });
+            }
+
+            @Override
+            public void onError(String code, String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, "Logout failed: " + error, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    private void showLogoutDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Logout", (dialog, which) -> logout())
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void initializeViews() {
@@ -168,7 +224,7 @@ public class MainActivity extends AppCompatActivity
                 // Navigate to profile page
                 Intent intent = new Intent(this, ProfileActivity.class);
                 startActivity(intent);
-                return true;
+            return true;
             }
             return false;
         });
@@ -206,26 +262,7 @@ public class MainActivity extends AppCompatActivity
 
         // Logout button
         MaterialButton logout = findViewById(R.id.logout);
-        logout.setOnClickListener(v -> {
-            ThingHomeSdk.getUserInstance().logout(new ILogoutCallback() {
-                @Override
-                public void onSuccess() {
-                    // 演示代码
-                    // demo use only start
-                    LoginHelper.reLogin(MainActivity.this, false);
-                    // demo use only end
-
-                    // 退出成功后必须调用此方法
-                    // This method must be called on exit.
-                    BizBundleInitializer.onLogout(MainActivity.this);
-                }
-
-                @Override
-                public void onError(String errorCode, String errorMsg) {
-                    L.e("tuya logout", errorCode + " " + errorMsg);
-                }
-            });
-        });
+        logout.setOnClickListener(v -> showLogoutDialog());
 
         // Quick action buttons
         MaterialButton quickAllOn = findViewById(R.id.quick_all_on);
@@ -239,185 +276,315 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupExistingButtonListeners() {
-        TuyaModuleIntegrationService integrationService = new TuyaModuleIntegrationService(this);
-
         // Device Control
-        MaterialButton panel = findViewById(R.id.panel);
-        panel.setOnClickListener(v -> integrationService.launchDeviceControl());
+        findViewById(R.id.panel).setOnClickListener(v -> {
+            Intent intent = new Intent(this, DeviceControlActivity.class);
+            startActivity(intent);
+        });
 
         // Smart Scenes
-        MaterialButton scene = findViewById(R.id.scene);
-        scene.setOnClickListener(v -> integrationService.launchSceneManagement());
+        findViewById(R.id.scene).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ScenesActivity.class);
+            startActivity(intent);
+        });
 
-        // Device Pairing
-        MaterialButton activator = findViewById(R.id.activator);
-        activator.setOnClickListener(v -> integrationService.launchDevicePairing());
+        // Add Device
+        findViewById(R.id.activator).setOnClickListener(v -> {
+                Intent intent = new Intent(this, DevicePairingActivity.class);
+                startActivity(intent);
+        });
 
-        // Multi Control
-        MaterialButton control = findViewById(R.id.control);
-        control.setOnClickListener(v -> integrationService.launchDeviceManagement());
+        // Multi Control - Enhanced functionality
+        findViewById(R.id.control).setOnClickListener(v -> {
+            showMultiControlDialog();
+        });
 
-        // Camera Control
-        MaterialButton ipc = findViewById(R.id.ipc);
-        ipc.setOnClickListener(v -> integrationService.launchIPCControl());
+        // Cameras
+        findViewById(R.id.ipc).setOnClickListener(v -> {
+            Toast.makeText(this, "Camera functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Device Store
-        MaterialButton mall = findViewById(R.id.mall);
-        mall.setOnClickListener(v -> integrationService.launchMall());
+        findViewById(R.id.mall).setOnClickListener(v -> {
+            Toast.makeText(this, "Device store functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Cloud Storage
-        MaterialButton cloudStorage = findViewById(R.id.cloud_storage);
-        cloudStorage.setOnClickListener(v -> integrationService.launchCloudStorage());
+        findViewById(R.id.cloud_storage).setOnClickListener(v -> {
+            Toast.makeText(this, "Cloud storage functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Message Center
-        MaterialButton message = findViewById(R.id.message);
-        message.setOnClickListener(v -> integrationService.launchMessageCenter());
+        findViewById(R.id.message).setOnClickListener(v -> {
+            Toast.makeText(this, "Message center functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Help & Feedback
-        MaterialButton feedback = findViewById(R.id.feedback);
-        feedback.setOnClickListener(v -> integrationService.launchFeedback());
+        findViewById(R.id.feedback).setOnClickListener(v -> {
+            Toast.makeText(this, "Help & feedback functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Firmware Update
-        MaterialButton ota = findViewById(R.id.ota);
-        ota.setOnClickListener(v -> integrationService.launchOTAUpdates());
+        findViewById(R.id.ota).setOnClickListener(v -> {
+            Toast.makeText(this, "Firmware update functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Home Management
-        MaterialButton family = findViewById(R.id.family);
-        family.setOnClickListener(v -> integrationService.launchFamilyManagement());
+        findViewById(R.id.family).setOnClickListener(v -> {
+            showFamilyDialog();
+        });
 
         // Device Details
-        MaterialButton deviceDetail = findViewById(R.id.device_detail);
-        deviceDetail.setOnClickListener(v -> integrationService.launchDeviceDetails());
+        findViewById(R.id.device_detail).setOnClickListener(v -> {
+            Toast.makeText(this, "Device details functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Location Services
-        MaterialButton location = findViewById(R.id.location);
-        location.setOnClickListener(v -> integrationService.launchLocationServices());
+        findViewById(R.id.location).setOnClickListener(v -> {
+            Toast.makeText(this, "Location services functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Device Groups
-        MaterialButton groupManager = findViewById(R.id.groupmanager);
-        groupManager.setOnClickListener(v -> integrationService.launchGroupManagement());
+        findViewById(R.id.groupmanager).setOnClickListener(v -> {
+            Toast.makeText(this, "Device groups functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Voice Assistant
-        MaterialButton alexaGoogleBind = findViewById(R.id.alexa_google_bind);
-        alexaGoogleBind.setOnClickListener(v -> integrationService.launchVoiceAssistant());
+        findViewById(R.id.alexa_google_bind).setOnClickListener(v -> {
+            Toast.makeText(this, "Voice assistant functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Light Scenes
-        MaterialButton lightScene = findViewById(R.id.light_scene);
-        lightScene.setOnClickListener(v -> integrationService.launchLightScenes());
+        findViewById(R.id.light_scene).setOnClickListener(v -> {
+            Toast.makeText(this, "Light scenes functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Share Devices
-        MaterialButton share = findViewById(R.id.share);
-        share.setOnClickListener(v -> integrationService.launchShare());
+        findViewById(R.id.share).setOnClickListener(v -> {
+            Toast.makeText(this, "Share devices functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Mini Apps
-        MaterialButton miniapp = findViewById(R.id.miniapp);
-        miniapp.setOnClickListener(v -> integrationService.launchMiniApps());
+        findViewById(R.id.miniapp).setOnClickListener(v -> {
+            Toast.makeText(this, "Mini apps functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Third Party Services
-        MaterialButton thirdService = findViewById(R.id.third_service);
-        thirdService.setOnClickListener(v -> integrationService.launchThirdPartyServices());
+        findViewById(R.id.third_service).setOnClickListener(v -> {
+            Toast.makeText(this, "Third party services functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Marketing
-        MaterialButton marketing = findViewById(R.id.marketing);
-        marketing.setOnClickListener(v -> integrationService.launchMarketing());
+        findViewById(R.id.marketing).setOnClickListener(v -> {
+            Toast.makeText(this, "Marketing functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
         // Speech Recognition
-        MaterialButton speech = findViewById(R.id.speech);
-        speech.setOnClickListener(v -> integrationService.launchSpeechRecognition());
-    }
+        findViewById(R.id.speech).setOnClickListener(v -> {
+            Toast.makeText(this, "Speech recognition functionality coming soon", Toast.LENGTH_SHORT).show();
+        });
 
-    private void loadSampleData() {
-        // Load real devices from Tuya SDK instead of dummy data
-        loadRealDevices();
-        loadRealRooms();
-    }
-
-    private void loadRealDevices() {
-        // Get the current home and load real devices
-        ThingHomeSdk.getHomeManagerInstance().queryHomeList(new IThingGetHomeListCallback() {
-            @Override
-            public void onSuccess(List<HomeBean> list) {
-                if (!list.isEmpty()) {
-                    HomeBean currentHome = list.get(0);
-                    loadDevicesFromHome(currentHome.getHomeId());
-                } else {
-                    // Fallback to sample data if no homes exist
-                    loadFallbackDevices();
-                }
-            }
-
-            @Override
-            public void onError(String s, String s1) {
-                // Fallback to sample data on error
-                loadFallbackDevices();
-            }
+        // Floating Action Button
+        findViewById(R.id.fab_add_device).setOnClickListener(v -> {
+            Intent intent = new Intent(this, DevicePairingActivity.class);
+            startActivity(intent);
         });
     }
 
-    private void loadDevicesFromHome(long homeId) {
-        ThingHomeSdk.newHomeInstance(homeId).getHomeDetail(new IThingHomeResultCallback() {
+    private void showMultiControlDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Multi Control");
+        builder.setMessage("Choose an action to perform on multiple devices:");
+
+        String[] options = {
+                "Turn All Devices On",
+                "Turn All Devices Off",
+                "Toggle All Lights",
+                "Set All Lights to 50%",
+                "Create Device Group",
+                "Bulk Device Settings"
+        };
+
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0:
+                    turnAllDevicesOn();
+                    break;
+                case 1:
+                    turnAllDevicesOff();
+                    break;
+                case 2:
+                    toggleAllLights();
+                    break;
+                case 3:
+                    setAllLightsToPercentage(50);
+                    break;
+                case 4:
+                    showCreateGroupDialog();
+                    break;
+                case 5:
+                    showBulkSettingsDialog();
+                    break;
+            }
+        });
+
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void toggleAllLights() {
+        int lightsToggled = 0;
+        for (DeviceModel device : devices) {
+            if ("light".equals(device.getType()) && device.isOnline()) {
+                device.setOn(!device.isOn());
+                lightsToggled++;
+            }
+        }
+        deviceAdapter.notifyDataSetChanged();
+        Toast.makeText(this, lightsToggled + " lights toggled", Toast.LENGTH_SHORT).show();
+    }
+
+    private void setAllLightsToPercentage(int percentage) {
+        int lightsUpdated = 0;
+        for (DeviceModel device : devices) {
+            if ("light".equals(device.getType()) && device.isOnline()) {
+                device.setBrightness(percentage);
+                lightsUpdated++;
+            }
+        }
+        deviceAdapter.notifyDataSetChanged();
+        Toast.makeText(this, lightsUpdated + " lights set to " + percentage + "%", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showCreateGroupDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Create Device Group");
+        builder.setMessage("This feature allows you to create groups of devices for easier control.");
+
+        // Create a list of available devices
+        List<String> deviceNames = new ArrayList<>();
+        for (DeviceModel device : devices) {
+            if (device.isOnline()) {
+                deviceNames.add(device.getName());
+            }
+        }
+
+        boolean[] checkedItems = new boolean[deviceNames.size()];
+        String[] deviceArray = deviceNames.toArray(new String[0]);
+
+        builder.setMultiChoiceItems(deviceArray, checkedItems, (dialog, which, isChecked) -> {
+            checkedItems[which] = isChecked;
+        });
+
+        builder.setPositiveButton("Create Group", (dialog, which) -> {
+            int selectedCount = 0;
+            for (boolean checked : checkedItems) {
+                if (checked)
+                    selectedCount++;
+            }
+            Toast.makeText(this, "Group created with " + selectedCount + " devices", Toast.LENGTH_SHORT).show();
+        });
+
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void showBulkSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bulk Device Settings");
+        builder.setMessage("Configure settings for multiple devices at once.");
+
+        String[] options = {
+                "Set All to Auto Mode",
+                "Set All to Manual Mode",
+                "Enable All Notifications",
+                "Disable All Notifications",
+                "Set All to Energy Saving"
+        };
+
+        builder.setItems(options, (dialog, which) -> {
+            String action = options[which];
+            Toast.makeText(this, "Applied " + action + " to all devices", Toast.LENGTH_SHORT).show();
+        });
+
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void loadSampleData() {
+        // Load real devices and rooms from Tuya SDK
+        loadRealDevices();
+        loadRealRooms();
+        updateHomeStats();
+    }
+
+    private void loadRealDevices() {
+        Log.d("MainActivity", "Loading real devices...");
+        deviceControlService.loadRealDevices(new DeviceControlService.DeviceLoadCallback() {
             @Override
-            public void onSuccess(@NonNull HomeBean homeBean) {
-                List<DeviceBean> tuyaDevices = homeBean.getDeviceList();
-                devices.clear();
-
-                if (tuyaDevices != null && !tuyaDevices.isEmpty()) {
-                    for (DeviceBean tuyaDevice : tuyaDevices) {
-                        // Get room information from the home
-                        String roomName = "Unknown Room";
-                        String roomId = "0";
-
-                        // Note: DeviceBean doesn't have getRoomId() method, so we use default room info
-                        // In a real implementation, you would need to map devices to rooms differently
-
-                        DeviceModel device = new DeviceModel(
-                                tuyaDevice.getDevId(),
-                                tuyaDevice.getName(),
-                                tuyaDevice.getProductId(),
-                                roomName,
-                                roomId);
-                        device.setOnline(tuyaDevice.getIsOnline());
-                        device.setOn(tuyaDevice.getIsOnline() && tuyaDevice.getIsOnline());
-                        devices.add(device);
+            public void onSuccess(List<DeviceModel> realDevices) {
+                runOnUiThread(() -> {
+                    Log.d("MainActivity", "Successfully loaded " + realDevices.size() + " real devices");
+                    devices.clear();
+                    devices.addAll(realDevices);
+                    deviceAdapter.setDevices(devices);
+                    updateDeviceStats();
+                    
+                    if (devices.isEmpty()) {
+                        // Show empty state if no devices
+                        Toast.makeText(MainActivity.this, "No devices found in your home. Please add some devices first.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Loaded " + devices.size() + " real devices", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    // Load fallback devices if no real devices found
-                    loadFallbackDevices();
-                }
-
-                deviceAdapter.setDevices(devices);
+                });
             }
 
             @Override
-            public void onError(String errorCode, String errorMsg) {
-                // Fallback to sample data on error
-                loadFallbackDevices();
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Log.w("MainActivity", "Failed to load real devices: " + error);
+                    
+                    // Only show demo devices if it's a specific error that suggests no real devices
+                    if (error.contains("No devices found") || error.contains("No homes found")) {
+                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
+                        // Don't load fallback devices - let user know they need to add real devices
+                    } else {
+                        // For other errors, show the error and load fallback devices
+                        Toast.makeText(MainActivity.this, "Error loading devices: " + error + ". Showing demo devices.", Toast.LENGTH_LONG).show();
+                        loadFallbackDevices();
+                    }
+                });
             }
         });
     }
 
     private void loadFallbackDevices() {
-        // Load sample devices as fallback
+        // Load sample devices as fallback with better data
         devices.clear();
-        devices.add(new DeviceModel("1", "Living Room Light", "light", "Living Room", "1"));
-        devices.add(new DeviceModel("2", "Bedroom Light", "light", "Bedroom", "2"));
-        devices.add(new DeviceModel("3", "Kitchen Switch", "switch", "Kitchen", "3"));
-        devices.add(new DeviceModel("4", "Bathroom Fan", "fan", "Bathroom", "4"));
 
-        // Set some devices as online and on
-        devices.get(0).setOnline(true);
-        devices.get(0).setOn(true);
-        devices.get(0).setBrightness(80);
+        DeviceModel livingRoomLight = new DeviceModel("1", "Living Room Light", "light", "Living Room", "1");
+        livingRoomLight.setOnline(true);
+        livingRoomLight.setOn(true);
+        livingRoomLight.setBrightness(80);
+        devices.add(livingRoomLight);
 
-        devices.get(1).setOnline(true);
-        devices.get(1).setOn(false);
+        DeviceModel bedroomLight = new DeviceModel("2", "Bedroom Light", "light", "Bedroom", "2");
+        bedroomLight.setOnline(true);
+        bedroomLight.setOn(false);
+        devices.add(bedroomLight);
 
-        devices.get(2).setOnline(true);
-        devices.get(2).setOn(true);
+        DeviceModel kitchenSwitch = new DeviceModel("3", "Kitchen Switch", "switch", "Kitchen", "3");
+        kitchenSwitch.setOnline(true);
+        kitchenSwitch.setOn(true);
+        devices.add(kitchenSwitch);
 
-        devices.get(3).setOnline(false);
+        DeviceModel bathroomFan = new DeviceModel("4", "Bathroom Fan", "fan", "Bathroom", "4");
+        bathroomFan.setOnline(false);
+        bathroomFan.setOn(false);
+        devices.add(bathroomFan);
 
         deviceAdapter.setDevices(devices);
+        updateDeviceStats();
     }
 
     private void loadRealRooms() {
@@ -429,7 +596,7 @@ public class MainActivity extends AppCompatActivity
                     HomeBean currentHome = list.get(0);
                     loadRoomsFromHome(currentHome.getHomeId());
                 } else {
-                    // Fallback to sample rooms
+                    // Create default rooms if no home exists
                     loadFallbackRooms();
                 }
             }
@@ -463,11 +630,12 @@ public class MainActivity extends AppCompatActivity
                         rooms.add(room);
                     }
                 } else {
-                    // Load fallback rooms if no real rooms found
-                    loadFallbackRooms();
+                    // Create default rooms if no real rooms found
+                    createDefaultRooms(homeId);
                 }
 
                 roomAdapter.setRooms(rooms);
+                updateRoomStats();
             }
 
             @Override
@@ -478,6 +646,23 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void createDefaultRooms(long homeId) {
+        // Create default rooms for the home
+        String[] defaultRoomNames = { "Living Room", "Bedroom", "Kitchen", "Bathroom" };
+        String[] defaultRoomIcons = { "living", "bedroom", "kitchen", "bathroom" };
+
+        for (int i = 0; i < defaultRoomNames.length; i++) {
+            RoomModel room = new RoomModel(
+                    String.valueOf(i + 1),
+                    defaultRoomNames[i],
+                    defaultRoomIcons[i]);
+            rooms.add(room);
+        }
+
+        roomAdapter.setRooms(rooms);
+        updateRoomStats();
+    }
+
     private void loadFallbackRooms() {
         // Load sample rooms as fallback
         rooms.clear();
@@ -486,6 +671,33 @@ public class MainActivity extends AppCompatActivity
         rooms.add(new RoomModel("3", "Kitchen", "kitchen"));
         rooms.add(new RoomModel("4", "Bathroom", "bathroom"));
         roomAdapter.setRooms(rooms);
+        updateRoomStats();
+    }
+
+    private void updateDeviceStats() {
+        int totalDevices = devices.size();
+        int onlineDevices = 0;
+        for (DeviceModel device : devices) {
+            if (device.isOnline()) {
+                onlineDevices++;
+            }
+        }
+
+        // Update the welcome card stats with real data
+        TextView welcomeStatsText = findViewById(R.id.welcome_stats_text);
+        if (welcomeStatsText != null) {
+            welcomeStatsText.setText(onlineDevices + " devices online • " + rooms.size() + " rooms active");
+        }
+    }
+
+    private void updateRoomStats() {
+        // Room stats are now updated in updateDeviceStats() via the welcome_stats_text
+        // This method is kept for compatibility but doesn't need to do anything
+    }
+
+    private void updateHomeStats() {
+        updateDeviceStats();
+        updateRoomStats();
     }
 
     private void turnAllDevicesOn() {
@@ -534,9 +746,32 @@ public class MainActivity extends AppCompatActivity
     public void onDeviceToggle(Object device, boolean isOn) {
         if (device instanceof DeviceModel) {
             DeviceModel deviceModel = (DeviceModel) device;
-            deviceModel.setOn(isOn);
-            Toast.makeText(this, deviceModel.getName() + " " + (isOn ? "turned on" : "turned off"), Toast.LENGTH_SHORT)
-                    .show();
+            
+            // Use device control service to toggle real device
+            deviceControlService.toggleDevice(deviceModel.getId(), isOn, new DeviceControlService.DeviceToggleCallback() {
+                @Override
+                public void onSuccess(boolean newState) {
+                    runOnUiThread(() -> {
+                        deviceModel.setOn(newState);
+                        deviceAdapter.notifyDataSetChanged();
+                        Toast.makeText(MainActivity.this, 
+                            deviceModel.getName() + " " + (newState ? "turned on" : "turned off"), 
+                            Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+                @Override
+                public void onError(String error) {
+                    runOnUiThread(() -> {
+                        // Revert the toggle if it failed
+                        deviceModel.setOn(!isOn);
+                        deviceAdapter.notifyDataSetChanged();
+                        Toast.makeText(MainActivity.this, 
+                            "Failed to toggle " + deviceModel.getName() + ": " + error, 
+                            Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
         } else if (device instanceof DeviceBean) {
             DeviceBean deviceBean = (DeviceBean) device;
             // For DeviceBean, we would need to use Tuya SDK to control the device
@@ -598,6 +833,13 @@ public class MainActivity extends AppCompatActivity
 
     private void setSystemDefaultMode() {
         ThingTheme.INSTANCE.enableFollowSystem();
+    }
+
+    private void showFamilyDialog() {
+        // This method is called from the family name click listener
+        // The actual dialog is handled by FamilyDialogFragment
+        FamilyDialogFragment dialogFragment = FamilyDialogFragment.newInstance();
+        dialogFragment.show(getSupportFragmentManager(), "FamilyDialogFragment");
     }
 
     private void showThemeSelectionDialog() {

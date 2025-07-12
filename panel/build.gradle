@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.thingclips.smart.bizbundle.panel.demo'
     compileSdk 33
 
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

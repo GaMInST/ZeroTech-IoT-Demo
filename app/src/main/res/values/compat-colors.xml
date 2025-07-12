@@ -8,9 +8,8 @@
     <string name="google_maps_key"></string>
     <string name="amapKey"></string>
 
-    <bool name="is_support_google_iap">false</bool>>
-    <bool name="use_device_detail_mini_program">false</bool>>
-
+    <bool name="is_support_google_iap">false</bool>
+    <bool name="use_device_detail_mini_program">false</bool>
 
     <!-- Google authorization binding -->
     <string name="google_flip_client_id"></string>
@@ -21,7 +20,7 @@
 
     <string name="wxAppKey"></string>
 
-    <!-- Missing Tuya theme colors - adding to prevent crashes -->
+    <!-- Enhanced Tuya theme colors for better visibility -->
     <color name="thing_theme_color_b1">#FFFFFF</color>
     <color name="thing_theme_color_b1_n1">#FFFFFF</color>
     <color name="thing_theme_color_b2">#F5F5F5</color>
@@ -35,6 +34,7 @@
     <color name="thing_theme_color_m1_n1">#FFFFFF</color>
     <color name="thing_theme_color_m1_2">#00B8E6</color>
 
+    <!-- Enhanced status colors -->
     <color name="status_bg_color">@color/thing_theme_color_b2</color>
     <color name="list_primary_color">@color/thing_theme_color_b6_n1</color>
     <color name="list_sub_color">@color/thing_theme_color_b6_n2</color>
@@ -48,10 +48,14 @@
     <color name="primary_button_bg_color">@color/thing_theme_color_m1</color>
     <color name="secondary_button_font_color">@color/thing_theme_color_m1</color>
     <color name="status_font_color">@color/thing_theme_color_b2_n5</color>
-    <color name="notice_bg_color">#FFF8D8</color>
+    <!-- Changed from yellow to modern IoT theme colors -->
+    <color name="notice_bg_color">#E8F4FD</color>
     <color name="secondary_button_bg_color">#FFFFFF</color>
     <color name="navbar_bg_color">#303030</color>
-    <color name="notice_font_color">#FF5A28</color>
-    <color name="secondary_button_select_color">#1affffff</color>
-    <color name="home_index_bg_start_color">#FF5A28</color>
+    <!-- Changed from yellow/orange to modern IoT theme colors -->
+    <color name="notice_font_color">#00D4FF</color>
+    <color name="secondary_button_select_color">#1A00D4FF</color>
+    <!-- Changed from yellow to modern IoT theme colors -->
+    <color name="home_index_bg_start_color">#00D4FF</color>
+
 </resources>

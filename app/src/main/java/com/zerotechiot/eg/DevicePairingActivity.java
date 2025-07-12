@@ -89,3 +89,5 @@ public class DevicePairingActivity extends AppCompatActivity {
         return true;
     }
 }
+
+
