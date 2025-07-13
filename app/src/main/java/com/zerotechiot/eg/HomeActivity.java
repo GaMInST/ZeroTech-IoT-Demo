@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements DeviceAdapter.OnD
                 return true;
             } else if (itemId == R.id.nav_scenes) {
                 // Navigate to scenes
-                Intent intent = new Intent(this, ScenesActivity.class);
+                Intent intent = new Intent(this, com.thingclips.smart.bizbundle.scene.demo.SceneActivity.class);
                 startActivity(intent);
                 return true;
             } else if (itemId == R.id.nav_automation) {

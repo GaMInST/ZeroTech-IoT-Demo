@@ -64,7 +64,7 @@ public class DeviceControlService {
      * Load real devices from Tuya SDK
      */
     public void loadRealDevices(DeviceLoadCallback callback) {
-        Log.d(TAG, "Starting to load real devices...");
+        Log.d(TAG, "Starting to load real devices from Tuya account...");
         
         // First check if we have a family service and current home
         if (familyService == null) {

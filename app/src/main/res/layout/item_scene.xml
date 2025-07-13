@@ -6,9 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
     app:cardBackgroundColor="@android:color/white">
@@ -39,7 +36,7 @@
 
             <!-- Scene Name -->
             <TextView
-                android:id="@+id/sceneName"
+                android:id="@+id/tv_scene_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Scene Name"
@@ -51,7 +48,7 @@
 
             <!-- Scene Description -->
             <TextView
-                android:id="@+id/sceneDescription"
+                android:id="@+id/tv_scene_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -61,35 +58,73 @@
                 android:maxLines="2"
                 android:ellipsize="end" />
 
+            <!-- Scene Type and Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tv_scene_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Smart Scene"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:background="@drawable/bg_chip"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_scene_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Active"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:background="@drawable/bg_chip_green"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Scene Type and Status Chips -->
+        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginStart="8dp">
 
-            <!-- Scene Type Chip -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/sceneType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Manual"
-                android:textSize="12sp"
-                app:chipBackgroundColor="@android:color/holo_blue_light"
-                app:chipMinHeight="24dp" />
+            <!-- Edit Button -->
+            <ImageView
+                android:id="@+id/btn_edit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_edit"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Edit Scene"
+                android:padding="4dp"
+                android:tint="?attr/colorPrimary" />
 
-            <!-- Scene Status Chip -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/sceneStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Active"
-                android:textSize="12sp"
-                app:chipBackgroundColor="@android:color/holo_green_light"
-                app:chipMinHeight="24dp" />
+            <!-- Delete Button -->
+            <ImageView
+                android:id="@+id/btn_delete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Delete Scene"
+                android:padding="4dp"
+                android:tint="@android:color/holo_red_dark" />
 
         </LinearLayout>
 

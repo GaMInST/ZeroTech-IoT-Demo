@@ -52,7 +52,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_control);
-        
+
         initializeServices();
         setupViews();
         loadDevices();
@@ -170,13 +170,13 @@ public class DeviceControlActivity extends AppCompatActivity {
             return new DeviceViewHolder(view);
         }
 
-        @Override
+            @Override
         public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
             DeviceBean device = deviceList.get(position);
             holder.bind(device);
-        }
+            }
 
-        @Override
+            @Override
         public int getItemCount() {
             return deviceList.size();
         }

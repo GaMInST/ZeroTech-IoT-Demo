@@ -1,31 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/bg_gradient"
+    tools:context=".DeviceActivatorActivity">
 
-    <Button
+    <!-- App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Open Scanner"
-        android:layout_marginTop="30dp"
-        android:onClick="actionScan"/>
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-    <Button
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@drawable/glassmorphic_card_bg"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="Add Device"
+            app:titleTextColor="@color/text_headline" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/start_device_active"
-        android:onClick="actionConfig"
-        />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <EditText
-        android:id="@+id/et_info"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:gravity="start"
-        android:layout_marginTop="50dp"
-        android:maxLines="10"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_medium">
 
-</LinearLayout>
+            <!-- Header Section -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card.Glassmorphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_24">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/spacing_16"
+                        android:src="@drawable/ic_add_device"
+                        android:contentDescription="Add Device"
+                        android:tint="@color/accent_neon_green" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="Add New Device"
+                        android:textColor="@color/text_headline"
+                        android:textSize="@dimen/text_title"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/spacing_8"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="Connect your smart devices to your home network"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_body"
+                        android:textAlignment="center"
+                        android:maxLines="3"
+                        android:ellipsize="end" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Buttons -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card.Glassmorphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_24">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_16"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Device Setup Options"
+                        android:textColor="@color/text_headline"
+                        android:textSize="@dimen/text_title_small" />
+
+                    <!-- QR Code Scanner Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_scan_qr"
+                        style="@style/Widget.App.Button.Enhanced"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="@dimen/spacing_12"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Scan QR Code"
+                        android:textColor="@color/text_inverse"
+                        android:textSize="@dimen/text_body"
+                        app:icon="@drawable/ic_qr_code"
+                        app:iconGravity="textStart"
+                        app:iconPadding="@dimen/spacing_8"
+                        app:iconTint="@color/text_inverse" />
+
+                    <!-- Manual Setup Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_manual_setup"
+                        style="@style/Widget.App.Button.Enhanced"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="@dimen/spacing_12"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Manual Setup"
+                        android:textColor="@color/text_inverse"
+                        android:textSize="@dimen/text_body"
+                        app:icon="@drawable/ic_settings"
+                        app:iconGravity="textStart"
+                        app:iconPadding="@dimen/spacing_8"
+                        app:iconTint="@color/text_inverse" />
+
+                    <!-- Quick Start Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_quick_start"
+                        style="@style/Widget.App.Button.Enhanced"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Quick Start Guide"
+                        android:textColor="@color/text_inverse"
+                        android:textSize="@dimen/text_body"
+                        app:icon="@drawable/ic_help"
+                        app:iconGravity="textStart"
+                        app:iconPadding="@dimen/spacing_8"
+                        app:iconTint="@color/text_inverse" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Status Information -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card.Glassmorphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_24">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_12"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Setup Status"
+                        android:textColor="@color/text_headline"
+                        android:textSize="@dimen/text_title_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="• Ensure your device is powered on"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="• Make sure you're connected to 2.4GHz WiFi"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="• Keep your phone close to the device"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_body_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="• Follow the on-screen instructions"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="@dimen/text_body_small" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Debug Information -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card.Glassmorphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_24">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_12"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Debug Information"
+                        android:textColor="@color/text_headline"
+                        android:textSize="@dimen/text_title_small" />
+
+                    <EditText
+                        android:id="@+id/et_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="@drawable/glassmorphic_input_bg"
+                        android:fontFamily="@font/inter_regular"
+                        android:gravity="top|start"
+                        android:hint="Device setup logs will appear here..."
+                        android:padding="@dimen/padding_medium"
+                        android:textColor="@color/text_primary"
+                        android:textColorHint="@color/text_tertiary"
+                        android:textSize="@dimen/text_body_small"
+                        android:scrollbars="vertical"
+                        android:maxLines="8"
+                        android:inputType="textMultiLine" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_help"
+        style="@style/Widget.App.FloatingActionButton"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="Help"
+        android:src="@drawable/ic_help" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -164,51 +164,50 @@ dependencies {
 apply plugin: 'com.thingclips.open.theme'
 
 thingOpenTheme {
-    // 浅色模式配置
+    // Light mode - Using dark theme colors to avoid yellow background
     lightTheme {
         color {
-            // 背景色
-            backgroundColor "#EBB759"
-            // 主题色
-            themeColor "#598DEB"
-            // 警告色
+            // Background color - Changed from yellow to dark
+            backgroundColor "#0A1929"
+            // Theme color - Modern IoT blue
+            themeColor "#00D4FF"
+            // Warning color
             warningColor "#FF4444"
-            // 提示色
+            // Tip color
             tipColor "#00CC99"
-            // 引导色
-            guideColor "#E819FA"
+            // Guide color
+            guideColor "#8B5CF6"
 
-
-            // tab选中背景色
-            tabBarSelectColor "#FF5A28"
-            // 导航栏背景色配置
-            navigationBarColor "#FFFFFF"
+            // Tab selected background color
+            tabBarSelectColor "#00D4FF"
+            // Navigation bar background color
+            navigationBarColor "#1E293B"
         }
         colorAlpha {
-            // 弹窗蒙层透明度
+            // Alert mask transparency
             alertMaskAlpha 0.3
         }
     }
-    // 深⾊模式配置
+    // Dark mode - Using consistent dark theme
     blackTheme {
         color{
-            // 背景⾊
+            // Background color - Dark theme
             backgroundColor "#000000"
-            // 主题⾊
-            themeColor "#FF5A28"
-            // 警告⾊
+            // Theme color - Modern IoT blue
+            themeColor "#00D4FF"
+            // Warning color
             warningColor "#FF4444"
-            // 提示⾊
+            // Tip color
             tipColor "#00CC99"
-            // 引导⾊
-            guideColor "#1989FA"
-            // tab选中背景⾊
-            tabBarSelectColor "#FF5A28"
-            // 导航栏背景⾊配置
+            // Guide color
+            guideColor "#8B5CF6"
+            // Tab selected background color
+            tabBarSelectColor "#00D4FF"
+            // Navigation bar background color
             navigationBarColor "#1A1A1A"
         }
         colorAlpha{
-            // 弹窗蒙层透明度ZA
+            // Alert mask transparency
             alertMaskAlpha 0.8
         }
     }

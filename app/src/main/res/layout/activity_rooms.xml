@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_bold"
                         android:text="Your Rooms"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/text_headline"
                         android:textSize="@dimen/text_headline" />
 
                     <TextView

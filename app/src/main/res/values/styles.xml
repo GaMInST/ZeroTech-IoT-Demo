@@ -211,7 +211,8 @@
         <item name="backgroundTint">@color/button_primary</item>
         <item name="tint">@color/text_inverse</item>
         <item name="android:elevation">@dimen/elevation_large</item>
-        <item name="rippleColor">@color/ripple_color</item>
+        <item name="rippleColor">@color/ripple_primary</item>
+        <item name="borderWidth">0dp</item>
     </style>
 
     <style name="Widget.App.ProgressBar" parent="Widget.MaterialComponents.CircularProgressIndicator">
@@ -268,5 +269,31 @@
     <style name="ShapeAppearance.App.Circle" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Enhanced UI/UX Feedback Styles -->
+    <style name="Widget.App.Card.Interactive" parent="Widget.App.Card.Glassmorphic">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">@drawable/ripple_effect</item>
+        <item name="android:elevation">@dimen/elevation_medium</item>
+        <item name="android:stateListAnimator">@animator/card_state_animator</item>
+    </style>
+
+    <style name="Widget.App.Button.Enhanced" parent="Widget.App.Button.Primary">
+        <item name="android:stateListAnimator">@animator/button_state_animator</item>
+        <item name="android:foreground">@drawable/ripple_effect</item>
+        <item name="android:elevation">@dimen/elevation_medium</item>
+    </style>
+
+    <!-- Animation Styles -->
+    <style name="Widget.App.Animation.FadeIn" parent="android:Animation">
+        <item name="android:duration">300</item>
+        <item name="android:interpolator">@android:interpolator/decelerate_quint</item>
+    </style>
+
+    <style name="Widget.App.Animation.SlideUp" parent="android:Animation">
+        <item name="android:duration">400</item>
+        <item name="android:interpolator">@android:interpolator/overshoot</item>
     </style>
 </resources>

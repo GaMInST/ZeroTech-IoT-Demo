@@ -18,84 +18,70 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/padding_medium">
+        android:padding="@dimen/padding_medium"
+        android:gravity="center">
 
-        <!-- Header with Status Indicator -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Device Icon -->
+        <ImageView
+            android:id="@+id/device_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="@dimen/spacing_8"
+            android:contentDescription="Device Icon"
+            android:src="@drawable/ic_device_default"
+            android:tint="@color/button_primary" />
+
+        <!-- Device Name -->
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/status_indicator"
-                style="@style/Widget.App.StatusIndicator.Online"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:layout_marginEnd="@dimen/spacing_4" />
-
-            <TextView
-                android:id="@+id/device_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/inter_semibold"
-                android:maxLines="2"
-                android:text="Smart Light"
-                android:textColor="@color/text_primary"
-                android:textSize="11sp"
-                tools:text="Smart Light" />
-
-            <ImageView
-                android:id="@+id/device_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="@dimen/spacing_4"
-                android:contentDescription="Device Icon"
-                android:src="@drawable/ic_device_default"
-                android:tint="@color/button_primary" />
-
-        </LinearLayout>
+            android:layout_marginBottom="@dimen/spacing_4"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter_semibold"
+            android:maxLines="2"
+            android:text="Smart Light"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body_small"
+            android:gravity="center"
+            android:textAlignment="center"
+            tools:text="Smart Light" />
 
         <!-- Device Status -->
         <TextView
             android:id="@+id/device_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_4"
+            android:layout_marginBottom="@dimen/spacing_4"
             android:fontFamily="@font/inter_regular"
-            android:text="On • 80% brightness"
+            android:text="Online • On"
             android:textColor="@color/text_secondary"
-            android:textSize="10sp"
+            android:textSize="@dimen/text_caption"
             android:maxLines="1"
             android:ellipsize="end"
-            tools:text="On • 80% brightness" />
+            android:gravity="center"
+            tools:text="Online • On" />
 
-        <!-- Quick Control Toggle -->
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/device_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/spacing_8"
-            android:checked="true"
-            app:thumbTint="@color/button_primary"
-            app:trackTint="@color/glass_secondary" />
+        <!-- Status Indicator -->
+        <View
+            android:id="@+id/status_indicator"
+            style="@style/Widget.App.StatusIndicator.Online"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginBottom="@dimen/spacing_4" />
 
         <!-- Room Name -->
         <TextView
             android:id="@+id/room_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/spacing_4"
             android:fontFamily="@font/inter_regular"
             android:text="Living Room"
-            android:textColor="@color/text_disabled"
-            android:textSize="9sp"
+            android:textColor="@color/text_tertiary"
+            android:textSize="@dimen/text_caption"
             android:maxLines="1"
             android:ellipsize="end"
+            android:gravity="center"
             tools:text="Living Room" />
 
     </LinearLayout>

@@ -23,7 +23,7 @@
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="Profile"
-            app:titleTextColor="@color/text_primary" />
+            app:titleTextColor="@color/text_headline" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -43,7 +43,7 @@
             <!-- Profile Header Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/profile_card"
-                style="@style/Widget.App.Card.Glassmorphic"
+                style="@style/Widget.App.Card.Interactive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_24">
@@ -84,7 +84,9 @@
                                 android:fontFamily="@font/inter_bold"
                                 android:text="John Doe"
                                 android:textColor="@color/text_primary"
-                                android:textSize="@dimen/text_title" />
+                                android:textSize="@dimen/text_title"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
 
                             <TextView
                                 android:id="@+id/user_email"
@@ -94,7 +96,9 @@
                                 android:fontFamily="@font/inter_regular"
                                 android:text="john.doe@example.com"
                                 android:textColor="@color/text_secondary"
-                                android:textSize="@dimen/text_body" />
+                                android:textSize="@dimen/text_body"
+                                android:maxLines="1"
+                                android:ellipsize="end" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -124,6 +128,120 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Account Statistics -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card.Glassmorphic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_24">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_16"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Account Overview"
+                        android:textColor="@color/text_headline"
+                        android:textSize="@dimen/text_title_small" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <!-- Devices Count -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_medium">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="12"
+                                android:textColor="@color/button_primary"
+                                android:textSize="@dimen/text_headline" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="Devices"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="@dimen/text_caption" />
+
+                        </LinearLayout>
+
+                        <!-- Rooms Count -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_medium">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="3"
+                                android:textColor="@color/iot_secondary"
+                                android:textSize="@dimen/text_headline" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="Rooms"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="@dimen/text_caption" />
+
+                        </LinearLayout>
+
+                        <!-- Scenes Count -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_medium">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_bold"
+                                android:text="5"
+                                android:textColor="@color/accent_neon_green"
+                                android:textSize="@dimen/text_headline" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="Scenes"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="@dimen/text_caption" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Quick Settings Card -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.Card.Glassmorphic"
@@ -143,7 +261,7 @@
                         android:layout_marginBottom="@dimen/spacing_20"
                         android:fontFamily="@font/inter_semibold"
                         android:text="Quick Settings"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/text_headline"
                         android:textSize="@dimen/text_title_small" />
 
                     <!-- Dark Mode Switch -->
@@ -193,6 +311,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_16"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -231,6 +350,48 @@
 
                     </LinearLayout>
 
+                    <!-- Auto Sync Switch -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Auto Sync"
+                                android:textColor="@color/text_primary"
+                                android:textSize="@dimen/text_body" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_2"
+                                android:fontFamily="@font/inter_regular"
+                                android:text="Sync devices automatically"
+                                android:textColor="@color/text_secondary"
+                                android:textSize="@dimen/text_caption" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/auto_sync_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="@color/button_primary"
+                            app:trackTint="@color/glass_secondary" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -248,5 +409,16 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit_profile"
+        style="@style/Widget.App.FloatingActionButton"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="Edit Profile"
+        android:src="@drawable/ic_edit" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout> 

@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.thingclips.smart.api.MicroContext;
 import com.thingclips.smart.commonbiz.bizbundle.family.api.AbsBizBundleFamilyService;
 import com.thingclips.smart.home.sdk.ThingHomeSdk;
@@ -22,34 +26,43 @@ import java.util.List;
 
 public class SceneActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private View mAddScene;
-    private View mEditScene;
-    private View mSetLocation;
+    private MaterialCardView mAddSceneCard;
+    private MaterialCardView mEditSceneCard;
+    private MaterialCardView mSetLocationCard;
+    private MaterialCardView mSetMapCard;
+    private ExtendedFloatingActionButton mFabCreateScene;
     private IThingSceneBusinessService iThingSceneBusinessService;
     private static final int ADD_SCENE_REQUEST_CODE = 1001;
     private static final int EDIT_SCENE_REQUEST_CODE = 1002;
-    private View mSetMap;
-    private View mSaveMapData;
     private AbsBizBundleFamilyService mServiceByInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene);
+        
+        // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar_main);
-        toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Smart Scenes");
+        }
 
-        mAddScene = findViewById(R.id.add_scene);
-        mSetLocation = findViewById(R.id.set_location);
-        mEditScene = findViewById(R.id.edit_scene);
-        mSetMap = findViewById(R.id.set_map);
-        mSaveMapData = findViewById(R.id.save_map_data);
+        // Initialize views
+        mAddSceneCard = findViewById(R.id.add_scene_card);
+        mEditSceneCard = findViewById(R.id.edit_scene_card);
+        mSetLocationCard = findViewById(R.id.set_location_card);
+        mSetMapCard = findViewById(R.id.set_map_card);
+        mFabCreateScene = findViewById(R.id.fab_create_scene);
 
-        mSetLocation.setOnClickListener(this);
-        mAddScene.setOnClickListener(this);
-        mEditScene.setOnClickListener(this);
-        mSetMap.setOnClickListener(this);
-        mSaveMapData.setOnClickListener(this);
+        // Set click listeners
+        mAddSceneCard.setOnClickListener(this);
+        mEditSceneCard.setOnClickListener(this);
+        mSetLocationCard.setOnClickListener(this);
+        mSetMapCard.setOnClickListener(this);
+        mFabCreateScene.setOnClickListener(this);
+
         // Get scene business service
         iThingSceneBusinessService = MicroContext.findServiceByInterface(IThingSceneBusinessService.class.getName());
         mServiceByInterface = MicroContext.getServiceManager()
@@ -59,16 +72,14 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.set_location) {
-            setLocation();
-        } else if (id == R.id.add_scene) {
+        if (id == R.id.add_scene_card || id == R.id.fab_create_scene) {
             addScene();
-        } else if (id == R.id.edit_scene) {
+        } else if (id == R.id.edit_scene_card) {
             editScene();
-        } else if (id == R.id.set_map) {
+        } else if (id == R.id.set_location_card) {
+            setLocation();
+        } else if (id == R.id.set_map_card) {
             setMapClass();
-        } else if (id == R.id.save_map_data) {
-            saveMapData();
         }
     }
 
@@ -85,6 +96,7 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
     private void editScene() {
 
         if (mServiceByInterface.getCurrentHomeId() == 0) {
+            ToastUtil.shortToast(this, "Please select a home first");
             return;
         }
 
@@ -99,12 +111,14 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
                                 iThingSceneBusinessService.editSceneBean(SceneActivity.this,
                                         mServiceByInterface.getCurrentHomeId(), sceneBean, EDIT_SCENE_REQUEST_CODE);
                             }
+                        } else {
+                            ToastUtil.shortToast(SceneActivity.this, "No scenes available to edit");
                         }
                     }
 
                     @Override
                     public void onError(String errorCode, String errorMessage) {
-
+                        ToastUtil.shortToast(SceneActivity.this, "Failed to load scenes: " + errorMessage);
                     }
                 });
     }
@@ -123,6 +137,8 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
         if (null != iThingSceneBusinessService && mServiceByInterface.getCurrentHomeId() != 0) {
             iThingSceneBusinessService.addSceneBean(this, mServiceByInterface.getCurrentHomeId(),
                     ADD_SCENE_REQUEST_CODE);
+        } else {
+            ToastUtil.shortToast(this, "Please select a home first");
         }
     }
 
@@ -134,6 +150,7 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
         double lat = 30.302782241301667;
         if (null != iThingSceneBusinessService) {
             iThingSceneBusinessService.setAppLocation(lng, lat);
+            ToastUtil.shortToast(this, "Location set successfully");
         }
     }
 
@@ -146,21 +163,7 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
         if (null != iThingSceneBusinessService) {
             // TODO business map Activity
             iThingSceneBusinessService.setMapActivity(GeneralMapActivity.class);
-        }
-    }
-
-    /**
-     * You can use the method to set location information after use custom map class
-     * impl
-     */
-    private void saveMapData() {
-        if (null != iThingSceneBusinessService) {
-            // TODO save map data
-            double lng = 120.06420814321443;
-            double lat = 30.302782241301667;
-            String city = "hangzhou";
-            String address = "address";
-            iThingSceneBusinessService.saveMapData(lng, lat, city, address);
+            ToastUtil.shortToast(this, "Map settings configured");
         }
     }
 
@@ -191,7 +194,7 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
     private void onEditSuc(Intent data) {
         NormalScene sceneBean = (NormalScene) data.getSerializableExtra("NormalScene");
         if (null != sceneBean) {
-            ToastUtil.shortToast(this, "Scene：" + sceneBean.getName() + "edit success!");
+            ToastUtil.shortToast(this, "Scene：" + sceneBean.getName() + " edit success!");
         }
     }
 
@@ -203,7 +206,25 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
     private void onAddSuc(Intent data) {
         NormalScene sceneBean = (NormalScene) data.getSerializableExtra("NormalScene");
         if (null != sceneBean) {
-            ToastUtil.shortToast(this, "Scene：" + sceneBean.getName() + "create success!");
+            ToastUtil.shortToast(this, "Scene：" + sceneBean.getName() + " create success!");
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+    
+    /**
+     * Setup floating action button animations
+     */
+    private void setupFabAnimations() {
+        // Load animations
+        Animation fabShowAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_show);
+        Animation fabHideAnimation = AnimationUtils.loadAnimation(this, R.anim.fab_hide);
+        
+        // Show FAB with animation on activity start
+        mFabCreateScene.startAnimation(fabShowAnimation);
     }
 }

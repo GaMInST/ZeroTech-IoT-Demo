@@ -17,8 +17,8 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
             android:background="@drawable/glassmorphic_card_bg"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:title=""
@@ -32,14 +32,14 @@
                 android:paddingStart="@dimen/padding_medium"
                 android:paddingEnd="@dimen/padding_medium">
 
-        <TextView
-            android:id="@+id/current_family_name"
+                <TextView
+                    android:id="@+id/current_family_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                     android:fontFamily="@font/inter_semibold"
-                    android:text="Smart Home"
+                    android:text="ZeroTech Smart Home"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_title_small" />
 
@@ -53,11 +53,11 @@
                     android:textSize="16sp" />
 
                 <com.google.android.material.button.MaterialButton
-            android:id="@+id/logout"
+                    android:id="@+id/logout"
                     style="@style/Widget.App.Button.Secondary"
-            android:layout_width="wrap_content"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/button_height"
-            android:text="Logout"
+                    android:text="Logout"
                     android:textSize="@dimen/text_body_small" />
 
             </LinearLayout>
@@ -71,6 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:layout_marginBottom="@dimen/bottom_nav_height"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -93,15 +94,17 @@
                     android:orientation="vertical"
                     android:padding="@dimen/hero_content_padding">
 
-            <TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_bold"
                         android:text="Welcome Home"
                         android:textColor="@color/text_primary"
-                        android:textSize="@dimen/text_headline" />
+                        android:textSize="@dimen/text_headline"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
 
-            <TextView
+                    <TextView
                         android:id="@+id/welcome_stats_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -109,11 +112,13 @@
                         android:fontFamily="@font/inter_regular"
                         android:text="12 devices online • 3 rooms active"
                         android:textColor="@color/text_secondary"
-                        android:textSize="@dimen/text_body" />
+                        android:textSize="@dimen/text_body"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
 
                     <!-- Quick Actions -->
                     <LinearLayout
-                android:layout_width="match_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_24"
                         android:orientation="horizontal">
@@ -151,7 +156,7 @@
                 android:layout_marginBottom="@dimen/spacing_16"
                 android:fontFamily="@font/inter_semibold"
                 android:text="Rooms"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/text_headline"
                 android:textSize="@dimen/text_title" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -171,7 +176,7 @@
                 android:layout_marginBottom="@dimen/spacing_16"
                 android:fontFamily="@font/inter_semibold"
                 android:text="Recent Devices"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/text_headline"
                 android:textSize="@dimen/text_title" />
 
             <!-- Quick Access Buttons -->
@@ -181,247 +186,360 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_32"
                 android:nestedScrollingEnabled="false"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/spacing_8"
+                android:paddingEnd="@dimen/spacing_8"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
                 tools:itemCount="4"
                 tools:listitem="@layout/item_device_card" />
 
-            <LinearLayout
+            <!-- Smart Home Features Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_16"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Smart Home Features"
+                android:textColor="@color/text_headline"
+                android:textSize="@dimen/text_title" />
+
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_32"
-                android:orientation="vertical">
+                android:columnCount="2"
+                android:rowCount="3">
 
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/panel"
+                    style="@style/Widget.App.Card.Interactive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_height_medium"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/spacing_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/background_card_enhanced">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_medium">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="@dimen/spacing_8"
+                            android:src="@drawable/ic_device_control"
+                            android:contentDescription="Device Control"
+                            android:tint="@color/button_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Device Control"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="1dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/scene"
+                    style="@style/Widget.App.Card.Interactive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_height_medium"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/spacing_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/background_card_enhanced">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_medium">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="@dimen/spacing_8"
+                            android:src="@drawable/ic_smart_scene"
+                            android:contentDescription="Smart Scenes"
+                            android:tint="@color/iot_secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Smart Scenes"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="1dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/activator"
+                    style="@style/Widget.App.Card.Interactive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_height_medium"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/spacing_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/background_card_enhanced">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_medium">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="@dimen/spacing_8"
+                            android:src="@drawable/ic_add_device"
+                            android:contentDescription="Add Device"
+                            android:tint="@color/accent_neon_green" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Add Device"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="1dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/control"
+                    style="@style/Widget.App.Card.Interactive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_height_medium"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/spacing_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/background_card_enhanced">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_medium">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="@dimen/spacing_8"
+                            android:src="@drawable/ic_multi_control"
+                            android:contentDescription="Multi Control"
+                            android:tint="@color/primary_deep_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Multi Control"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="1dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ipc"
+                    style="@style/Widget.App.Card.Interactive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_height_medium"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/spacing_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/background_card_enhanced">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_medium">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="@dimen/spacing_8"
+                            android:src="@drawable/ic_camera"
+                            android:contentDescription="Cameras"
+                            android:tint="@color/button_primary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Cameras"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="1dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mall"
+                    style="@style/Widget.App.Card.Interactive"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/card_height_medium"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="@dimen/spacing_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:cardBackgroundColor="@color/background_card_enhanced">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_medium">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginBottom="@dimen/spacing_8"
+                            android:src="@drawable/ic_store"
+                            android:contentDescription="Device Store"
+                            android:tint="@color/iot_secondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_semibold"
+                            android:text="Device Store"
+                            android:textColor="@color/text_primary"
+                            android:textSize="@dimen/text_caption"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="1dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </GridLayout>
+
+            <!-- Advanced Features -->
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_16"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Quick Access"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_title" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_16"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Advanced Features"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_title" />
 
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="3">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/panel"
-                        style="@style/Widget.App.Button.Secondary"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_height_medium"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="@dimen/spacing_4"
-                        android:text="Device Control"
-                        android:textSize="@dimen/text_body_small" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/scene"
-                        style="@style/Widget.App.Button.Secondary"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_height_medium"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="@dimen/spacing_4"
-                        android:text="Smart Scenes"
-                        android:textSize="@dimen/text_body_small" />
-
-                    <com.google.android.material.button.MaterialButton
-                android:id="@+id/activator"
-                        style="@style/Widget.App.Button.Secondary"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_height_medium"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="@dimen/spacing_4"
-                        android:text="Add Device"
-                        android:textSize="@dimen/text_body_small" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/control"
-                        style="@style/Widget.App.Button.Secondary"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_height_medium"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="@dimen/spacing_4"
-                        android:text="Multi Control"
-                        android:textSize="@dimen/text_body_small" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/ipc"
-                        style="@style/Widget.App.Button.Secondary"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_height_medium"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="@dimen/spacing_4"
-                        android:text="Cameras"
-                        android:textSize="@dimen/text_body_small" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/mall"
-                        style="@style/Widget.App.Button.Secondary"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/card_height_medium"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="@dimen/spacing_4"
-                        android:text="Device Store"
-                        android:textSize="@dimen/text_body_small" />
-
-                </GridLayout>
-
-            </LinearLayout>
-
-            <!-- Additional Features -->
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card.Section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_32"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/spacing_24">
 
-            <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_16"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="More Features"
-                    android:textColor="@color/text_primary"
-                    android:textSize="@dimen/text_title" />
+                    android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/cloud_storage"
-                    style="@style/Widget.App.Button.Secondary"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                    android:text="Cloud Storage"
-                    android:textSize="@dimen/text_body_small" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cloud_storage"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:text="Cloud Storage"
+                        android:textSize="@dimen/text_body_small" />
 
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/message"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Message Center"
-                    android:textSize="@dimen/text_body_small" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/message"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:text="Message Center"
+                        android:textSize="@dimen/text_body_small" />
 
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/feedback"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Help &amp; Feedback"
-                    android:textSize="@dimen/text_body_small" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/feedback"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:text="Help &amp; Feedback"
+                        android:textSize="@dimen/text_body_small" />
 
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/ota"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Firmware Update"
-                    android:textSize="@dimen/text_body_small" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ota"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:text="Firmware Update"
+                        android:textSize="@dimen/text_body_small" />
 
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/family"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Home Management"
-                    android:textSize="@dimen/text_body_small" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/family"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginBottom="@dimen/spacing_8"
+                        android:text="Home Management"
+                        android:textSize="@dimen/text_body_small" />
 
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/device_detail"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Device Details"
-                    android:textSize="@dimen/text_body_small" />
+                </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/location"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Location Services"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/groupmanager"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Device Groups"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/alexa_google_bind"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Voice Assistant"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/light_scene"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Light Scenes"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/share"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Share Devices"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/miniapp"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Mini Apps"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                android:id="@+id/third_service"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                    android:text="Third Party Services"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/marketing"
-                    style="@style/Widget.App.Button.Secondary"
-                android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                android:text="Marketing"
-                    android:textSize="@dimen/text_body_small" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/speech"
-                    style="@style/Widget.App.Button.Secondary"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/button_height"
-                    android:layout_marginBottom="@dimen/spacing_8"
-                    android:text="Speech Recognition"
-                    android:textSize="@dimen/text_body_small" />
-
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -437,16 +555,17 @@
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/bottom_nav_menu" />
 
-    <!-- Floating Action Button -->
+    <!-- Floating Action Button - Positioned center-right above navigation bar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_device"
         style="@style/Widget.App.FloatingActionButton"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/bottom_nav_height"
+        android:layout_marginEnd="@dimen/spacing_16"
         android:contentDescription="Add Device"
-        android:src="@drawable/ic_quick_action" />
+        android:src="@drawable/ic_quick_action"
+        app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

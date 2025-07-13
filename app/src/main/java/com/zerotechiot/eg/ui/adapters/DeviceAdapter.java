@@ -64,7 +64,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         private TextView deviceStatus;
         private TextView roomName;
         private View statusIndicator;
-        private SwitchMaterial deviceToggle;
 
         public DeviceViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,21 +73,12 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             deviceStatus = itemView.findViewById(R.id.device_status);
             roomName = itemView.findViewById(R.id.room_name);
             statusIndicator = itemView.findViewById(R.id.status_indicator);
-            deviceToggle = itemView.findViewById(R.id.device_toggle);
 
             // Set up click listeners
             cardView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
                     listener.onDeviceClick(devices.get(position));
-                }
-            });
-
-            // Set up toggle listener
-            deviceToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && listener != null) {
-                    listener.onDeviceToggle(devices.get(position), isChecked);
                 }
             });
         }
@@ -105,26 +95,13 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             deviceName.setText(device.getName());
             roomName.setText(device.getRoomName());
 
-            // Update status and indicator
             if (device.isOnline()) {
                 deviceStatus.setText(device.getStatusText());
                 statusIndicator.setBackgroundResource(R.drawable.status_indicator_online);
-                deviceToggle.setEnabled(true);
             } else {
                 deviceStatus.setText("Offline");
                 statusIndicator.setBackgroundResource(R.drawable.status_indicator_offline);
-                deviceToggle.setEnabled(false);
             }
-
-            // Update toggle state (without triggering listener)
-            deviceToggle.setOnCheckedChangeListener(null);
-            deviceToggle.setChecked(device.isOn());
-            deviceToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && listener != null) {
-                    listener.onDeviceToggle(devices.get(position), isChecked);
-                }
-            });
 
             // Set device icon based on type
             switch (device.getType().toLowerCase()) {
@@ -132,8 +109,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
                     deviceIcon.setImageResource(R.drawable.ic_light);
                     break;
                 case "switch":
+                    deviceIcon.setImageResource(R.drawable.ic_smart_switch);
+                    break;
                 case "plug":
-                    deviceIcon.setImageResource(R.drawable.ic_switch);
+                    deviceIcon.setImageResource(R.drawable.ic_smart_plug);
                     break;
                 case "ir":
                 case "remote":
@@ -186,23 +165,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             if (device.getIsOnline()) {
                 deviceStatus.setText("Online");
                 statusIndicator.setBackgroundResource(R.drawable.status_indicator_online);
-                deviceToggle.setEnabled(true);
             } else {
                 deviceStatus.setText("Offline");
                 statusIndicator.setBackgroundResource(R.drawable.status_indicator_offline);
-                deviceToggle.setEnabled(false);
             }
-
-            // For DeviceBean, we don't have direct access to power state
-            // This would need to be implemented with actual device control
-            deviceToggle.setOnCheckedChangeListener(null);
-            deviceToggle.setChecked(device.getIsOnline()); // Assume online = on for now
-            deviceToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && listener != null) {
-                    listener.onDeviceToggle(devices.get(position), isChecked);
-                }
-            });
 
             // Set device icon based on product ID or type
             String productId = device.getProductId();

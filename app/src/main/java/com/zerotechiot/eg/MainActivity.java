@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
             } else if (itemId == R.id.nav_scenes) {
                 // Navigate to scenes page
-                Intent scenesIntent = new Intent(this, ScenesActivity.class);
+                Intent scenesIntent = new Intent(this, com.thingclips.smart.bizbundle.scene.demo.SceneActivity.class);
                 startActivity(scenesIntent);
                 return true;
             } else if (itemId == R.id.nav_automation) {
@@ -231,6 +233,7 @@ public class MainActivity extends AppCompatActivity
 
         // Setup floating action button
         FloatingActionButton fabAddDevice = findViewById(R.id.fab_add_device);
+        
         fabAddDevice.setOnClickListener(v -> {
             try {
                 Intent intent = new Intent(this, DevicePairingActivity.class);
@@ -284,7 +287,7 @@ public class MainActivity extends AppCompatActivity
 
         // Smart Scenes
         findViewById(R.id.scene).setOnClickListener(v -> {
-            Intent intent = new Intent(this, ScenesActivity.class);
+            Intent intent = new Intent(this, com.thingclips.smart.bizbundle.scene.demo.SceneActivity.class);
             startActivity(intent);
         });
 
@@ -329,60 +332,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "Firmware update functionality coming soon", Toast.LENGTH_SHORT).show();
         });
 
-        // Home Management
-        findViewById(R.id.family).setOnClickListener(v -> {
-            showFamilyDialog();
-        });
 
-        // Device Details
-        findViewById(R.id.device_detail).setOnClickListener(v -> {
-            Toast.makeText(this, "Device details functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Location Services
-        findViewById(R.id.location).setOnClickListener(v -> {
-            Toast.makeText(this, "Location services functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Device Groups
-        findViewById(R.id.groupmanager).setOnClickListener(v -> {
-            Toast.makeText(this, "Device groups functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Voice Assistant
-        findViewById(R.id.alexa_google_bind).setOnClickListener(v -> {
-            Toast.makeText(this, "Voice assistant functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Light Scenes
-        findViewById(R.id.light_scene).setOnClickListener(v -> {
-            Toast.makeText(this, "Light scenes functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Share Devices
-        findViewById(R.id.share).setOnClickListener(v -> {
-            Toast.makeText(this, "Share devices functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Mini Apps
-        findViewById(R.id.miniapp).setOnClickListener(v -> {
-            Toast.makeText(this, "Mini apps functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Third Party Services
-        findViewById(R.id.third_service).setOnClickListener(v -> {
-            Toast.makeText(this, "Third party services functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Marketing
-        findViewById(R.id.marketing).setOnClickListener(v -> {
-            Toast.makeText(this, "Marketing functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
-
-        // Speech Recognition
-        findViewById(R.id.speech).setOnClickListener(v -> {
-            Toast.makeText(this, "Speech recognition functionality coming soon", Toast.LENGTH_SHORT).show();
-        });
 
         // Floating Action Button
         findViewById(R.id.fab_add_device).setOnClickListener(v -> {
@@ -519,7 +469,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadRealDevices() {
-        Log.d("MainActivity", "Loading real devices...");
+        Log.d("MainActivity", "Loading real devices from Tuya account...");
         deviceControlService.loadRealDevices(new DeviceControlService.DeviceLoadCallback() {
             @Override
             public void onSuccess(List<DeviceModel> realDevices) {
@@ -534,7 +484,7 @@ public class MainActivity extends AppCompatActivity
                         // Show empty state if no devices
                         Toast.makeText(MainActivity.this, "No devices found in your home. Please add some devices first.", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(MainActivity.this, "Loaded " + devices.size() + " real devices", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Loaded " + devices.size() + " real devices from your account", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -544,15 +494,9 @@ public class MainActivity extends AppCompatActivity
                 runOnUiThread(() -> {
                     Log.w("MainActivity", "Failed to load real devices: " + error);
                     
-                    // Only show demo devices if it's a specific error that suggests no real devices
-                    if (error.contains("No devices found") || error.contains("No homes found")) {
-                        Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
-                        // Don't load fallback devices - let user know they need to add real devices
-                    } else {
-                        // For other errors, show the error and load fallback devices
-                        Toast.makeText(MainActivity.this, "Error loading devices: " + error + ". Showing demo devices.", Toast.LENGTH_LONG).show();
-                        loadFallbackDevices();
-                    }
+                    // Show the error and load fallback devices
+                    Toast.makeText(MainActivity.this, "Error loading devices: " + error + ". Showing demo devices.", Toast.LENGTH_LONG).show();
+                    loadFallbackDevices();
                 });
             }
         });

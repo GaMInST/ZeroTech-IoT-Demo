@@ -46,7 +46,7 @@ public class TuyaModuleIntegrationService {
      */
     public void launchSceneManagement() {
         try {
-            Intent intent = new Intent(context, ScenesActivity.class);
+            Intent intent = new Intent(context, com.thingclips.smart.bizbundle.scene.demo.SceneActivity.class);
             context.startActivity(intent);
         } catch (Exception e) {
             NotificationHelper.showSmartNotification(context, "Scenes feature not available");
@@ -178,7 +178,7 @@ public class TuyaModuleIntegrationService {
      */
     public void launchLightScenes() {
         try {
-            Intent intent = new Intent(context, ScenesActivity.class);
+            Intent intent = new Intent(context, com.thingclips.smart.bizbundle.scene.demo.SceneActivity.class);
             context.startActivity(intent);
         } catch (Exception e) {
             NotificationHelper.showSmartNotification(context, "Light scenes feature not available");

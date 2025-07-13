@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- ZeroTech Logo Design -->
+    <group
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:translateX="16.2"
+        android:translateY="16.2">
+        
+        <!-- Main Circle Background -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0"/>
+        
+        <!-- Inner Circle -->
+        <path
+            android:fillColor="#000000"
+            android:pathData="M54,54m-35,0a35,35 0,1 1,70 0a35,35 0,1 1,-70 0"/>
+        
+        <!-- Z Letter -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M30,35 L78,35 L78,45 L35,45 L35,50 L78,50 L78,60 L30,60 L30,50 L73,50 L73,45 L30,45 Z"/>
+        
+        <!-- T Letter -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M30,65 L78,65 L78,75 L68,75 L68,85 L58,85 L58,75 L30,75 Z"/>
+        
+        <!-- Tech Elements -->
+        <path
+            android:fillColor="#00D4FF"
+            android:pathData="M40,25 L68,25 L68,30 L40,30 Z"/>
+        
+        <path
+            android:fillColor="#00D4FF"
+            android:pathData="M40,78 L68,78 L68,83 L40,83 Z"/>
+        
+        <path
+            android:fillColor="#00D4FF"
+            android:pathData="M25,40 L30,40 L30,68 L25,68 Z"/>
+        
+        <path
+            android:fillColor="#00D4FF"
+            android:pathData="M78,40 L83,40 L83,68 L78,68 Z"/>
+    </group>
+</vector> 

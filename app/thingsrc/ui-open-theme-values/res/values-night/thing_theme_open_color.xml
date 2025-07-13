@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!--
-Automatically generated files in Sat Jul 12 04:44:41 EEST 2025, it should not be modified manually!!!
+Automatically generated files in Sun Jul 13 04:28:25 EEST 2025, it should not be modified manually!!!
 -->
-    <color name="thing_theme_open_color_theme">#ffff5a28</color>
+    <color name="thing_theme_open_color_theme">#ff00d4ff</color>
     <color name="thing_theme_open_color_warning">#ffff4444</color>
     <color name="thing_theme_open_color_tips">#ff00cc99</color>
-    <color name="thing_theme_open_color_guide">#ff1989fa</color>
-    <color name="thing_theme_open_color_tab_bar_selected">#ffff5a28</color>
+    <color name="thing_theme_open_color_guide">#ff8b5cf6</color>
+    <color name="thing_theme_open_color_tab_bar_selected">#ff00d4ff</color>
     <color name="thing_theme_open_color_background">#ff000000</color>
     <color name="thing_theme_open_color_navigator_bg">#ff1a1a1a</color>
     <color name="thing_theme_open_color_bottom_tab_bar">#ff000000</color>
@@ -19,7 +19,7 @@ Automatically generated files in Sat Jul 12 04:44:41 EEST 2025, it should not be
     <color name="thing_theme_open_color_sub_head_text">#b3ffffff</color>
     <color name="thing_theme_open_color_auxi_libiary_text">#80ffffff</color>
     <color name="thing_theme_open_color_disable_text">#4cffffff</color>
-    <color name="thing_theme_open_color_theme_text">#ffffffff</color>
+    <color name="thing_theme_open_color_theme_text">#ff000000</color>
     <color name="thing_theme_open_color_warning_text">#ffffffff</color>
     <color name="thing_theme_open_color_tips_text">#ffffffff</color>
     <color name="thing_theme_open_color_guide_text">#ffffffff</color>

@@ -102,6 +102,7 @@
     <!-- Splash/Logo -->
     <string name="splash_title">ZeroTech IoT</string>
     <string name="logo_description">ZeroTech Logo</string>
+    <string name="zerotech_logo">ZeroTech Logo</string>
     
     <!-- Missing strings that the build is looking for -->
     <string name="test_biz_scene_name">Test Scene</string>
