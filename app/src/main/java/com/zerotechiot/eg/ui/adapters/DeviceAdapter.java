@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.bumptech.glide.Glide; // Added Glide import
 import com.thingclips.smart.sdk.bean.DeviceBean;
 import com.zerotechiot.eg.R;
 import com.zerotechiot.eg.ui.models.DeviceModel;
@@ -21,7 +21,7 @@ import java.util.List;
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder> {
 
     private List<?> devices; // Can be List<DeviceModel> or List<DeviceBean>
-    private Context context;
+    private Context context; // Keep context if needed for other things, though Glide uses holder's context
     private OnDeviceClickListener listener;
 
     public interface OnDeviceClickListener {
@@ -32,12 +32,14 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
     public DeviceAdapter(List<?> devices, OnDeviceClickListener listener) {
         this.devices = devices;
         this.listener = listener;
+        // this.context = context; // Store context if passed and needed for other operations
     }
 
     @NonNull
     @Override
     public DeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_device_card, parent, false);
+        this.context = parent.getContext(); // Initialize context from parent
+        View view = LayoutInflater.from(context).inflate(R.layout.item_device_card, parent, false);
         return new DeviceViewHolder(view);
     }
 
@@ -74,7 +76,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
             roomName = itemView.findViewById(R.id.room_name);
             statusIndicator = itemView.findViewById(R.id.status_indicator);
 
-            // Set up click listeners
             cardView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
@@ -103,64 +104,22 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
                 statusIndicator.setBackgroundResource(R.drawable.status_indicator_offline);
             }
 
-            // Set device icon based on type
-            switch (device.getType().toLowerCase()) {
-                case "light":
-                    deviceIcon.setImageResource(R.drawable.ic_light);
-                    break;
-                case "switch":
-                    deviceIcon.setImageResource(R.drawable.ic_smart_switch);
-                    break;
-                case "plug":
-                    deviceIcon.setImageResource(R.drawable.ic_smart_plug);
-                    break;
-                case "ir":
-                case "remote":
-                case "controller":
-                    deviceIcon.setImageResource(R.drawable.ic_remote);
-                    break;
-                case "hub":
-                case "gateway":
-                case "zigbee":
-                    deviceIcon.setImageResource(R.drawable.ic_hub);
-                    break;
-                case "sensor":
-                case "gas":
-                case "detector":
-                    deviceIcon.setImageResource(R.drawable.ic_sensor);
-                    break;
-                case "contact":
-                case "door":
-                case "magnet":
-                    deviceIcon.setImageResource(R.drawable.ic_contact);
-                    break;
-                case "fan":
-                    deviceIcon.setImageResource(R.drawable.ic_fan);
-                    break;
-                case "curtain":
-                case "blind":
-                    deviceIcon.setImageResource(R.drawable.ic_curtain);
-                    break;
-                case "thermostat":
-                case "temp":
-                    deviceIcon.setImageResource(R.drawable.ic_thermostat);
-                    break;
-                case "camera":
-                case "ipc":
-                    deviceIcon.setImageResource(R.drawable.ic_camera);
-                    break;
-                case "lock":
-                    deviceIcon.setImageResource(R.drawable.ic_lock);
-                    break;
-                default:
-                    deviceIcon.setImageResource(R.drawable.ic_device);
-                    break;
+            // Use Glide to load the icon from URL
+            if (device.getIconUrl() != null && !device.getIconUrl().isEmpty()) {
+                Glide.with(itemView.getContext()) // itemView.getContext() is safer
+                        .load(device.getIconUrl())
+                        .placeholder(R.drawable.ic_device_default) // Replace with your placeholder
+                        .error(R.drawable.ic_device_default)       // Replace with your error drawable
+                        .into(deviceIcon);
+            } else {
+                // Fallback to a default local icon if URL is null or empty, or use type-based like before
+                deviceIcon.setImageResource(R.drawable.ic_device_default); // Default icon
             }
         }
 
         private void bindDeviceBean(DeviceBean device) {
             deviceName.setText(device.getName());
-            roomName.setText("Unknown Room"); // Tuya DeviceBean doesn't have room info directly
+            roomName.setText("Unknown Room"); // Tuya DeviceBean doesn't always have readily available room info
 
             if (device.getIsOnline()) {
                 deviceStatus.setText("Online");
@@ -170,26 +129,16 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
                 statusIndicator.setBackgroundResource(R.drawable.status_indicator_offline);
             }
 
-            // Set device icon based on product ID or type
-            String productId = device.getProductId();
-            if (productId != null && productId.contains("light")) {
-                deviceIcon.setImageResource(R.drawable.ic_light_bulb);
-            } else if (productId != null && productId.contains("switch")) {
-                deviceIcon.setImageResource(R.drawable.ic_switch);
-            } else if (productId != null && productId.contains("fan")) {
-                deviceIcon.setImageResource(R.drawable.ic_fan);
-            } else if (productId != null && productId.contains("curtain")) {
-                deviceIcon.setImageResource(R.drawable.ic_curtain);
-            } else if (productId != null && productId.contains("thermostat")) {
-                deviceIcon.setImageResource(R.drawable.ic_thermostat);
-            } else if (productId != null && productId.contains("camera")) {
-                deviceIcon.setImageResource(R.drawable.ic_camera);
-            } else if (productId != null && productId.contains("lock")) {
-                deviceIcon.setImageResource(R.drawable.ic_lock);
-            } else if (productId != null && productId.contains("sensor")) {
-                deviceIcon.setImageResource(R.drawable.ic_sensor);
+            // Use Glide to load the icon from URL
+            if (device.getIconUrl() != null && !device.getIconUrl().isEmpty()) {
+                Glide.with(itemView.getContext()) // itemView.getContext() is safer
+                        .load(device.getIconUrl())
+                        .placeholder(R.drawable.ic_device_default) // Replace with your placeholder
+                        .error(R.drawable.ic_device_default)       // Replace with your error drawable
+                        .into(deviceIcon);
             } else {
-                deviceIcon.setImageResource(R.drawable.ic_device_default);
+                // Fallback to a default local icon if URL is null or empty
+                deviceIcon.setImageResource(R.drawable.ic_device_default); // Default icon
             }
         }
     }

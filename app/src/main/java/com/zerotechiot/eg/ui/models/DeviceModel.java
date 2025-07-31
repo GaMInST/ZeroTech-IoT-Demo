@@ -12,19 +12,21 @@ public class DeviceModel {
     private int temperature;
     private String status;
     private long lastSeen;
+    private String iconUrl; // Added field for icon URL
 
-    public DeviceModel(String id, String name, String type, String roomName, String roomId) {
+    public DeviceModel(String id, String name, String type, String roomName, String roomId, String iconUrl) { // Added iconUrl to constructor
         this.id = id;
         this.name = name;
         this.type = type;
         this.roomName = roomName;
         this.roomId = roomId;
-        this.isOnline = true;
-        this.isOn = false;
+        this.isOnline = true; // Default, can be updated
+        this.isOn = false;    // Default, can be updated
         this.brightness = 100;
         this.temperature = 2700;
-        this.status = "Offline";
+        this.status = "Offline"; // Default, can be updated
         this.lastSeen = System.currentTimeMillis();
+        this.iconUrl = iconUrl; // Assign iconUrl
     }
 
     // Getters and Setters
@@ -74,6 +76,7 @@ public class DeviceModel {
 
     public void setOnline(boolean online) {
         isOnline = online;
+        updateStatus(); // Update status when online state changes
     }
 
     public boolean isOn() {
@@ -82,6 +85,7 @@ public class DeviceModel {
 
     public void setOn(boolean on) {
         isOn = on;
+        updateStatus(); // Update status when power state changes
     }
 
     public int getBrightness() {
@@ -90,6 +94,7 @@ public class DeviceModel {
 
     public void setBrightness(int brightness) {
         this.brightness = brightness;
+        updateStatus(); // Status might depend on brightness for some devices
     }
 
     public int getTemperature() {
@@ -98,9 +103,11 @@ public class DeviceModel {
 
     public void setTemperature(int temperature) {
         this.temperature = temperature;
+        updateStatus(); // Status might depend on temperature
     }
 
     public String getStatus() {
+        // Consider consolidating status updates here or relying on getStatusText()
         return status;
     }
 
@@ -116,6 +123,15 @@ public class DeviceModel {
         this.lastSeen = lastSeen;
     }
 
+    // Getter and Setter for iconUrl
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
+
     // Helper methods
     public String getStatusText() {
         if (!isOnline) {
@@ -126,34 +142,42 @@ public class DeviceModel {
         }
 
         if (type == null) {
-            return "On";
+            return "On"; // Default for unknown type but on
         }
 
+        // It's safer to use a default and then specify for known types
+        String currentStatus = "On";
         switch (type.toLowerCase()) {
             case "light":
-                return "On • " + brightness + "% brightness";
-            case "switch":
-                return "On";
+                currentStatus = "On • " + brightness + "%"; // Simplified brightness status
+                break;
+            // case "switch": // "On" is already default
+            //     break;
             case "thermostat":
-                return "On • " + temperature + "°C";
-            default:
-                return "On";
+                currentStatus = "On • " + temperature + "°C";
+                break;
+            // Add other device types as needed
         }
+        return currentStatus;
     }
 
     public void toggle() {
         if (isOnline) {
-            isOn = !isOn;
-            updateStatus();
+            setOn(!isOn); // This will call updateStatus()
         }
     }
 
     private void updateStatus() {
+        // This method will now reflect the more detailed status from getStatusText()
+        // or be simplified if getStatusText() is the primary source of truth for display
         if (!isOnline) {
             status = "Offline";
         } else if (!isOn) {
             status = "Off";
         } else {
+            // Re-evaluate how 'status' field is used vs getStatusText()
+            // For now, let's keep it simple for the 'status' field.
+            // getStatusText() will provide the more detailed display string.
             status = "On";
         }
     }

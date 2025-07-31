@@ -40,8 +40,8 @@
                     <!-- Welcome Text -->
                     <TextView
                         android:id="@+id/welcome_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="343dp"
+                        android:layout_height="120dp"
                         android:text="@string/home_welcome"
                         android:textAppearance="@style/TextAppearance.App.Headline"
                         app:layout_constraintEnd_toEndOf="parent"

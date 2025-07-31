@@ -27,8 +27,7 @@
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="Device Icon"
-            android:src="@drawable/ic_device"
-            android:tint="?attr/colorPrimary" />
+            android:src="@drawable/ic_device" />
 
         <!-- Device Info -->
         <LinearLayout
@@ -93,4 +92,4 @@
 
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView> 
+</com.google.android.material.card.MaterialCardView>

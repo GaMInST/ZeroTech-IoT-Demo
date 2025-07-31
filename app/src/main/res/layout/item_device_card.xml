@@ -28,8 +28,7 @@
             android:layout_height="40dp"
             android:layout_marginBottom="@dimen/spacing_8"
             android:contentDescription="Device Icon"
-            android:src="@drawable/ic_device_default"
-            android:tint="@color/button_primary" />
+            android:src="@drawable/ic_device_default" />
 
         <!-- Device Name -->
         <TextView
@@ -86,4 +85,4 @@
 
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView> 
+</com.google.android.material.card.MaterialCardView>

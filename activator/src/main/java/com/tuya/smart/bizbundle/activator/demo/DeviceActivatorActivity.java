@@ -21,6 +21,7 @@ import com.thingclips.smart.activator.plug.mesosphere.ThingDeviceActivatorManage
 import com.thingclips.smart.activator.plug.mesosphere.api.IThingDeviceActiveListener;
 import com.thingclips.smart.activator.scan.qrcode.ScanManager;
 
+import android.content.Intent;
 
 public class DeviceActivatorActivity extends AppCompatActivity {
     private static final int INFO_MESSAGE = 1;
@@ -64,7 +65,9 @@ public class DeviceActivatorActivity extends AppCompatActivity {
         btnScanQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logMessage("Starting QR Code Scanner...");
+                logMessage("🔘 QR Code Scanner button clicked");
+                logMessage("📱 Current activity: " + DeviceActivatorActivity.this.getClass().getSimpleName());
+                logMessage("🔍 Starting QR Code Scanner...");
                 checkCameraPermissionAndScan();
             }
         });
@@ -193,12 +196,50 @@ public class DeviceActivatorActivity extends AppCompatActivity {
         logMessage("🔍 Opening QR Code Scanner...");
         
         try {
-            // Launch the Tuya QR code scanner
+            // Check if ScanManager is available
+            if (ScanManager.INSTANCE == null) {
+                logMessage("❌ ScanManager is null - SDK not properly initialized");
+                Toast.makeText(this, "QR Scanner not available - SDK issue", Toast.LENGTH_LONG).show();
+                return;
+            }
+            
+            logMessage("✅ ScanManager found, launching scanner...");
+            
+            // Launch the Tuya QR code scanner with better error handling
             ScanManager.INSTANCE.openScan(this);
-            logMessage("QR Scanner launched - scan your device's QR code");
+            logMessage("QR Scanner launched successfully - scan your device's QR code");
+            
+            // Add a small delay to ensure the scanner has time to initialize
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    logMessage("📱 QR Scanner should now be visible - point camera at QR code");
+                }
+            }, 1000);
+            
         } catch (Exception e) {
             logMessage("❌ Error launching QR scanner: " + e.getMessage());
-            Toast.makeText(this, "Error launching QR scanner", Toast.LENGTH_SHORT).show();
+            logMessage("Stack trace: " + e.getStackTrace()[0].toString());
+            Toast.makeText(this, "Error launching QR scanner: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            
+            // Try alternative approach
+            tryAlternativeQRScanner();
+        }
+    }
+    
+    private void tryAlternativeQRScanner() {
+        logMessage("🔄 Trying alternative QR scanner approach...");
+        
+        try {
+            // Try to launch the scanner activity directly
+            Intent intent = new Intent();
+            intent.setClassName(this, "com.thingclips.smart.activator.scan.qrcode.ScanActivity");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            logMessage("✅ Alternative QR scanner launched");
+        } catch (Exception e2) {
+            logMessage("❌ Alternative QR scanner also failed: " + e2.getMessage());
+            Toast.makeText(this, "QR Scanner unavailable - please use manual setup", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -17,19 +17,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide; // Added Glide import
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.thingclips.smart.api.MicroContext;
 import com.thingclips.smart.api.service.MicroServiceManager;
-import com.thingclips.smart.bizbundle.initializer.BizBundleInitializer;
+// import com.thingclips.smart.bizbundle.initializer.BizBundleInitializer; // Not used
 import com.thingclips.smart.commonbiz.bizbundle.family.api.AbsBizBundleFamilyService;
-import com.thingclips.smart.control.PluginControlService;
-import com.thingclips.smart.control.plug.api.IPluginControlService;
+// import com.thingclips.smart.control.PluginControlService; // Not used
+// import com.thingclips.smart.control.plug.api.IPluginControlService; // Not used
 import com.thingclips.smart.home.sdk.ThingHomeSdk;
 import com.thingclips.smart.home.sdk.bean.HomeBean;
 import com.thingclips.smart.sdk.bean.DeviceBean;
 import com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback;
-import com.thingclips.smart.panelcaller.api.AbsPanelCallerService;
+// import com.thingclips.smart.panel.caller.api.AbsPanelCallerService; // Temporarily commented out
 import com.zerotechiot.eg.services.DeviceControlService;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private DeviceAdapter adapter;
     private DeviceControlService deviceControlService;
-    private AbsPanelCallerService panelCallerService;
+    // private AbsPanelCallerService panelCallerService; // Temporarily commented out
     private AbsBizBundleFamilyService familyService;
     
     private List<DeviceBean> deviceList = new ArrayList<>();
@@ -63,10 +64,9 @@ public class DeviceControlActivity extends AppCompatActivity {
             // Initialize device control service
             deviceControlService = new DeviceControlService(this);
             
-            // Initialize panel caller service
-            BizBundleInitializer.registerService(IPluginControlService.class, new PluginControlService());
-            panelCallerService = MicroContext.getServiceManager()
-                    .findServiceByInterface(AbsPanelCallerService.class.getName());
+            // Initialize panel caller service - Temporarily commented out
+            // panelCallerService = MicroContext.getServiceManager()
+            //         .findServiceByInterface(AbsPanelCallerService.class.getName());
             
             // Get family service
             familyService = MicroServiceManager.getInstance()
@@ -106,18 +106,18 @@ public class DeviceControlActivity extends AppCompatActivity {
     private void loadDevices() {
         if (familyService == null) {
             Toast.makeText(this, "Family service not available", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
+            if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
             return;
         }
 
         currentHomeId = familyService.getCurrentHomeId();
         if (currentHomeId == 0) {
             Toast.makeText(this, "No home selected", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
+            if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
             return;
         }
-
-        // Get home details and devices
+        
+        if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(true);
         ThingHomeSdk.newHomeInstance(currentHomeId).getHomeDetail(new IThingHomeResultCallback() {
             @Override
             public void onSuccess(HomeBean homeBean) {
@@ -127,21 +127,21 @@ public class DeviceControlActivity extends AppCompatActivity {
                     
                     runOnUiThread(() -> {
                         adapter.notifyDataSetChanged();
-                        swipeRefreshLayout.setRefreshing(false);
+                        if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
                         
                         if (deviceList.isEmpty()) {
                             Toast.makeText(DeviceControlActivity.this, 
                                 "No devices found. Add devices to your home first.", 
                                 Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(DeviceControlActivity.this, 
-                                "Found " + deviceList.size() + " devices", 
-                                Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(DeviceControlActivity.this, 
+                            //     "Found " + deviceList.size() + " devices", 
+                            //     Toast.LENGTH_SHORT).show(); // Optional: can be noisy
                         }
                     });
                 } else {
                     runOnUiThread(() -> {
-                        swipeRefreshLayout.setRefreshing(false);
+                        if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(DeviceControlActivity.this, 
                             "No devices found in this home", Toast.LENGTH_SHORT).show();
                     });
@@ -152,7 +152,7 @@ public class DeviceControlActivity extends AppCompatActivity {
             public void onError(String code, String error) {
                 Log.e(TAG, "Failed to load devices: " + code + " - " + error);
                 runOnUiThread(() -> {
-                    swipeRefreshLayout.setRefreshing(false);
+                    if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(DeviceControlActivity.this, 
                         "Failed to load devices: " + error, Toast.LENGTH_SHORT).show();
                 });
@@ -170,13 +170,13 @@ public class DeviceControlActivity extends AppCompatActivity {
             return new DeviceViewHolder(view);
         }
 
-            @Override
+        @Override
         public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
             DeviceBean device = deviceList.get(position);
             holder.bind(device);
-            }
+        }
 
-            @Override
+        @Override
         public int getItemCount() {
             return deviceList.size();
         }
@@ -206,25 +206,27 @@ public class DeviceControlActivity extends AppCompatActivity {
                 // Set device status
                 if (device.getIsOnline()) {
                     deviceStatus.setText("Online");
-                    deviceStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                     onlineStatus.setText("Online");
-                    onlineStatus.setChipBackgroundColorResource(android.R.color.holo_green_light);
                 } else {
                     deviceStatus.setText("Offline");
-                    deviceStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
                     onlineStatus.setText("Offline");
-                    onlineStatus.setChipBackgroundColorResource(android.R.color.holo_red_light);
                 }
 
                 // Set device type
                 String deviceTypeText = getDeviceTypeName(device.getProductId());
                 deviceType.setText(deviceTypeText);
 
-                // Set device icon based on type
-                int iconRes = getDeviceIcon(device.getProductId());
-                deviceIcon.setImageResource(iconRes);
+                // Load device icon using Glide
+                if (device.getIconUrl() != null && !device.getIconUrl().isEmpty()) {
+                    Glide.with(itemView.getContext())
+                            .load(device.getIconUrl())
+                            .placeholder(R.drawable.ic_device) 
+                            .error(R.drawable.ic_device)       
+                            .into(deviceIcon);
+                } else {
+                    deviceIcon.setImageResource(R.drawable.ic_device); 
+                }
 
-                // Set click listener to launch device control panel
                 cardView.setOnClickListener(v -> {
                     if (device.getIsOnline()) {
                         launchDeviceControl(device.getDevId());
@@ -261,43 +263,22 @@ public class DeviceControlActivity extends AppCompatActivity {
                 
                 return "Device";
             }
-
-            private int getDeviceIcon(String productId) {
-                if (productId == null) return R.drawable.ic_device;
-                
-                String lowerProductId = productId.toLowerCase();
-                if (lowerProductId.contains("light") || lowerProductId.contains("bulb")) {
-                    return R.drawable.ic_light;
-                } else if (lowerProductId.contains("switch") || lowerProductId.contains("outlet")) {
-                    return R.drawable.ic_device;
-                } else if (lowerProductId.contains("lock")) {
-                    return R.drawable.ic_security;
-                } else if (lowerProductId.contains("camera") || lowerProductId.contains("ipc")) {
-                    return R.drawable.ic_device;
-                } else if (lowerProductId.contains("sensor")) {
-                    return R.drawable.ic_device;
-                } else if (lowerProductId.contains("thermostat")) {
-                    return R.drawable.ic_device;
-                } else if (lowerProductId.contains("curtain")) {
-                    return R.drawable.ic_device;
-                } else if (lowerProductId.contains("fan")) {
-                    return R.drawable.ic_device;
-                } else if (lowerProductId.contains("vacuum") || lowerProductId.contains("sweeper")) {
-                    return R.drawable.ic_device;
-                }
-                
-                return R.drawable.ic_device;
-            }
         }
     }
 
     private void launchDeviceControl(String deviceId) {
-        if (panelCallerService != null) {
-            Log.d(TAG, "Launching device control panel for device: " + deviceId);
-            panelCallerService.goPanelWithCheckAndTip(this, deviceId);
-        } else {
-            Toast.makeText(this, "Device control panel not available", Toast.LENGTH_SHORT).show();
-        }
+        // Temporarily disabled: Panel BizBundle dependency is missing.
+        Toast.makeText(this, "Device panel navigation is temporarily disabled. Please add the Panel BizBundle dependency.", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Attempted to launch panel for device: " + deviceId + " (PanelCallerService is disabled)");
+        
+        // Original logic (commented out):
+        // if (panelCallerService != null) {
+        //     Log.d(TAG, "Launching device control panel for device: " + deviceId);
+        //     panelCallerService.goPanelWithCheckAndTip(this, deviceId); 
+        // } else {
+        //     Toast.makeText(this, "Device control panel service not available. Please ensure Panel BizBundle is included.", Toast.LENGTH_LONG).show();
+        //     Log.e(TAG, "PanelCallerService is null. Cannot launch panel.");
+        // }
     }
 
     @Override
@@ -309,6 +290,6 @@ public class DeviceControlActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Device control service cleanup is handled automatically
+        // Device control service cleanup is handled automatically if it implements any lifecycle interfaces
     }
 }

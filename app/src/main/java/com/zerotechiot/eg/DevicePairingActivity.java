@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+// It's good practice to import com.google.android.material.button.MaterialButton if that's what's used in XML
+// However, findViewById will return a View, which can be cast to Button if MaterialButton extends Button.
 
 public class DevicePairingActivity extends AppCompatActivity {
 
@@ -16,6 +18,7 @@ public class DevicePairingActivity extends AppCompatActivity {
     private Button retryButton;
     private Button backButton;
     private Button manualButton;
+    private Button scanQrButton; // Added for QR scan button
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,13 +38,22 @@ public class DevicePairingActivity extends AppCompatActivity {
         retryButton = findViewById(R.id.retry_button);
         backButton = findViewById(R.id.back_button);
         manualButton = findViewById(R.id.manual_button);
+        scanQrButton = findViewById(R.id.scan_qr_button); // Initialize scanQrButton
 
         // Setup click listeners
         retryButton.setOnClickListener(v -> attemptDevicePairing());
         backButton.setOnClickListener(v -> finish());
         manualButton.setOnClickListener(v -> showManualInstructions());
+        scanQrButton.setOnClickListener(v -> {
+            // Placeholder for Tuya SDK QR Code Scanning logic
+            Toast.makeText(DevicePairingActivity.this, "QR Scan button clicked!", Toast.LENGTH_SHORT).show();
+            // TODO: 1. Check/Request Camera Permissions
+            // TODO: 2. Initialize and start Tuya QR Code Scanner
+            // TODO: 3. Handle scan result (token) from Tuya SDK
+            // TODO: 4. Use the token to provision the device via Tuya SDK
+        });
 
-        // Initial attempt
+        // Initial attempt (or remove if QR scan is the primary method now)
         attemptDevicePairing();
     }
 
@@ -49,21 +61,23 @@ public class DevicePairingActivity extends AppCompatActivity {
         statusText.setText("Attempting to connect to device pairing service...");
         retryButton.setVisibility(View.GONE);
         manualButton.setVisibility(View.GONE);
+        scanQrButton.setVisibility(View.VISIBLE); // Make sure QR button is visible if this is a fallback
 
         try {
             // Try to launch the BizBundle's DeviceActivatorActivity
             Intent intent = new Intent();
             intent.setClassName(this, "com.tuya.smart.bizbundle.activator.demo.DeviceActivatorActivity");
             startActivity(intent);
-            finish();
+            finish(); // Finish this activity if Tuya's activity is launched
         } catch (Exception e) {
             // If the activator activity is not available, show a message
             statusText.setText(
                     "Device pairing service is not available in this demo version.\n\n" +
-                            "Please use the Tuya Smart app for device pairing or try the manual setup option.");
+                            "Please use the Tuya Smart app for device pairing, try the manual setup option, or use QR Scan.");
             retryButton.setVisibility(View.VISIBLE);
-            retryButton.setText("Try Again");
+            retryButton.setText("Try Auto Pairing");
             manualButton.setVisibility(View.VISIBLE);
+            scanQrButton.setVisibility(View.VISIBLE); // Ensure QR button is visible
 
             // Log the error for debugging
             e.printStackTrace();
@@ -81,6 +95,7 @@ public class DevicePairingActivity extends AppCompatActivity {
         retryButton.setVisibility(View.VISIBLE);
         retryButton.setText("Try Auto Pairing");
         manualButton.setVisibility(View.GONE);
+        scanQrButton.setVisibility(View.VISIBLE); // Ensure QR button is visible
     }
 
     @Override
@@ -89,5 +104,3 @@ public class DevicePairingActivity extends AppCompatActivity {
         return true;
     }
 }
-
-

@@ -78,10 +78,10 @@ public class RoomsActivity extends AppCompatActivity implements RoomAdapter.OnRo
         rooms.add(new RoomModel("6", "Garage", "garage"));
 
         // Add sample devices to rooms
-        rooms.get(0).addDevice(new DeviceModel("1", "Smart Light", "light", "Living Room", "1"));
-        rooms.get(0).addDevice(new DeviceModel("2", "Smart TV", "tv", "Living Room", "1"));
-        rooms.get(1).addDevice(new DeviceModel("3", "Smart Fridge", "fridge", "Kitchen", "2"));
-        rooms.get(2).addDevice(new DeviceModel("4", "Bedside Lamp", "light", "Bedroom", "3"));
+        rooms.get(0).addDevice(new DeviceModel("1", "Smart Light", "light", "Living Room", "1", null));
+        rooms.get(0).addDevice(new DeviceModel("2", "Smart TV", "tv", "Living Room", "1", null));
+        rooms.get(1).addDevice(new DeviceModel("3", "Smart Fridge", "fridge", "Kitchen", "2", null));
+        rooms.get(2).addDevice(new DeviceModel("4", "Bedside Lamp", "light", "Bedroom", "3", null));
 
         roomAdapter.setRooms(rooms);
     }

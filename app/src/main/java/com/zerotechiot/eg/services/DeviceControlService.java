@@ -147,8 +147,16 @@ public class DeviceControlService {
             List<com.thingclips.smart.home.sdk.bean.RoomBean> rooms = homeBean.getRooms();
             if (rooms != null && !rooms.isEmpty()) {
                 // For now, assign to first room. In production, you'd map devices to rooms properly
-                roomName = rooms.get(0).getName();
-                roomId = String.valueOf(rooms.get(0).getRoomId());
+                // A more robust solution would be to find the room that tuyaDevice.getRoomId() belongs to.
+                // However, DeviceBean itself doesn't directly provide room ID in some older SDK versions or structures.
+                // If homeBean.getRooms() gives a list, you might iterate and match, 
+                // or rely on other means if your DeviceBean structure has a direct room identifier.
+                // For this example, we'll keep the simplified logic if a specific room for device is not directly available.
+                // If your Tuya SDK version/DeviceBean structure provides a specific Room ID for the device, use that.
+                // e.g. long deviceRoomId = tuyaDevice.getRoomId(); (if available)
+                // then iterate homeBean.getRooms() to find the matching room.
+                roomName = rooms.get(0).getName(); // Placeholder: using first room in home
+                roomId = String.valueOf(rooms.get(0).getRoomId()); // Placeholder
             }
         } catch (Exception e) {
             Log.w(TAG, "Could not get room information", e);
@@ -159,12 +167,16 @@ public class DeviceControlService {
                 tuyaDevice.getName(),
                 getDeviceTypeFromProductId(tuyaDevice.getProductId()),
                 roomName,
-                roomId
+                roomId,
+                tuyaDevice.getIconUrl() // Added iconUrl
         );
         
         device.setOnline(tuyaDevice.getIsOnline());
-        // For now, assume device is on if online. In real implementation, you'd get actual state
-        device.setOn(tuyaDevice.getIsOnline());
+        // For now, assume device is on if online. In real implementation, you'd get actual state via DP codes
+        // The dps map (tuyaDevice.getDps()) contains the actual state of different functions (like on/off)
+        // e.g., Boolean isOn = (Boolean) tuyaDevice.getDps().get("1"); (if DP code "1" is for power)
+        // device.setOn(isOn != null ? isOn : tuyaDevice.getIsOnline()); 
+        device.setOn(tuyaDevice.getIsOnline()); // Keeping previous simple logic for now
         
         return device;
     }
@@ -247,8 +259,11 @@ public class DeviceControlService {
         if (panelCallerService != null && context instanceof android.app.Activity) {
             panelCallerService.goPanelWithCheckAndTip((android.app.Activity) context, deviceId);
             // For now, we'll assume success since the panel will handle the actual control
+            // In a real scenario, you might want to confirm the state change if possible
+            // or provide a different kind of feedback.
             callback.onSuccess(isOn);
         } else {
+            Log.e(TAG, "PanelCallerService not available or context is not an Activity for toggleDevice");
             callback.onError("Device control panel not available");
         }
     }
@@ -258,8 +273,10 @@ public class DeviceControlService {
      */
     public void launchDeviceControl(String deviceId) {
         if (panelCallerService != null && context instanceof android.app.Activity) {
+            Log.d(TAG, "Launching panel for device: " + deviceId);
             panelCallerService.goPanelWithCheckAndTip((android.app.Activity) context, deviceId);
         } else {
+            Log.e(TAG, "PanelCallerService not available or context is not an Activity for launchDeviceControl");
             Toast.makeText(context, "Device control not available", Toast.LENGTH_SHORT).show();
         }
     }
@@ -268,30 +285,40 @@ public class DeviceControlService {
      * Get device statistics
      */
     public void getDeviceStats(DeviceStatsCallback callback) {
-        if (familyService == null || familyService.getCurrentHomeId() == 0) {
+        if (familyService == null) {
+             Log.e(TAG, "Family service is null for getDeviceStats");
+            callback.onError("Family service not available");
+            return;
+        }
+        long currentHomeId = familyService.getCurrentHomeId();
+        if (currentHomeId == 0) {
+            Log.w(TAG, "No current home selected for getDeviceStats");
             callback.onError("No home selected");
             return;
         }
 
-        ThingHomeSdk.newHomeInstance(familyService.getCurrentHomeId())
+        ThingHomeSdk.newHomeInstance(currentHomeId)
                 .getHomeDetail(new IThingHomeResultCallback() {
                     @Override
                     public void onSuccess(HomeBean homeBean) {
                         List<DeviceBean> devices = homeBean.getDeviceList();
-                        int totalDevices = devices.size();
+                        int totalDevices = (devices != null) ? devices.size() : 0;
                         int onlineDevices = 0;
 
-                        for (DeviceBean device : devices) {
-                            if (device.getIsOnline()) {
-                                onlineDevices++;
+                        if (devices != null) {
+                            for (DeviceBean device : devices) {
+                                if (device.getIsOnline()) {
+                                    onlineDevices++;
+                                }
                             }
                         }
-
+                        Log.d(TAG, "Device stats: Total=" + totalDevices + ", Online=" + onlineDevices);
                         callback.onSuccess(totalDevices, onlineDevices);
                     }
 
                     @Override
                     public void onError(String errorCode, String errorMsg) {
+                        Log.e(TAG, "Failed to get device stats: " + errorCode + " - " + errorMsg);
                         callback.onError("Failed to get device stats: " + errorMsg);
                     }
                 });
