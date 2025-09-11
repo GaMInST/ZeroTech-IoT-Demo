@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    namespace 'com.thingclips.smart.bizbundle.scene.demo'
+    namespace 'com.tuya.smart.bizbundle.scene.demo'
     compileSdk 31
 
     defaultConfig {

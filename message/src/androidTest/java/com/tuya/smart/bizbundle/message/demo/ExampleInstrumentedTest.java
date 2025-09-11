@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.tuya.smart.bizbundle.message.demo.test", appContext.getPackageName());
+        assertEquals("com.thingclips.smart.bizbundle.message.demo.test", appContext.getPackageName());
     }
 }

@@ -66,7 +66,7 @@ public class DevicePairingActivity extends AppCompatActivity {
         try {
             // Try to launch the BizBundle's DeviceActivatorActivity
             Intent intent = new Intent();
-            intent.setClassName(this, "com.tuya.smart.bizbundle.activator.demo.DeviceActivatorActivity");
+            intent.setClassName(this, "com.thingclips.smart.bizbundle.activator.demo.DeviceActivatorActivity");
             startActivity(intent);
             finish(); // Finish this activity if Tuya's activity is launched
         } catch (Exception e) {

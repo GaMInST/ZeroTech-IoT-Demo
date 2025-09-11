@@ -16,7 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'com.thingclips.groupmanager'
+    namespace 'com.tuya.groupmanager'
 }
 
 dependencies {

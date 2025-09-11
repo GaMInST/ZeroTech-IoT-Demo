@@ -22,9 +22,9 @@ import com.thingclips.smart.api.service.SchemeService;
 
 public class RouterPresenter {
     private static final String TAG = "HomeRoutePresenter";
-    private static final String PINNED_SHORTCUT_ALIAS = "com.tuya.smart.hometab.activity.shortcut";
+    private static final String PINNED_SHORTCUT_ALIAS = "com.thingclips.smart.hometab.activity.shortcut";
 
-    private static final String PINNED_MAIN_ALIAS = "com.tuya.smart.hometab.activity.main";
+    private static final String PINNED_MAIN_ALIAS = "com.thingclips.smart.hometab.activity.main";
 
     private String url;
 

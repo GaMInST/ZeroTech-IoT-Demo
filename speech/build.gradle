@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.thingclips.smart.bizbundle.speech.demo'
+    namespace 'com.tuya.smart.bizbundle.speech.demo'
     compileSdk 30
     buildToolsVersion "30.0.3"
 

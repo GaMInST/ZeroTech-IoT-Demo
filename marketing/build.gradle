@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'com.thingclips.smart.bizbundle.marketing.demo'
+    namespace 'com.tuya.smart.bizbundle.marketing.demo'
     compileSdk 34
 
     defaultConfig {

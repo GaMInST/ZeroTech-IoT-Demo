@@ -30,7 +30,7 @@ android {
     viewBinding {
         enabled = true
     }
-    namespace 'com.thingclips.smart.bizubundle.devicedetail.demo'
+    namespace 'com.tuya.smart.bizbundle.devicedetail.demo'
 }
 
 configurations.all {

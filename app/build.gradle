@@ -19,7 +19,7 @@ android {
                 TUYA_SMART_APPKEY           : "${properties.getProperty("appKey")}",
                 TUYA_SMART_SECRET           : "${properties.getProperty("appSecret")}",
                 APP_SCHEME_NAME             : "${properties.getProperty("app_scheme")}",
-                INTERNAL_HOST               : "${properties.getProperty("app_scheme")}".concat('.app.tuya.com'),
+                INTERNAL_HOST               : "${properties.getProperty("app_scheme")}".concat('.app.thingclips.com'),
                 ALEXA_AUTH_INTERNAL_HOST    : "${properties.getProperty("app_scheme")}".concat('.applink.smart321.com'),
                 ALEXA_AUTH_INTERNAL_HOST_NEW: "${properties.getProperty("app_scheme")}".toLowerCase(Locale.ENGLISH).concat('.applink.smart321.com'),
                 ALEXA_AUTH_INTERNAL_HOST_NEWER:"${properties.getProperty("app_scheme")}".toLowerCase(Locale.ENGLISH).concat('.applink.smart321.com'),
@@ -41,7 +41,7 @@ android {
 
     signingConfigs {
         custom {
-            storeFile file("C:/ZeroTech Github demo/tuya-ui-bizbundle-android-demo/sha 256.jks")
+            storeFile file("C:/ZeroTech Github demo/thingclips-ui-bizbundle-android-demo/sha 256.jks")
             storePassword "abdo_Iot808"
             keyAlias "key0"
             keyPassword "abdo_Iot808"
@@ -149,11 +149,11 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
 
     // Tuya Smart Life SDK core
-    // implementation 'com.tuya.smart:thingsmart:4.5.0'
+    // implementation 'com.thingclips.smart:thingsmart:4.5.0'
     // Device control (IThingDevice, ThingDeviceSdk, etc.)
-    // implementation 'com.tuya.smart:thingpanel:4.5.0'
+    // implementation 'com.thingclips.smart:thingpanel:4.5.0'
     // Scene management (SceneBean, etc.)
-    // implementation 'com.tuya.smart:thingscene:4.5.0'
+    // implementation 'com.thingclips.smart:thingscene:4.5.0'
     // Only keep valid Tuya dependencies:
     implementation "com.thingclips.smart:thingsmart-theme-open:2.0.6"
     implementation "com.thingclips.smart:thingsmart-commonbiz-relation-api:4.5.0-rc.1"

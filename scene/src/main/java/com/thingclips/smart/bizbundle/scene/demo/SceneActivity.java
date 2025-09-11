@@ -87,11 +87,11 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
      * Edit scene, if you want to create weather-related conditional automation, you
      * need to integrate the map location business package
      * Domestic package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
      * 国际包：
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
      */
     private void editScene() {
 
@@ -127,11 +127,11 @@ public class SceneActivity extends AppCompatActivity implements View.OnClickList
      * Create scene, if you want to create weather-related conditional automation,
      * you need to integrate the map location business package
      * Domestic package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-map_amap:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-location_amap:x.x.x-x'
      * International package:
-     * api 'com.tuya.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
-     * api 'com.tuya.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-map_google:x.x.x-x'
+     * api 'com.thingclips.smart:tuyasmart-bizbundle-location_google:x.x.x-x'
      */
     private void addScene() {
         if (null != iThingSceneBusinessService && mServiceByInterface.getCurrentHomeId() != 0) {

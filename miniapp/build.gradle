@@ -25,7 +25,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    namespace 'com.thingclips.smart.bizbundle.miniapp.demo'
+    namespace 'com.tuya.smart.bizbundle.miniapp.demo'
 }
 
 
