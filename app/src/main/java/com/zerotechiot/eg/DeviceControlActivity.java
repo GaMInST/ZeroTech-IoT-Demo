@@ -30,7 +30,7 @@ import com.thingclips.smart.home.sdk.ThingHomeSdk;
 import com.thingclips.smart.home.sdk.bean.HomeBean;
 import com.thingclips.smart.sdk.bean.DeviceBean;
 import com.thingclips.smart.home.sdk.callback.IThingHomeResultCallback;
-// import com.thingclips.smart.panel.caller.api.AbsPanelCallerService; // Temporarily commented out
+import com.thingclips.smart.panelcaller.api.AbsPanelCallerService;
 import com.zerotechiot.eg.services.DeviceControlService;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class DeviceControlActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private DeviceAdapter adapter;
     private DeviceControlService deviceControlService;
-    // private AbsPanelCallerService panelCallerService; // Temporarily commented out
+    private AbsPanelCallerService panelCallerService; // Restored
     private AbsBizBundleFamilyService familyService;
     
     private List<DeviceBean> deviceList = new ArrayList<>();
@@ -64,9 +64,9 @@ public class DeviceControlActivity extends AppCompatActivity {
             // Initialize device control service
             deviceControlService = new DeviceControlService(this);
             
-            // Initialize panel caller service - Temporarily commented out
-            // panelCallerService = MicroContext.getServiceManager()
-            //         .findServiceByInterface(AbsPanelCallerService.class.getName());
+            // Initialize panel caller service
+            panelCallerService = MicroContext.getServiceManager()
+                    .findServiceByInterface(AbsPanelCallerService.class.getName()); // Restored
             
             // Get family service
             familyService = MicroServiceManager.getInstance()
@@ -267,18 +267,14 @@ public class DeviceControlActivity extends AppCompatActivity {
     }
 
     private void launchDeviceControl(String deviceId) {
-        // Temporarily disabled: Panel BizBundle dependency is missing.
-        Toast.makeText(this, "Device panel navigation is temporarily disabled. Please add the Panel BizBundle dependency.", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "Attempted to launch panel for device: " + deviceId + " (PanelCallerService is disabled)");
-        
-        // Original logic (commented out):
-        // if (panelCallerService != null) {
-        //     Log.d(TAG, "Launching device control panel for device: " + deviceId);
-        //     panelCallerService.goPanelWithCheckAndTip(this, deviceId); 
-        // } else {
-        //     Toast.makeText(this, "Device control panel service not available. Please ensure Panel BizBundle is included.", Toast.LENGTH_LONG).show();
-        //     Log.e(TAG, "PanelCallerService is null. Cannot launch panel.");
-        // }
+        // Original logic (restored):
+        if (panelCallerService != null) {
+            Log.d(TAG, "Launching device control panel for device: " + deviceId);
+            panelCallerService.goPanelWithCheckAndTip(this, deviceId); 
+        } else {
+            Toast.makeText(this, "Device control panel service not available. Please ensure Panel BizBundle is included.", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "PanelCallerService is null. Cannot launch panel.");
+        }
     }
 
     @Override
